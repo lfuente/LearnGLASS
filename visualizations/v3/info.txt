@@ -1,0 +1,2 @@
+name:visualization 3
+description:The Visualization 3 shows the situation of an entity within the group to which belongs

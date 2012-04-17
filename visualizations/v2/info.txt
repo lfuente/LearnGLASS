@@ -1,0 +1,2 @@
+name:visualization 2
+description:The visualization 2 shows the different entities sorted by their activity, ie the number of events they have. In each of these are the types of events that run over anyone being able to be added as desired. Thanks to a color code you can see how these events are run compared to the mean.

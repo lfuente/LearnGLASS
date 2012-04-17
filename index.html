@@ -1,0 +1,29 @@
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<script type="text/javascript" src="./lib/jslib.js"></script>
+
+<link href='Themes/clasic/login.css' rel='stylesheet' type='text/css' />
+
+<html> 
+<head> 
+<title>GLASS</title> 
+</head> 
+<body> 
+<center>
+	<form name="login" method="POST" onsubmit='return false;'>
+		<p>Please complete the form below to login.</p>
+		<fieldset class="login">
+			<legend>GLASS Login</legend>
+			<div>
+				<label for="user">User Name</label> <input type="text" id="username" name="user" />
+			</div>
+			<div>
+				<label for="pass">Password</label> <input type="password" id="password" name="pass" />
+			</div>
+		</fieldset>
+		<div><button type="submit" name="submit-go" id="buttons" onclick='autentication();' >Login</button></div>
+		<div id="error"></div>
+	</form>
+</center>
+</body> 
+</html> 
+

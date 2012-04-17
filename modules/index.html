@@ -1,0 +1,121 @@
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<script type="text/javascript" src="../lib/jslib.js"></script>
+
+<script language='JavaScript'>
+ 
+function get_install_modules(dir,op,value)
+{
+    ajax=objetoAjax();
+	ajax.open("POST", dir,true);
+	ajax.onreadystatechange=function()
+    {
+		if (ajax.readyState==4) 
+        {
+            //document.getElementById('error').innerHTML = ajax.responseText;
+            data = eval(ajax.responseText);
+            if(data!=null)
+            {
+                dataAux = data[0];
+                //Create the select taht shows the installed modules
+                var sel1 = document.createElement('select');
+                sel1.name = 'installed_sel';
+                sel1.id = "sel-module-install";
+                sel1.multiple=true;               
+                sel1.onclick = function(){
+                    sel_value = document.all.installed_sel.value
+                    make_description(sel_value,dataAux.des,dataAux.folder);
+                }
+                for (var i=0; i<dataAux.folder.length; i++){
+                    sel1.options[i] = new Option(dataAux.folder[i],dataAux.folder[i]);  
+                }
+                document.getElementById('install').innerHTML = "";
+                document.getElementById('install').appendChild(sel1);
+
+                //Create the select taht shows the avaible modules
+                var sel2 = document.createElement('select');
+                sel2.name = 'available_sel';
+                sel2.id = "sel-module-available";
+                sel2.multiple=true;
+                sel2.onclick = function(){
+                    sel_value = document.all.available_sel.value;
+                    make_description(sel_value,dataAux.fdes,dataAux.fname);
+                }
+                for (var i=0; i<dataAux.fname.length; i++){
+                    sel2.options[i] = new Option(dataAux.fname[i],dataAux.fname[i]);
+                }
+                document.getElementById('available').innerHTML = "";
+                document.getElementById('available').appendChild(sel2);
+                document.getElementById('msg-info').innerHTML = dataAux.msg;
+            }
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("op="+op+"&value="+value);
+}
+
+
+function make_description(value,des,folder){
+    for(var i=0; i<folder.length; i++){
+        if(value==folder[i]){
+            document.getElementById('msg-info').innerHTML = "Module Description: "+des[i]; 
+        }
+    }
+}
+
+
+function module_op(op){
+    if(op=="install"){
+        if(document.all.available_sel.value!=""){
+            if(confirm("do yo want to install this module?"))
+                get_install_modules("moduleins.php",op,document.all.available_sel.value);
+        }
+        else{
+            document.getElementById('msg-info').innerHTML = "Please, select a module to install";
+        }    
+    }
+    if(op=="uninstall"){
+        if(document.all.installed_sel.value!=""){
+            if(confirm("do yo want to uninstall this module?"))
+                get_install_modules("moduleins.php",op,document.all.installed_sel.value);
+        }
+        else{
+            document.getElementById('msg-info').innerHTML = "Please, select a module to uninstall";
+        }  
+    }
+}
+
+
+</script>
+<div id="module">
+    <div class="carpet">
+        <div class="carpet-style">
+          <div id="module-install">
+              Install modules:
+              <div id="install">      
+              </div>
+          </div> 
+          <div id="module-buttons">
+              <button onclick='module_op("install")'><<</button>
+              <button onclick='module_op("uninstall")'>>></button>
+          </div>
+          <div id="module-available">
+              Available moduels:
+              <div id="available">
+              </div>
+          </div>
+        </div>
+        <div class="carpet-style">
+            <div id="module-des">
+                <div id="msg-info"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="error"></div>
+
+<script language='JavaScript'>
+    get_install_modules("moduleins.php",null,null);
+    document.getElementById("glass_body").style.width = "780px";
+</script>

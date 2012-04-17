@@ -1,0 +1,216 @@
+<script type='text/javascript'>
+
+
+function add_and_show_CAM_database(op,values){
+    host = document.newdbcam.fhost.value;
+    user = document.newdbcam.fuser.value;
+    pass = document.newdbcam.fpass.value;
+    des  = document.newdbcam.fdes.value;
+    if(op == "select" || op == "drop"){
+        name = document.getElementById("selcam").value;
+    }
+    else{
+        name = document.newdbcam.fname.value;;
+    }
+    todbajax=objetoAjax();
+	todbajax.open("POST", "install/dataset.php", true );
+	todbajax.onreadystatechange=function() {
+    	if (todbajax.readyState==4) {
+            str = todbajax.responseText;
+            //alert(str);
+            if(str.match("error:")==null){
+                data = eval(str);
+                //Whrite the message with the first elemet
+                if(data[0]=="installing"){                  
+                    document.getElementById('error').innerHTML = "";
+                    document.getElementById('textplace').innerHTML = "<? echo _DATASET_MSJ3;?><br>";
+                    if(data[1].e!=null){
+                        aditional1 = 1;
+                        for(i=0;i<data[1].e.length;i++){
+                            var fila= document.getElementById('filter-table').insertRow(i+1);
+                            fila.insertCell(0).innerHTML = i+1;
+                            var label = document.createElement('label');
+                            label.innerHTML = data[1].e[i];
+                            fila.insertCell(1).appendChild(label);  
+                            var chk1 = document.createElement('input');
+                            chk1.setAttribute("type","checkbox");
+                            chk1.setAttribute("name",data[1].e[i]);
+                            if(data[1].en[i]<=500)fila.insertCell(2).appendChild(chk1).checked = 1;
+                            else fila.insertCell(2).appendChild(chk1).checked = 0;
+                            var inputtext =    document.createElement('input');
+                            inputtext.setAttribute("type","text");
+                            inputtext.setAttribute("name",data[1].e[i]);
+                            fila.insertCell(3).appendChild(inputtext).style.width="100%";             
+                        }    
+                    }
+                    else aditional1 = 0;
+                    if(data[1].u!=null){
+                        aditional2 = 1;
+                        j=i;
+                        for(i=0;i<data[1].u.length;i++){
+                            var fila= document.getElementById('filter-table').insertRow(j+1);
+                            fila.insertCell(0).innerHTML = j+1;
+                            var label = document.createElement('label');
+                            label.innerHTML = data[1].u[i];
+                            fila.insertCell(1).appendChild(label);
+                            var chk1 = document.createElement('input');
+                            chk1.setAttribute("type","checkbox");
+                            chk1.setAttribute("name","user_"+data[1].u[i]);
+                            fila.insertCell(2).appendChild(chk1).checked = 1;
+                            var inputtext =    document.createElement('input');
+                            inputtext.setAttribute("type","text");
+                            inputtext.setAttribute("name",data[1].u[i]);
+                            fila.insertCell(3).appendChild(inputtext).style.width="100%";     
+                        }
+                    }
+                    else aditional2 = 0
+                    if (aditional2 == 0 && aditional1==0){
+                        var label = document.createElement('label');
+                        label.innerHTML = "<br><? echo _DATASET_MSJ6;?>";
+                        document.getElementById('textplace').appendChild(label);
+                    }
+                    else{
+                        document.getElementById("formarea2").style.visibility = "visible";
+                        document.getElementById("formarea2").style.position = "relative";
+                    }               
+                    var but = document.createElement('button');
+                    but.innerHTML = "Install";
+                    document.getElementById('bottonplace').innerHTML = "";  
+                    document.getElementById('bottonplace').appendChild(but);  
+                }
+                if(data[0]=="created"){
+                    document.getElementById("formarea1").style.visibility = "visible";
+                    document.getElementById("formarea1").style.position = "relative";
+                    document.getElementById('error').innerHTML = "<?php echo _CREATED;?>";
+                }                
+                if(data[0]=="select"){
+                    document.getElementById('error').innerHTML = "<?php echo _SELECTED;?>";
+                }
+                if(data[0]=="drop"){
+                    document.getElementById('error').innerHTML = "<?php echo _DROPPED;?>";
+                }
+                if(data[0]!="installing"){
+                    //Reset the select to delete old values   
+                    size=document.getElementById("selcam").length;
+                    for(i=0;i<size;i++){
+                        document.getElementById("selcam").remove(i);
+                    }
+                    //fill the select with the new values
+                    for(i=2;i<data.length;i++){
+                        //add the ellements like options
+                        document.getElementById("selcam").options[i-2] = new Option(data[i]);
+                    }
+                    //The second element index to the selected value
+                    document.all.selcam.value = data[1]; 
+                }               
+            }
+           	else document.getElementById('error').innerHTML = todbajax.responseText;
+        }
+	}
+    todbajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	todbajax.send("host="+host+"&name="+name+"&user="+user+"&pass="+pass+"&des="+des+"&op="+op+"&values="+values);
+}
+
+
+
+
+function on_submit2(formobj){
+    vars = new Array();
+    des = new Array();
+    for(i=0;i<document.dbfilters.elements.length-1;i++){
+        if(document.dbfilters.elements[i].checked==true){
+            vars[vars.length] = document.dbfilters.elements[i].name;
+            des[des.length] = document.dbfilters.elements[i+1].value;
+        }
+    }
+    text= '{"filters":[';
+    if(vars.length>0){
+        for(i=0;i<vars.length;i++){
+            if(i<vars.length-1){
+                text += '"'+vars[i]+'",';
+            }
+            else{
+                text += '"'+vars[i]+'"],'; 
+            }
+        }
+        text+= '"description":[';
+        for(i=0;i<vars.length;i++){
+            if(i<vars.length-1){
+                text += '"'+des[i]+'",';
+            }
+            else{
+                text += '"'+des[i]+'"]}'; 
+            }
+        }
+         
+    }
+    else{
+        text = '{"filters":[],"description":[]}';    
+    }
+    document.getElementById('error').innerHTML = "<? echo _DATASET_MSJ4;?>";
+    document.getElementById("formarea2").style.visibility = "hidden";
+    document.getElementById("dbfilters").innerHTML = "";
+    document.getElementById("formarea2").style.position = "absolute";
+    add_and_show_CAM_database("created",text)
+}
+
+
+function on_submit1(formobj)
+{
+    if(document.newdbcam.fpass.value == document.newdbcam.frepass.value){       
+        if(validate_send(formobj,"<?php echo _USE_ALPH_CHAR; ?>","<?php echo _EMPTY_FIELD; ?>")){
+            if(confirm("<?php echo _CREATE_DB; ?>")){
+                document.getElementById('error').innerHTML = "<? echo _DATASET_MSJ5;?>";
+                document.getElementById("formarea1").style.visibility = "hidden";
+                document.getElementById("formarea1").style.position = "absolute";
+                add_and_show_CAM_database("installing");
+            }
+        }
+    }
+    else{
+        document.getElementById('error').innerHTML = "<?php echo _ERROR_PASS; ?>";
+    }
+}
+
+
+</script>
+
+
+
+<div id="formarea1">
+    <p class="glass-body"><?php echo _DATASET_MSJ1;?>  <select id="selcam"></select> 
+        <a href='' onclick='if(confirm("<?php echo _WANT_SELECT;?>"))add_and_show_CAM_database("select"); return false;'><?php echo _SELECT;?></a>
+        <a href='' onclick='if(confirm("<?php echo _WANT_DROP;?>"))add_and_show_CAM_database("drop"); return false;'><?php echo _DROP;?></a>
+    </p>
+    <p class="glass-body"><?php echo _DATASET_MSJ2;?></p>
+    <form class="glass-form" name="newdbcam" method="post" onsubmit="on_submit1(this); return false;">
+        Host <input type="text" name="fhost" />
+        <br/><label>Name </label><input type="text" name="fname" />
+        <br/><label>User </label><input type="text" name="fuser" />
+        <br/><label>Password </label><input type="password" name="fpass" />
+        <br/><label>Retry password </label><input type="password" name="frepass" />
+        <br/><label>Description </label><input type="text" name="fdes" />
+        <br/><button>Add</button> 
+    </form>
+</div>
+<div id="formarea2">
+    <div id="textplace"></div>
+    <form name="dbfilters" id="dbfilters" method="post" onsubmit="on_submit2(this); return false;">
+        <div class="table-style" >
+            <table id="filter-table">
+                <tr><th></th><th>Name</th><th></th><th>Description</th></tr>
+            </table>
+        </div>
+        <div id="bottonplace"></div>
+    </form>
+</div>
+<div id="error"></div>
+
+
+<script type='text/javascript'>
+    document.getElementById("formarea2").style.visibility = "hidden";
+    document.getElementById("formarea2").style.position = "absolute";
+    document.getElementById("glass_body").style.width = "1000px";
+    add_and_show_CAM_database("view");
+</script>
+

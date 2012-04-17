@@ -1,0 +1,225 @@
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<script type="text/javascript" src="../lib/jslib.js"></script>
+
+<script language='JavaScript'>
+ 
+function get_data(op,name,dir)
+{
+	ajax=objetoAjax();
+	ajax.open("POST", dir,true);
+	ajax.onreadystatechange=function()
+    {
+		if (ajax.readyState==4) 
+        {
+            var tag = "myfavoriteview";
+            //document.getElementById('error').innerHTML = ajax.responseText;
+            data = eval(ajax.responseText);
+            if(data!=null)
+            {
+                
+                for (var i=0; i<data.length; i++)
+                {
+                    //Get data
+                    dataAux=data[i];
+                    //create a new row
+                    var fila = document.getElementById(tag).insertRow(i+1);
+                    fila.className="table-row";
+                    
+                    //Create img element
+                    var imgshare = document.createElement("img");
+                    imgshare.id = "icons";
+                    imgshare.title = "Add to your website";
+                    imgshare.src = "../Themes/clasic/share.png";
+                    var imgdrop = document.createElement("img");
+                    imgdrop.id = "icons";
+                    imgdrop.title = "Delete view";
+                    imgdrop.src = "../Themes/clasic/drop.png";
+                    var imgup = document.createElement("img");
+                    imgup.id = "icons";
+                    imgup.title = "Up in list";
+                    if(i==0){
+                        imgup.src = "../Themes/clasic/nup-arrow.png";
+                    }
+                    else{
+                        imgup.src = "../Themes/clasic/up-arrow.png";
+                    }
+                    var imgdown = document.createElement("img");
+                    imgdown.id = "icons";
+                    imgdown.title = "Down in list";
+                    if(i==data.length-1){
+                        imgdown.src = "../Themes/clasic/ndown-arrow.png";
+                    }
+                    else{
+                        imgdown.src = "../Themes/clasic/down-arrow.png";
+                    }
+                      
+                    //Create "a" element to delete view
+                    link = document.createElement('a');
+                    link.name = dataAux.url;
+                    link.id = dataAux.link;
+                    link.href = 'javascript:void(0);';
+                    link.onmouseover = function()
+                    {
+                        margin=10;
+                    	//La variable IE determina si estamos utilizando IE
+                    	var IE = document.all?true:false;
+                    	//Si no utilizamos IE capturamos el evento del mouse
+                    	if (!IE) document.captureEvents(Event.MOUSEMOVE)
+                    
+                    	var tempX = 0;
+                    	var tempY = 0;
+                    
+                    	if(IE)
+                    	{ //para IE
+                    		tempX = event.clientX + document.body.scrollLeft;
+                    		tempY = event.clientY + document.body.scrollTop;
+                    	}else{
+                    		tempX = event.pageX;
+                    		tempY = event.pageY;
+                    	}
+                    	if (tempX < 0){tempX = 0;}
+                    	if (tempY < 0){tempY = 0;}
+                                      
+                    	document.getElementById('widgetwiew').style.top = (tempY+margin);
+                    	document.getElementById('widgetwiew').style.left = (tempX+margin);
+                        document.getElementById("widgetwiew").style.visibility="visible";
+                        document.getElementById("widgetwiew").innerHTML = '<iframe id="widget-iframe" frameborder="0" scrolling="no" src="'+this.id+'"></iframe>'
+                    };
+                    link.onmouseout = function()
+                    {
+                        document.getElementById("widgetwiew").style.visibility="hidden";
+                    };
+                    link.addEventListener("click",function(){
+                            go_to_page(this.name);
+                    },false);
+                    link.innerHTML = dataAux.name;
+                    
+                    
+                    //Create "a" element to delete view
+                    a1 = document.createElement('a');
+                    a1.name = dataAux.name;
+                    a1.href = 'javascript:void(0);';
+                    a1.addEventListener("click",function(){
+                        if(confirm("Do yo want to delete this view!"))
+                        {
+                            get_data("delete",this.name,"getdata.php");
+                        }
+                    },false);
+                    a1.appendChild(imgdrop);
+                    
+                    //Create "a" element to up view
+                    a2 = document.createElement('a');
+                    a2.name = dataAux.name;
+                    a2.href = 'javascript:void(0);';
+                    a2.addEventListener("click",function(){
+                            get_data("up",this.name,"getdata.php");
+                    },false);
+                    a2.appendChild(imgup);
+                    
+                    //Create "a" element to up view
+                    a3 = document.createElement('a');
+                    a3.name = dataAux.name;
+                    a3.href = 'javascript:void(0);';
+                    a3.addEventListener("click",function(){
+                            get_data("down",this.name,"getdata.php");
+                    },false);
+                    a3.appendChild(imgdown);               
+                    
+                    //Create "a" element to up view
+                    a4 = document.createElement('a');
+                    a4.name = dataAux.link;
+                    a4.href = 'javascript:void(0);';
+                    a4.addEventListener("click",function(){
+                        margin=10;
+                    	//La variable IE determina si estamos utilizando IE
+                    	var IE = document.all?true:false;
+                    	//Si no utilizamos IE capturamos el evento del mouse
+                    	if (!IE) document.captureEvents(Event.MOUSEMOVE)
+                    
+                    	var tempX = 0;
+                    	var tempY = 0;
+                    
+                    	if(IE)
+                    	{ //para IE
+                    		tempX = event.clientX + document.body.scrollLeft;
+                    		tempY = event.clientY + document.body.scrollTop;
+                    	}else{
+                    		tempX = event.pageX;
+                    		tempY = event.pageY;
+                    	}
+                    	if (tempX < 0){tempX = 0;}
+                    	if (tempY < 0){tempY = 0;}
+                                      
+                    	document.getElementById('link').style.top = (tempY+margin);
+                    	document.getElementById('link').style.left = (tempX+margin);
+                        document.getElementById("link").style.visibility="visible";
+                        if(dataAux.per==1){
+                            var string = 'Copy next link to share the view in your html page:<br><hr>'
+                            string += '&ltiframe id="widget-iframe" frameborder="0" scrolling="no" src="'+this.name+'"&gt&lt/iframe&gt';
+                            string += '<hr><button onclick="close_link();">Close</button>';
+                        }
+                        else{
+                            string = "Sorry, you do not have permission to do this";
+                        }
+                        document.getElementById("link").innerHTML =  string;
+                    },false);
+                    a4.appendChild(imgshare);
+                    
+                    //create "div" element
+                    nDiv = document.createElement('div');
+                    nDiv.id = "divicons";
+                    nDiv.appendChild(a4);
+                    if(i==0){
+                        nDiv.appendChild(imgup);
+                    }
+                    else{
+                        nDiv.appendChild(a2);
+                    }
+                    
+                    if(i==data.length-1){
+                        nDiv.appendChild(imgdown);
+                    }
+                    else{
+                        nDiv.appendChild(a3);
+                    }
+                    nDiv.appendChild(a1);
+        
+                    //set each element in  row 
+                    fila.insertCell(0).innerHTML = i+1;
+                	fila.insertCell(1).appendChild(link);
+                    fila.insertCell(2).appendChild(nDiv);   
+                }
+                //delete the deleted rows 
+                len = document.getElementById(tag).rows.length;
+                for(var i=len-1; i > data.length; i--)
+                {
+                    document.getElementById(tag).deleteRow(i);
+                }             
+            }
+		}
+	}
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.send("op="+op+"&name="+name);
+}
+
+function close_link(){
+    document.getElementById("link").style.visibility="hidden";
+}
+</script>
+<div id="fviews">
+    <div class="table-carpet">    
+      <div class="table-style">
+        <table id="myfavoriteview">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th class="table-option">Option</th>
+            </tr>        
+        </table>
+      </div>
+    </div>
+    <div id="widgetwiew"></div>
+    <div id="link"></div>
+</div>
+
+<div id="error"></div>

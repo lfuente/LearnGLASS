@@ -1,0 +1,44 @@
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+
+<script language='JavaScript' type='text/javascript' src='./userajax.js'></script>
+<script language='JavaScript' type='text/javascript' src='../lib/jslib.js'></script>
+<script language='JavaScript' type='text/javascript' src='../lib/jquery.js'></script>
+<script language='JavaScript' type='text/javascript' src='../lib/jquery.autocomplete.js'></script>
+<link rel='stylesheet' href='../Themes/clasic/jquery.autocomplete.css' type='text/css' />
+
+<div class="table-carpet">
+<form name="consult" id="formUser">
+    <input type="submit" value="<?echo _ALL;?>" onclick="usersearch('viewusers.php'); return false" />
+    <input type="submit" value="<?echo _ADMIN;?>" onclick="usersearch('viewusers.php?uType=admin'); return false" />
+    <input type="submit" value="<?echo _INSTRUCTOR;?>" onclick="usersearch('viewusers.php?uType=instructor'); return false" />
+    <input type="submit" value="<?echo _OBSERVER;?>" onclick="usersearch('viewusers.php?uType=observer'); return false" />
+    <input type="submit" value="<?echo _STUDENT;?>" onclick="usersearch('viewusers.php?uType=student'); return false" />
+    <br />
+    <input type="text" style="width: 200px;" value="" id="CityAjax" class="ac_input" onkeypress="javascript:if(event.keyCode==13){lookupAjax();}"/>
+    <input type="button" onclick="lookupAjax();" value="<?echo _GET_USER;?>"/>
+</form>
+<div class="table-style" >
+<div style="overflow:auto; max-height: 200px">
+    <table id="users-admin">
+        <tr><th></th><th><? echo _USER_NAME;?></th><th><? echo _USER_TYPE;?></th></tr>
+    </table>
+</div>
+</div>
+</div>
+
+
+<script language='JavaScript' type='text/javascript'>
+$("#CityAjax").autocomplete("autocomplete.php",
+    {
+    	delay:10,
+    	minChars:1,
+    	matchSubset:1,
+    	matchContains:1,
+    	cacheLength:10,
+    	onItemSelect:selectItem,
+    	onFindValue:findValue,
+    	autoFill:true
+    }
+);
+usersearch("viewusers.php");
+</script>

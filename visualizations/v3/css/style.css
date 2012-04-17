@@ -1,0 +1,32 @@
+/*The widget style names should be unique to the module, so it is recommended to use the name of the 
+style ID to choose preceded by the name of the module which is unique*/
+
+#container{
+    float: left;
+    margin:  2px;
+}
+
+#radar1{
+    float: left;
+    margin:  2px;
+}
+
+#container1{
+    float: left;
+    margin:  2px;
+}
+
+#container2{
+    float: left;
+    margin:  2px;
+}
+
+
+#left{
+    float: left;
+    width: 610px;
+}
+#right{
+    margin-left: 620px;
+    width: 310px;
+}

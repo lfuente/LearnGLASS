@@ -1,0 +1,374 @@
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<script type="text/javascript" src="../../lib/jquery.js"></script>        
+<script type="text/javascript" src="./js/highstock.js"></script>
+<script type="text/javascript" src="./js/highcharts.js"></script>
+<script type="text/javascript" src="./js/themes/grid.js"></script>
+<link href='css/style.css' rel='stylesheet' type='text/css'>
+<script type="text/javascript" src="./js/modules/exporting.js"></script>
+
+<script src="js/RGraph/RGraph.common.core.js"></script>
+<script src="js/RGraph/RGraph.common.tooltips.js" ></script>
+<script src="js/RGraph/RGraph.vprogress.js"></script>
+<script src="js/RGraph/RGraph.common.key.js" ></script>
+<script src="js/RGraph/RGraph.common.context.js" ></script>
+<script src="js/RGraph/RGraph.common.annotate.js" ></script>
+<script src="js/RGraph/RGraph.common.zoom.js" ></script>
+<script src="js/RGraph/RGraph.radar.js" ></script>
+
+<script>
+
+function print_chart(){
+    chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'container',
+			type: 'scatter',
+			zoomType: 'xy'
+		},
+        title: {
+            text: 'Visited Topics'
+        },
+        subtitle: {
+            style: {
+                position: 'absolute',
+                right: '0px',
+                bottom: '10px'
+            }
+        },
+        legend: {
+            align: 'center',
+            verticalAlign: 'bottom',
+            borderWidth: 1,
+            backgroundColor: '#FFFFFF'
+        },
+        xAxis: {
+            type: "datetime",
+            maxZoom: 14 * 24 * 3600000 // fourteen days
+        },
+        yAxis: {
+            categories: [
+                'gcc',
+                'compiler',
+                'bash',
+                'visit_URL',
+                'goto'
+            ],
+            title: {
+                text: 'Event type'
+            },
+            labels: {
+                formatter: function() {
+                    return this.value;
+                }
+            },
+            min: 0
+        },
+        plotOptions: {
+            area: {
+                fillOpacity: 0.5
+            }
+        },
+        series: [{
+            name: '>10',
+            data: [[Date.UTC(2012,1,3),0],[Date.UTC(2012,1,3),4],[Date.UTC(2012,1,3),2],[Date.UTC(2012,1,3),3],[Date.UTC(2012,1,6),2],[Date.UTC(2012,1,1),4],[Date.UTC(2012,1,2),2],[Date.UTC(2012,1,3),2],[Date.UTC(2012,1,4),1],[Date.UTC(2012,1,11),2],[Date.UTC(2012,1,12),3],[Date.UTC(2012,1,13),2]]
+        }, {
+            name: '<10',
+            data: [[Date.UTC(2012,1,1),4],[Date.UTC(2012,1,2),2],[Date.UTC(2012,1,3),1],[Date.UTC(2012,1,4),1],[Date.UTC(2012,1,5),2],[Date.UTC(2012,1,6),4],[Date.UTC(2012,1,7),2],[Date.UTC(2012,1,8),2],[Date.UTC(2012,1,9),1],[Date.UTC(2012,1,10),2],[Date.UTC(2012,1,12),2],[Date.UTC(2012,1,13),4]]
+        }]
+	});
+}
+    
+
+
+function print_chart1() {
+	chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'container1',
+			defaultSeriesType: 'column'
+		},
+		title: {
+			text: 'Engagement'
+		},
+		xAxis: {
+			categories: [
+				'block1', 
+				'block2', 
+				'block3', 
+				'block4', 
+				'block5'
+			]
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: '#'
+			}
+		},
+		legend: {
+			backgroundColor: '#FFFFFF',
+			align: 'center',
+			verticalAlign: 'bottom',
+			shadow: true
+		},
+		tooltip: {
+			formatter: function() {
+				return ''+
+					this.x +': '+ this.y;
+			}
+		},
+		plotOptions: {
+			column: {
+				pointPadding: 0.2,
+				borderWidth: 0
+			}
+		},
+	        series: [{
+			name: 'Correct',
+			data: [49.9, 71.5, 106.4, 129.2, 144.0]
+	
+		}, {
+			name: 'Incorrect',
+			data: [83.6, 78.8, 98.5, 93.4, 106.0]
+	
+		}, {
+			name: 'n/a',
+			data: [42.4, 33.2, 34.5, 39.7, 52.6]
+	
+		}]
+	});	
+}
+
+function print_chart2(){
+	chart = new Highcharts.Chart({
+		chart: {
+			renderTo: 'container2',
+			defaultSeriesType: 'column'
+		},
+		title: {
+			text: 'Time activity'
+		},
+		xAxis: {
+			categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+		},
+		yAxis: {
+			min: 0,
+			title: {
+				text: '#Events'
+			}
+		},
+		legend: {
+			align: 'center',
+			verticalAlign: 'bottom',
+			backgroundColor: '#FFFFFF',
+			borderColor: '#CCC',
+			borderWidth: 1,
+			shadow: false
+		},
+		tooltip: {
+			formatter: function() {
+				return '<b>'+ this.x +'</b><br/>'+
+					 this.series.name +': '+ this.y +'<br/>'+
+					 'Total: '+ this.point.stackTotal;
+			}
+		},
+		plotOptions: {
+			column: {
+				stacking: 'normal'
+			}
+		},
+	    series: [{
+			name: 'gcc',
+			data: [5, 3, 4, 7, 2,1,2]
+		}, {
+			name: 'compiler',
+			data: [2, 2, 3, 2, 1,1,2]
+		}, {
+			name: 'visit_url',
+			data: [3, 4, 4, 2, 5,2,3]
+		}]
+	});
+	
+	
+}
+
+
+
+
+function print_chart3(){
+    var progress1 = new RGraph.VProgress('progress1', [1, 4], 10);
+    progress1.Set('chart.colors', ['#cfc', 'blue']);
+    progress1.Set('chart.margin', 0);
+    progress1.Set('chart.tooltips.effect', 'fade');
+    progress1.Set('chart.tickmarks', true);
+    progress1.Set('chart.tickmarks.inner', true);
+    progress1.Set('chart.tickmarks.color', '#333');
+    progress1.Set('chart.key', ['You','Rest']);
+    progress1.Set('chart.key.position.x', progress1.canvas.width - 100);
+    progress1.Set('chart.tickmarks.zerostart', true);
+    progress1.Set('chart.gutter.right', 40);
+    progress1.Set('chart.scale.decimals', 0);
+    progress1.Draw();
+    
+    
+    var progress2 = new RGraph.VProgress('progress2', [3, 2], 10);
+    progress2.Set('chart.colors', ['#cfc', 'blue']);
+    progress2.Set('chart.margin', 0);
+    progress2.Set('chart.tooltips.effect', 'fade');
+    progress2.Set('chart.tickmarks', true);
+    progress2.Set('chart.tickmarks.inner', true);
+    progress2.Set('chart.tickmarks.color', '#333');
+    progress2.Set('chart.key', ['You','Rest']);
+    progress2.Set('chart.key.position.x', progress2.canvas.width - 100);
+    progress2.Set('chart.tickmarks.zerostart', true);
+    progress2.Set('chart.gutter.right', 40);
+    progress2.Set('chart.scale.decimals', 0);
+    progress2.Draw();
+    
+    
+    var progress3 = new RGraph.VProgress('progress3', [3, 4], 10);
+    progress3.Set('chart.colors', ['#cfc', 'blue']);
+    progress3.Set('chart.margin', 0);
+    progress3.Set('chart.tooltips.effect', 'fade');
+    progress3.Set('chart.tickmarks', true);
+    progress3.Set('chart.tickmarks.inner', true);
+    progress3.Set('chart.tickmarks.color', '#333');
+    progress3.Set('chart.key', ['You','Rest']);
+    progress3.Set('chart.key.position.x', progress3.canvas.width - 100);
+    progress3.Set('chart.tickmarks.zerostart', true);
+    progress3.Set('chart.gutter.right', 40);
+    progress3.Set('chart.scale.decimals', 0);
+    progress3.Draw();
+    
+    
+    var progress4 = new RGraph.VProgress('progress4', [1, 4], 10);
+    progress4.Set('chart.colors', ['#cfc', 'blue']);
+    progress4.Set('chart.margin', 0);
+    progress4.Set('chart.tooltips.effect', 'fade');
+    progress4.Set('chart.tickmarks', true);
+    progress4.Set('chart.tickmarks.inner', true);
+    progress4.Set('chart.tickmarks.color', '#333');
+    progress4.Set('chart.key', ['You','Rest']);
+    progress4.Set('chart.key.position.x', progress4.canvas.width - 100);
+    progress4.Set('chart.tickmarks.zerostart', true);
+    progress4.Set('chart.gutter.right', 40);
+    progress4.Set('chart.scale.decimals', 0);
+    progress4.Draw();
+    
+    
+    var progress5 = new RGraph.VProgress('progress5', [3, 2], 10);
+    progress5.Set('chart.colors', ['#cfc', 'blue']);
+    progress5.Set('chart.margin', 0);
+    progress5.Set('chart.tooltips.effect', 'fade');
+    progress5.Set('chart.tickmarks', true);
+    progress5.Set('chart.tickmarks.inner', true);
+    progress5.Set('chart.tickmarks.color', '#333');
+    progress5.Set('chart.key', ['You','Rest']);
+    progress5.Set('chart.key.position.x', progress5.canvas.width - 100);
+    progress5.Set('chart.tickmarks.zerostart', true);
+    progress5.Set('chart.gutter.right', 40);
+    progress5.Set('chart.scale.decimals', 0);
+    progress5.Draw();
+    
+    
+    var progress6 = new RGraph.VProgress('progress6', [3, 4], 10);
+    progress6.Set('chart.colors', ['#cfc', 'blue']);
+    progress6.Set('chart.margin', 0);
+    progress6.Set('chart.tooltips.effect', 'fade');
+    progress6.Set('chart.tickmarks', true);
+    progress6.Set('chart.tickmarks.inner', true);
+    progress6.Set('chart.tickmarks.color', '#333');
+    progress6.Set('chart.key', ['You','Rest']);
+    progress6.Set('chart.key.position.x', progress6.canvas.width - 100);
+    progress6.Set('chart.tickmarks.zerostart', true);
+    progress6.Set('chart.gutter.right', 40);
+    progress6.Set('chart.scale.decimals', 0);
+    progress6.Draw();
+    
+    
+    var progress7 = new RGraph.VProgress('progress7', [3, 4], 10);
+    progress7.Set('chart.colors', ['#cfc', 'blue']);
+    progress7.Set('chart.margin', 0);
+    progress7.Set('chart.tooltips.effect', 'fade');
+    progress7.Set('chart.tickmarks', true);
+    progress7.Set('chart.tickmarks.inner', true);
+    progress7.Set('chart.tickmarks.color', '#333');
+    progress7.Set('chart.key', ['You','Rest']);
+    progress7.Set('chart.key.position.x', progress7.canvas.width - 100);
+    progress7.Set('chart.tickmarks.zerostart', true);
+    progress7.Set('chart.gutter.right', 40);
+    progress7.Set('chart.scale.decimals', 0);
+    progress7.Draw();
+    
+    
+    var progress8 = new RGraph.VProgress('progress8', [3, 4], 10);
+    progress8.Set('chart.colors', ['#cfc', 'blue']);
+    progress8.Set('chart.margin', 0);
+    progress8.Set('chart.tooltips.effect', 'fade');
+    progress8.Set('chart.tickmarks', true);
+    progress8.Set('chart.tickmarks.inner', true);
+    progress8.Set('chart.tickmarks.color', '#333');
+    progress8.Set('chart.key', ['You','Rest']);
+    progress8.Set('chart.key.position.x', progress8.canvas.width - 100);
+    progress8.Set('chart.tickmarks.zerostart', true);
+    progress8.Set('chart.gutter.right', 40);
+    progress8.Set('chart.scale.decimals', 0);
+    progress8.Draw();    
+    
+    
+    var radar = new RGraph.Radar('radar1', [7,6,6,7,8], [4,5,6,10,4]);
+    radar.Set('chart.strokestyle', 'black');
+    radar.Set('chart.colors.alpha', 0.2);
+    radar.Set('chart.colors', ['red', 'green', 'yellow']);
+    radar.Set('chart.tooltips.effect', 'snap');  
+    radar.Set('chart.key', ['You','Rest']);
+    radar.Set('chart.key.position', 'graph');
+    radar.Set('chart.labels', ['bash','view_url','compiler','gcc','lms']);
+    radar.Set('chart.gutter.top', 40);
+    radar.Set('chart.accumulative', true);
+    radar.Draw();
+}
+
+
+
+
+
+
+
+
+
+
+				
+</script>
+<div id="left">
+    <div id="container" style="width: 300; height: 250;"></div>
+    <canvas id="radar1" width="296" height="246" style="background:white;border: 2px solid gray;border-radius:6px;">[No canvas support]</canvas> 
+    <div id="container2" style="width: 300; height: 250;"></div>
+    <div id="container1" style="width: 300; height: 250;"></div>
+</div>
+<div id="right">
+    <div id="group1">
+        <canvas width="100" height="175" id="progress1">[No canvas support]</canvas>
+        <canvas width="100" height="175" id="progress2">[No canvas support]</canvas>
+        <canvas width="100" height="175" id="progress3">[No canvas support]</canvas>
+    </div>
+    <div id="group2">
+        <canvas width="100" height="175" id="progress4">[No canvas support]</canvas>
+        <canvas width="100" height="175" id="progress5">[No canvas support]</canvas>
+        <canvas width="100" height="175" id="progress6">[No canvas support]</canvas>
+    </div>
+    <div id="group3">
+        <canvas width="100" height="175" id="progress7">[No canvas support]</canvas>
+        <canvas width="100" height="175" id="progress8">[No canvas support]</canvas>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    print_chart();
+    print_chart1();
+    print_chart2();
+    print_chart3();
+    document.getElementById("glass_body").style.width = "1100px";
+</script>

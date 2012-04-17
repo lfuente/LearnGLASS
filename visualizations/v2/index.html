@@ -1,0 +1,593 @@
+
+<script language='JavaScript' type='text/javascript' src='../../lib/tempfil.js'></script>
+<link rel="stylesheet" type="text/css" href="../../Themes/clasic/jscal2.css" />
+<link rel="stylesheet" type="text/css" href="../../Themes/clasic/border-radius.css" />
+<link rel="stylesheet" type="text/css" href="../../Themes/clasic/steel/steel.css" />
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<link href='css/style.css' rel='stylesheet' type='text/css' />
+
+<script type="text/javascript">
+
+
+
+
+/////////////////////////////////////////////////////////////////
+/////////////Global vars and object declaration/////////////////
+///////////////////////////////////////////////////////////////
+const num_of_entitys = 5; // number of entitys in each cell
+var num_app_per_entity = 4; //Number of event type to Show
+var CAMid = <?php echo $CAMdb_id; ?>;
+var all_data;
+var Stats = function (event_type,max_events) {
+    this.max_events = new Number(max_events);
+    this.event_type = new String(event_type);
+}
+
+var Data = function (entity) {
+    this.entity = new String(entity);
+    this.tEvents = new Number();
+    this.events = new Array();
+}
+var Events = function (name,num) {
+    this.name = new String(name);
+    this.numb = new Number(num);
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+//Description: Get entity and number of events of the database/////////
+///Vars: FilterGroup: Group to which the filter (role, metadata)    //
+//       entityType: Type of entity                                //
+////////////////////////////////////////////////////////////////////
+function get_data(FilterGroup,entityType)
+{
+    document.getElementById("msg-info").innerHTML = "";
+    //ajax async preocess
+    ajax_1_v2=objetoAjax();
+	ajax_1_v2.open("POST","getdata.php",true);//async
+	ajax_1_v2.onreadystatechange=function(){
+        if (ajax_1_v2.readyState==4){
+            //document.getElementById("error").innerHTML = ajax_1_v2.responseText;
+            if(ajax_1_v2.responseText!="null"){
+                //Sort by dates                
+                all_data = eval(ajax_1_v2.responseText);
+                for(i=0;i<all_data.length;i++){
+                    all_data[i].ed = all_data[i].ed.sort(function (a,b) {
+                        var x = new Date(a.d); 
+                        var y = new Date(b.d); 
+                        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+                    } );
+                }
+                //Create and print the temporal filter
+                //first search the initial and en date
+                for(i=0;i<all_data.length;i++){
+                    if(i==0){
+                        t1 = new Date(all_data[i].ed[0].d);
+                        t2 = new Date(all_data[i].ed[all_data[i].ed.length-1].d);
+                    }
+                    else{
+                        aux_dMin = new Date(all_data[i].ed[0].d);
+                        aux_dMax = new Date(all_data[i].ed[all_data[i].ed.length-1].d);
+                        if(aux_dMin > aux_dMin){
+                            t1 = aux_dMin;    
+                        }
+                        if(aux_dMax < aux_dMax){
+                            t2 = aux_dMax;    
+                        }
+                    }
+                }
+                temporalFilter = new DateRange("v2-temporal-filter","f_date1","f_date2",t1,t2,"en");
+                temporal_filter_handler = function(a,b){
+                    temporalFilter.dateMin = a;
+                    temporalFilter.dateMax = b;
+                    //Print data
+                    delete_container()
+                    print_data(all_data,temporalFilter);
+                }
+
+                //Print data
+                print_data(all_data,temporalFilter);
+            }
+            else{
+                document.getElementById("msg-info").innerHTML = "No data";
+            }
+        }
+	}
+	ajax_1_v2.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax_1_v2.send("fg="+FilterGroup+"&et="+entityType+"&CAMid="+CAMid);
+}
+
+
+
+////////////////////////////////////////////////////////////////////////
+//Description: Order all the data and stores them in a new object    //
+/////  with its own structure for the visualization                 //
+////Vars: all_data: All data obtained with the function get_data() //
+///       temporalFilter: Object that saves data from temp filter //
+//return: Object with the data necessary for the visualization   //
+//////////////////////////////////////////////////////////////////
+function sort_data(all_data,temporalFilter){
+    //Data.prototype = new Events;
+    var data = new Array();
+    //for each entity
+    for(i=0;i<all_data.length;i++){
+        data[i] = new Data(all_data[i].et);
+        all_dMin = new Date(all_data[i].ed[0].d);
+        all_dMax = new Date(all_data[i].ed[all_data[i].ed.length-1].d);
+        if(temporalFilter.dateMin<all_dMin){dMin = all_dMin;}
+        else{dMin = temporalFilter.dateMin;}
+        if(temporalFilter.dateMax>all_dMax){dMax = all_dMax;}
+        else{dMax = temporalFilter.dateMax;} 
+        //always between the date max and date min
+        total_events = 0;
+        pointer = 0;
+        var events_array = new Array();
+        //for each date
+        for(j=0;j<all_data[i].ed.length;j++){ 
+            ActualDate = new Date(all_data[i].ed[j].d); //actual date
+            if(ActualDate>=dMin && ActualDate<=dMax){
+                //for each combo event_type-number_of_events
+                for(k=0;k<all_data[i].ed[j].e.length;k++){
+                    total_events += parseInt(all_data[i].ed[j].e[k]);
+                    //If the arrays haven't got data
+                    if(events_array.length==0){
+                        events_numb = parseInt(all_data[i].ed[j].e[k]);
+                        events_name = all_data[i].ed[j].n[k];
+                        events_array[pointer] = new Events(events_name,events_numb);
+                        pointer++;
+                    }
+                    //If thera are a combo name-events
+                    else{
+                        //for each name
+                        for(l=0;l<events_array.length;l++){
+                            //the new event_type is in the list
+                            if(events_array[l].name==all_data[i].ed[j].n[k]){
+                                events_array[l].numb += parseInt(all_data[i].ed[j].e[k]);
+                                break;
+                            }
+                            //if there isn't'
+                            else{
+                                //at the end of the search insert a new combo name-events
+                                if(l==events_array.length-1){
+                                    events_numb = parseInt(all_data[i].ed[j].e[k]);
+                                    events_name = all_data[i].ed[j].n[k];
+                                    events_array[pointer] = new Events(events_name,events_numb);
+                                    pointer++;
+                                    break;
+                                }
+                            }
+                        } 
+                    }            
+                }
+            }
+        }
+        //sort by number of events
+        events_array = events_array.sort(function (a,b){
+        	var x = a.numb;
+        	var y = b.numb;
+        	return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+        });
+        //append to the data objetct
+        for(j=0;j<events_array.length;j++){    
+            data[i].events[j] = events_array[j];
+        }
+        data[i].tEvents = total_events;
+    }
+    //Sort by number of eventes
+    data = data.sort(function (a,b){
+    	var x = a.tEvents;
+    	var y = b.tEvents;
+    	return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+    });
+    // delete entity without events
+    for(var i=data.length-1;i>=0;i--){
+        if(data[i].tEvents==0){
+            data.splice(i,1);  
+        }
+    }
+    //print_for_check(data); //only for test mode
+    return data;
+}
+
+ 
+
+//Print the values necesary to see if the data object is correct
+//This function will only be used if we want to visualize data test mode
+function print_for_check(data){
+    text_r = "";
+    for(i=0;i<data.length;i++){
+        text_r += "<br><br>"+data[i].entity+"-"+data[i].tEvents;
+        for(j=0;j<data[i].events.length;j++){
+            text_r += data[i].events[j].name+":"+data[i].events[j].numb+"@";
+        }
+    }
+    document.getElementById("error").innerHTML = text_r;
+}
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+//Description: Printa the visualization; call another function to    //
+/////  simplify the work                                            //
+////Vars: all_data: All data obtained with the function get_data() //
+///       temporalFilter: Object that saves data from temp filter //
+///////////////////////////////////////////////////////////////////
+function print_data(all_data,temporalFilter,num_entity){
+    //Select the necesary data f
+    document.getElementById("glass_body").style.width = "1050px";
+    data = sort_data(all_data,temporalFilter);
+    if(data.length>0){
+        document.getElementById("msg-info").innerHTML = "";
+        container1 = "container1" 
+        container2 = "container2"
+        num_of_data = data.length;
+        if(num_entity==null){
+           if(num_of_entitys>=num_of_data/2)num_entity = (num_of_data/2).toFixed(0);
+           else num_entity = num_of_entitys; 
+        }
+        //Create "a" element to delete entity
+        a1 = document.createElement('a');
+        a1.id = "less"
+        a1.href = 'javascript:void(0);';
+        a1.addEventListener("click",function(){
+            num_entity = document.getElementById(container1).childNodes.length;
+            document.getElementById(container1).removeChild(document.getElementById(container1).lastChild);     
+            document.getElementById(container2).removeChild(document.getElementById(container2).firstChild);
+            if(num_entity-2==0){
+               document.getElementById('less').innerHTML = "";  
+            }
+            else{
+               document.getElementById('less').innerHTML = num_entity-2; 
+            }
+            document.getElementById('entitys-number').innerHTML = num_entity-1;
+            document.getElementById('more').innerHTML = num_entity;
+            update_img(2);
+             },false);
+          
+        //Create "a" element to add entity
+        a2 = document.createElement('a');
+        a2.id = "more";
+        a2.href = 'javascript:void(0);';
+        a2.addEventListener("click",function(){
+            num_entity = document.getElementById(container1).childNodes.length;
+            add_entity_to_container(num_entity,container1,data,"bottom")
+            add_entity_to_container(num_of_data-1-num_entity,container2,data,"top")
+            document.getElementById('less').innerHTML = num_entity;
+            document.getElementById('entitys-number').innerHTML = num_entity+1;
+            if(num_entity+2<num_of_data/2){
+                document.getElementById('more').innerHTML = num_entity+2;
+            }
+            else{
+                document.getElementById('more').innerHTML = "";
+            }
+            document.getElementById(container1).style.width = (num_entity+1)*200;
+            document.getElementById(container2).style.width = (num_entity+1)*200;
+            update_img(1);
+        },false);
+        
+        //Define num of entinty filter changed
+        if(num_of_data%2==0){
+            if(num_entity+1<=num_of_data/2)a2.innerHTML = num_entity+1;
+            if(num_entity-1>0) a1.innerHTML = num_entity-1;  
+        }
+        else{
+            if(num_entity+1<=(num_of_data/2).toFixed(0))a2.innerHTML = num_entity+1;
+            if(num_entity-1>0) a1.innerHTML = num_entity-1;
+        }
+    
+        //Create "input number" element to change the number of event type   
+        var form_number = document.createElement('input');
+        form_number.setAttribute("type","number");
+        form_number.setAttribute("min","2");
+        form_number.setAttribute("max","20");
+        form_number.setAttribute("step","2");
+        form_number.setAttribute("value",num_app_per_entity);
+        form_number.setAttribute("id","number");
+        form_number.onclick = function(){
+            delete_container();
+            num_app_per_entity = this.value;
+            print_data(all_data,temporalFilter,num_entity);
+        }
+    
+        //Print the values
+        document.getElementById('entitys-delete').appendChild(a1);
+        document.getElementById('entitys-number').innerHTML = num_entity;
+        document.getElementById('entitys-add').appendChild(a2);
+        document.getElementById('div_number').innerHTML = "<? echo V2_MSJ1;?>";
+        document.getElementById('div_number').appendChild(form_number);
+        //Add the first cell
+        for(i=0;i<num_entity;i++){
+            add_entity_to_container(i,container1,data,"bottom");
+           
+        }
+        //Add the first cell
+        for(i=num_of_data-num_entity;i<num_of_data;i++){
+            add_entity_to_container(i,container2,data,"bottom");
+           
+        }
+    }
+    else{
+        document.getElementById("msg-info").innerHTML = "No data for this combination of filters";
+    }
+}
+
+
+function add_entity_to_container(id,div,data,op){
+    //create the img
+    var img= document.createElement("img");
+    img.id = "photo";
+    img.src = get_dir_img(id,div);
+    //create the header
+    var div1 = document.createElement('div');
+    div1.id = "top_photo";
+    div1.innerHTML = data[id].entity;
+    //create the footer1
+    var div2 = get_event_type_data(data,id);
+    div2.id = "bottom_photo";    
+    //Create a common div
+    var my_div = document.createElement('div');
+    my_div.id = "div_entity";
+    my_div.name = "div_entity_"+id;
+    //append in the div
+    my_div.appendChild(div1);
+    my_div.appendChild(img);
+    my_div.appendChild(div2);
+    //Add to the container
+    if(op=="bottom"){
+        //Add as the last div
+        document.getElementById(div).appendChild(my_div);
+    }
+    else{
+        //add as the first div
+        new_entity = document.getElementById(div).appendChild(my_div);
+        first_entity = document.getElementById(div).firstChild;
+        document.getElementById(div).insertBefore(new_entity,first_entity);
+    }
+}
+
+
+
+
+
+
+function update_img(op){
+    document.getElementById("entitys-img").style.background = "url(css/wheel"+op+".gif?"+Date.parse(new Date().toString())+") center bottom ";
+}
+
+
+function get_dir_img(id,div){
+    exist=0;
+    if(exist!=0){
+        //There is photo
+        dir_img = "../../Themes/clasic/no_photo.jpg"; 
+    }
+    else{
+        //there is no photo, set random 
+   	    aleat = Math.random() * (1-25);
+        aleat = Math.round(parseInt(25) + aleat);
+ 
+        if(div=="container1"){
+            dir_img = "css/good/"+aleat+".jpg"; 
+        }
+        else{
+            dir_img = "css/bad/"+aleat+".jpg"
+        }
+        
+    }
+    return dir_img;
+}
+
+
+function delete_container(){
+    document.getElementById("container1").innerHTML = ""; 
+    document.getElementById("container2").innerHTML = "";
+    document.getElementById("entitys-delete").innerHTML = ""; 
+    document.getElementById("entitys-add").innerHTML = "";
+    document.getElementById("div_number").innerHTML = "";
+}
+
+
+
+//Get the data of eache event type
+function get_event_type_data(data,id)
+{
+    //Create the data container
+    var div_father = document.createElement('div');
+    //Create control vars
+    var data_size = data[id].events.length;
+    var num_app = num_app_per_entity;
+    if(data_size<num_app) num_app=data_size;
+    //Create his children with the info
+    for(var iteration=0;iteration<num_app;iteration++){
+        var div_son = document.createElement('div');
+        div_son.id = "color-circles";
+        //Extract necesary values
+        var num_entity = data.length;
+        var event_type = data[id].events[iteration].name;
+        var events = data[id].events[iteration].numb;
+        var bigger_event_num = extract_bigger_event_numer(data,event_type);
+        var total_event_num = extract_bigger_event_numer1(data,event_type);  
+
+        //Calculations
+        mean_events_num = total_event_num/num_entity;
+        entity_percent = (100*events)/bigger_event_num;
+        media_percent = (100*mean_events_num)/total_event_num;
+        events_percent =  (100*events)/total_event_num;
+        //Print info
+        div_son.innerHTML = event_type;
+        if(entity_percent>60){
+           color = "green"
+        }
+        else if(entity_percent>40){
+            color = "orange";
+        }
+        else{
+            color = "red";
+        }
+        div_son.style.background = color;
+        text = "<b>"+event_type+"</b><hr>"
+        text += "<? echo V2_MSJ3;?>"+events+"/"+events_percent.toFixed(1)+"%";
+        text += "<br><? echo V2_MSJ4;?>"+mean_events_num.toFixed(1)+"/"+media_percent.toFixed(1)+"%";
+        text += "<br><? echo V2_MSJ5;?>"+bigger_event_num+"/<font color='"+color+"'>"+entity_percent.toFixed(1)+"%</font>";
+        div_son.name = text;
+        
+        //javascript events
+        div_son.onmouseover = function(){
+            margin=10;
+        	//La variable IE determina si estamos utilizando IE
+        	var IE = document.all?true:false;
+        	//Si no utilizamos IE capturamos el evento del mouse
+        	if (!IE) document.captureEvents(Event.MOUSEMOVE)
+        
+        	var tempX = 0;
+        	var tempY = 0;
+        
+        	if(IE)
+        	{ //para IE
+        		tempX = event.clientX + document.body.scrollLeft;
+        		tempY = event.clientY + document.body.scrollTop;
+        	}else{
+        		tempX = event.pageX;
+        		tempY = event.pageY;
+        	}
+        	if (tempX < 0){tempX = 0;}
+        	if (tempY < 0){tempY = 0;}
+                          
+        	document.getElementById('entityinfo').style.top = (tempY+margin);
+        	document.getElementById('entityinfo').style.left = (tempX+margin);
+            document.getElementById("entityinfo").style.visibility="visible";
+            document.getElementById("entityinfo").innerHTML = this.name;
+        }
+        div_son.onmouseout = function(){
+            document.getElementById("entityinfo").style.visibility="hidden";
+        };
+        //Apend to he container                      
+        div_father.appendChild(div_son);
+    }
+    return div_father;
+}
+
+
+function extract_bigger_event_numer(data,event_type){
+    var events=0;
+    //for each user
+    for(var ii=0;ii<data.length;ii++){
+        //for each event_type
+        for(var jj=0;jj<data[ii].events.length;jj++){
+            //if there ia a match
+            if(event_type.indexOf(data[ii].events[jj].name)!=-1){
+                //test if it is the bigger
+                if(data[ii].events[jj].numb>events){
+                    events = data[ii].events[jj].numb;
+                }
+                break;
+            }
+        }
+    }
+    return events;
+}
+function extract_bigger_event_numer1(data,event_type){
+    var events=0;
+    //for each user
+    for(var ii=0;ii<data.length;ii++){
+        //for each event_type
+        for(var jj=0;jj<data[ii].events.length;jj++){
+            //if there ia a match
+            if(event_type.indexOf(data[ii].events[jj].name)!=-1){
+                //
+                    events += data[ii].events[jj].numb;
+            }
+        }
+    }
+    return events;
+}
+
+
+
+
+
+
+function get_control_filters()
+{ 
+    //create title div
+    var div_father = document.createElement('div');  
+    //Role filters
+    filter_type="role";
+    ajax_4_v2=objetoAjax();
+	ajax_4_v2.open("POST", "../../lib/getfilters.php",false);
+	ajax_4_v2.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax_4_v2.send("filter_type="+filter_type+"&CAMdb="+CAMid);
+    msj = '<? echo V2_MSJ2;?>';    
+    div_father = print_control_filters(ajax_4_v2.responseText,filter_type,msj,div_father);
+    //Print div
+    document.getElementById("filters").appendChild(div_father);
+}
+
+
+function print_control_filters(data_text,filter_type,label,div_father){
+    var label = document.createElement('label');
+    var sel = document.createElement('select');
+    if(data_text!="" && data_text!=null && typeof(data_text)!="undefined" && data_text!="null" && data_text!="undefined"){
+        //alert(data_text);
+        data = eval(data_text);
+        //Create label info
+        label.innerHTML = msj;
+        //create select
+        sel.name = filter_type;
+        for(var i=0;i<data.length;i++){
+            sel.options[i] = new Option(data[i].f_name);                                    
+        }
+        sel.onchange = function(){
+            delete_container();
+            get_data(this.name,this.value);          
+        }           
+    }
+    else{
+        sel.style.display = "none";
+    }
+    //Put the element into a father div
+    div_father.appendChild(label);
+    div_father.appendChild(sel);
+    return div_father
+}
+
+
+
+</script>
+<div id="visualization2">
+    <div id="v2_tittle"><? echo V2_MODULE_TITTLE;?></div>
+    <div id="cuadro1">
+        <div id="entitys-vars">
+            <div id="v2-temporal-filter"></div>
+            <div id="entitys-img"></div>
+            <div id="entitys-img2"></div>
+            <div id="entitys-img3"></div>
+            <div id="entitys-option">    
+                <div id="entitys-delete"></div>
+                <div id="entitys-number"></div>
+                <div id="entitys-add"></div>
+            </div>
+        </div>
+        <div id="container1"></div>
+    </div>
+    <div id="cuadro2">
+        <div id="container2"></div>
+    </div>
+</div>
+<div id="msg-info"></div>
+<input type="hidden" name="dateMax" /> 
+<input type="hidden" name="dateMin" /> 
+<div id="entityinfo"></div>
+<div id="div_number"></div>
+<div id='filters'></div>
+<div id="error"></div>
+<script>
+    get_control_filters();
+    get_data(null,null);
+</script>

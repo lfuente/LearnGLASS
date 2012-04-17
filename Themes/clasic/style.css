@@ -1,0 +1,396 @@
+/*GLASS Structure*/
+body{
+    background: url('127.jpg');
+    background-size: auto 100%;
+    background-repeat:repeat-x;
+}
+#glass_body{
+}
+#glass_header{
+    font-family: 'Orbitron', sans-serif; 
+    font-size: 22pt;
+    color: #00008B;
+    text-align: right;
+    padding:15px;
+}
+#glass_logo{
+    background: url('glassL.png');
+    background-size: auto 120%;
+    margin-top: -100px;
+    margin-left: -10px;    
+    width: 150px;
+    height: 80px;
+}
+#glass_rightsection{
+    margin-left: 140px;
+    margin-bottom: 40px;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.75);
+    border:10px solid #855E42;
+    border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    min-height: 300px;
+    min-width: 300px;
+}
+#glass_leftsection{
+    margin-top: 25px;
+    position: absolute;
+    padding: 5px;
+    margin-bottom: 40px;
+}
+
+
+
+
+/*Widget design*/
+#glass_widget{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 10px;
+	margin: 4px;
+    height: auto;
+	text-align: center;
+	border-collapse: collapse;
+}
+#glass_widget_head{
+    background-color: #855E42;
+    width: 80px;
+    height: 16px;
+    padding: 8px 0px 0px 10px;
+    -webkit-border-top-left-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+    -moz-border-radius-topleft: 8px;
+    -moz-border-radius-topright: 8px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    
+    box-shadow: 4px 4px 7px #999;
+    -webkit-box-shadow: 4px 4px 7px #999;
+    -moz-box-shadow: 4px 4px 7px #999;
+    filter: shadow(color=#999999, direction=135, strength=4);
+}
+#glass_widget_head div{
+    float: left;
+    margin-left: 8px;
+}
+#glass_widget_body{
+    background-color: #855E42;
+    padding: 5px;
+    -webkit-border-radius: 8px;
+    -webkit-border-top-left-radius: 0;
+    -moz-border-radius: 8px;
+    -moz-border-radius-topleft: 0;
+    border-radius: 8px;
+    border-top-left-radius: 0;
+    
+    box-shadow: 4px 4px 7px #999;
+    -webkit-box-shadow: 4px 4px 7px #999;
+    -moz-box-shadow: 4px 4px 7px #999;
+    filter: shadow(color=#999999, direction=135, strength=4);
+
+}
+
+
+/*Buttons*/
+#out-button 
+{     
+	font-family: verdana, arial, sans-serif; 
+    font-size: 8pt;  
+    padding: 2px; 
+    background-color: #ffffcc; 
+    color: #666666; 
+    margin: 10px;
+    border-radius: 8px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+} 
+#out-button:link, 
+#out-button:visited { 
+    border-top: 1px solid #cccccc; 
+    border-bottom: 2px solid #cccccc; 
+    border-left: 1px solid #cccccc; 
+    border-right: 2px solid #cccccc;
+} 
+#out-button:hover { 
+    border-bottom: 1px solid #666666; 
+    border-top: 2px solid #666666; 
+    border-right: 1px solid #666666; 
+    border-left: 2px solid #666666; 
+}
+
+/*Titles*/
+p.sectiontitle{
+	font-family: 'Orbitron', sans-serif;
+    color: #00008B;
+    font-size: 16pt; 
+    font-weight: bold;
+    margin-top: -4px;
+    margin-bottom: -4px;
+}
+
+p.glass-title{
+	font-family: 'Orbitron', sans-serif;
+    font-size: 14pt; 
+    font-weight: bold; 
+}
+
+/*normal text*/
+p.glass-body{
+	font-family: verdana, arial, sans-serif; 
+    font-size: 10pt;
+}
+
+/*messagges*/
+#error{
+	font-family: verdana, arial, sans-serif; 
+    font-size: 10pt;
+    color: red;
+    font-weight: bold;
+}
+#msg-info{
+	font-family: verdana, arial, sans-serif; 
+    font-size: 10pt;
+    color: #00008B;
+    font-weight: bold;
+}
+
+
+/*username of the menu*/
+#username {    
+	font-family: verdana, arial, sans-serif; 
+    font-size: 10pt;
+    text-align: center; 
+    font-weight: bold;
+    color: #666666; 
+    text-decoration: none; 
+}
+
+#icons {
+    margin-left: 4px;
+}
+
+ 
+/*Pops*/
+#capaVentana {
+	visibility:hidden;
+	position:absolute;
+	padding:0px;
+	left:100px;
+	top:100px;
+	z-index:3;
+}
+#capaFondo1 {
+	visibility:hidden;
+	position:absolute;
+	padding:0px;
+	left:0px;
+	top:0px;
+	right:0px;
+	bottom:0px;
+	background-image:url(trans01.gif);
+	background-repeat:repeat;
+	width:100%;
+	height:100%;
+	z-index:2;
+}
+#bhid {
+	visibility:hidden;
+	position:absolute;
+}
+#widget-iframe{
+    width: 450px;
+    height: 300px;
+}
+#widgetwiew,
+#link {
+	visibility:hidden;
+	position:absolute;
+	padding:10px;
+	background:#fff;
+    text-align: center;
+	border:4px solid #e8edff;
+	border-radius: 25px;
+    -moz-border-radius: 25px;
+    -webkit-border-radius: 25px;
+}
+
+/*hidden field*/
+#hidden1, #hidden2, #hidden3, #hidden4,#hidden5{
+    visibility:hidden;
+}
+
+
+/*install modules style*/
+#module{
+    width: 600px;
+}
+
+#module-install{
+    float: left;
+    width: 210px;
+    padding: 8px;
+    text-align: center;
+    
+}
+
+#sel-module-install, #sel-module-available{
+    width: 205px;
+    height: 200px;
+    border: solid #e8edff 8px;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+#module-buttons{
+    float: left;
+    width: 45px;
+    margin: 100px 0px 0px 15px;
+}
+
+#module-available{
+    margin-left: 290px;
+    padding: 8px;
+    text-align: center;
+}
+
+#module-des{
+    max-width: 500px;
+}
+
+
+/*Favorite views style*/
+#fviews{
+    max-width: 500px;
+}
+
+
+/**/
+.carpet{
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+	background:#855E42;
+	padding:2px;
+	border-radius: 20px;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+	text-align: left;
+}
+.carpet-style {
+    background: -webkit-gradient(linear, left top, left bottom, from(#FBEBCE), to(#DABF8D));
+    background: -moz-linear-gradient(top,  #FBEBCE,  #DABF8D);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FBEBCE', endColorstr='#DABF8D');
+    padding: 12px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin: 5px;
+}
+
+
+
+/* Tables */
+.table-carpet{
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-left: 10px;
+	background:-webkit-gradient(linear, left top, left bottom, from(#FBEBCE), to(#DABF8D));
+	padding:2px;
+	border:4px solid #855E42;
+	border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	text-align: left;
+}
+.table-style {
+    background: -webkit-gradient(linear, left top, left bottom, from(#E9E9E9), to(#D7D7D7));
+    background: -moz-linear-gradient(top,  #E9E9E9,  #D7D7D7);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E9E9E9', endColorstr='#D7D7D7');
+    padding: 3px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin: 5px;
+}
+.table-option{
+    width: 95px;
+}
+.table-style table {
+    width:  100%;
+}
+.table-style tr th {
+    border-left: 1px solid #ccc;
+    background: #b9c9fe;
+    height: 35px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+}
+.table-row td {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    text-align: left;
+    text-decoration: none;
+    font-weight: normal;
+    color: #858585;
+    padding: 5px;
+}
+.table-style tr th:first-child {
+    border-top-left-radius: 8px;
+    -moz-border-top-left-radius: 8px;
+    -webkit-border-top-left-radius: 8px;
+    border: none;
+}
+.table-style tr th:last-child {
+    border-top-right-radius: 8px;
+    -moz-border-top-right-radius: 8px;
+    -webkit-border-top-right-radius: 8px;
+}
+.table-style tr td:first-child {
+    border: none;
+}
+.table-style tr:nth-child(odd) {
+    background: #F3F3F3;
+}
+.table-style tr:nth-child(even) {
+    background: #fff;
+}
+.table-style tr:last-child td:first-child {
+    border-bottom-left-radius: 8px;
+    -moz-border-bottom-left-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    
+}
+.table-style tr:last-child td:last-child {
+    border-bottom-right-radius: 8px;
+    -moz-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-right-radius: 8px;
+}
+
+
+
+/*FORMS Style*/
+.glass-form {
+    text-align: right;
+    width:320px;
+
+}
+.glass-form label{
+    margin-top: 10px;
+}
+
+.glass-form input {
+	padding:0.15em;
+	border:2px solid #855E42;
+	background:#fafafa;
+	font:bold 0.95em arial, sans-serif;
+	border-radius:0.4em;
+    -moz-border-radius: 0.4em;
+    -webkit-border-radius: 0.4em;
+}
+.glass-form input:hover, input:focus {
+	border-color:#c5c5c5;
+	background:#f6f6f6;
+} 
