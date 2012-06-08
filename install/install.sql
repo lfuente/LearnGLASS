@@ -1,7 +1,7 @@
 create database if not exists glass;
 use glass;
 
-CREATE TABLE `glass` (
+CREATE TABLE `glass_user` (
   `userId` int NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `userType` varchar(30) NOT NULL,
