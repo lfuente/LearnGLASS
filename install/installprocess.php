@@ -1,7 +1,7 @@
 <?php
 
     include("../config.php");
-    include("../lang/lang.php");
+   // include("../lang/lang.php");
     include("../lib/mainlib.php");
     
     $dbhost = $_POST["dbhost"];
