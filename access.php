@@ -50,7 +50,7 @@
         		      mysql_select_db($CFG->dbname) 
         			or die(mysql_error());
                     $query = "SELECT id 
-        			FROM ".$CFG->prefix."bbdd";
+        			FROM ".$CFG->prefix."ddbb";
                     $result = mysql_query($query) 
         				or die(mysql_error());
                     $CAMid = mysql_fetch_array($result);
