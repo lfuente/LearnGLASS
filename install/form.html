@@ -41,15 +41,6 @@ function validate_send()
         return (false); 
     }
     
-    
-    checkStr = document.installform.dbpass.value
-    valid = chk_characters(checkStr);
-    if (!valid)
-    { 
-        alert("Use only alphanumeric characters"); 
-        document.installform.dbpass.focus(); 
-        return (false); 
-    }
        
     checkStr = document.installform.prefix.value
     valid = chk_characters(checkStr);
