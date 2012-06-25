@@ -673,5 +673,132 @@ function json_delete_users($username,$jdata){
     
 }
 
+///////////////// FUNCTION CREATE USER SESSION ///////////
+////////////////////////////////////////////////////////////
+// Return void
+////////////////////////////////////////////////////////////
+function create_user_session($user, $CFG){
+
+	$_SESSION['s_username'] = $user;
+    //If user is not in the database there is to create him
+    //then, create a conexion to the glass database
+    
+    $conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
+    		or die(mysql_error());
+	mysql_select_db($CFG->dbname) 
+    		or die(mysql_error());
+	//Search the user in the database  
+	$query = "SELECT name 
+			FROM ".$CFG->prefix."user
+			WHERE name='$user'";
+	$result = mysql_query($query) 
+			or die(mysql_error());
+	//is there any match?
+                
+	if(mysql_num_rows($result)==0){
+    	//Create the user in the database
+        $query = "INSERT INTO ".$CFG->prefix."user (name,userType) 
+        		VALUES ('".$user."','student')" ;
+		$result = mysql_query($query) 
+        		or die("error: ".mysql_error());
+		mysql_close($conexion);
+		
+		//get his created userId
+		$userId = get_user_id($CFG,$user);
+		
+		//get the first CAM database id
+		$conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
+				or die(mysql_error());
+		mysql_select_db($CFG->dbname) 
+				or die(mysql_error());
+		$query = "SELECT id 
+				FROM ".$CFG->prefix."ddbb";
+		$result = mysql_query($query) 
+				or die(mysql_error());
+		$CAMid = mysql_fetch_array($result);
+		
+		//Create the user settings entry in the database
+		$query = "INSERT INTO ".$CFG->prefix."settings (ddbbId,userId,dbcol) 
+				VALUES ('".$CAMid["id"]."','".$userId."','2')" ;
+		$result = mysql_query($query) 
+				or die(mysql_error());
+	}
+	mysql_close($conexion);
+}
   
+///////////////// FUNCTION CHECK TOKEN ///////////
+////////////////////////////////////////////////////////////
+// Return true if the token is OK and 
+// the timestamp is not too old
+////////////////////////////////////////////////////////////
+function check_token($token, $timestamp, $user, $CFG){
+	
+	//ONLY FOR THE CRIF PILOT
+	include($CFG->dir."tokenkey.php");
+		
+	$key = $KEY->tokenkey;
+	$token_ok = false;
+	$right_now = time();
+	$elapsed_time = $right_now - $timestamp;
+	
+	//the token should not be older than a minute
+	if (($elapsed_time >= 0) && ($elapsed_time < 60)) { 
+		
+		//let's check if the token was created with the valid key
+		$local_token = md5($timestamp . $user . $key);
+		if ($local_token == $token) {
+			$token_ok = true;	
+		}
+	} 
+    
+    return $token_ok; 
+}
+
+///////////////// FUNCTION USER IN SYSTEM ///////////
+////////////////////////////////////////////////////////////
+// Return true if the user is in the local database or in the ldap (the password is not checked)
+//        false otherwise
+////////////////////////////////////////////////////////////
+function user_in_system($user, $CFG){
+	
+	$in_system = false; //the value that will be returned
+	
+	//first check the local database
+	$conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
+    		or die(mysql_error());
+	mysql_select_db($CFG->dbname) 
+    		or die(mysql_error());
+	//Search the user in the local database 
+	$query = "SELECT name 
+			FROM ".$CFG->prefix."user
+			WHERE name='$user'";
+	$result = mysql_query($query) 
+			or die(mysql_error());
+
+	if(mysql_num_rows($result) > 0){
+		$in_system = true;
+	} else {
+			
+		$ldap['host'] = $CFG->LDAPhost;
+		$ldap['port'] = (int)$CFG->LDAPport;
+		$ldap['dn']   = $CFG->LDAPdn;
+		$filter = "(uid=$user)";
+		
+		// connect to ldap
+		$ldap['conn'] = ldap_connect( $ldap['host'], $ldap['port'] );
+		ldap_set_option($ldap['conn'], LDAP_OPT_PROTOCOL_VERSION, 3);	
+		
+		//does the user exists in the LDAP?
+		$sr = ldap_search($ldap['conn'], $ldap['dn'], $filter);
+		$info = ldap_first_entry($ldap['conn'], $sr);			
+		
+		if ($info) {
+			$in_system = true;
+		}
+	}
+    return $in_system; 
+}
+
+
+
 ?>
