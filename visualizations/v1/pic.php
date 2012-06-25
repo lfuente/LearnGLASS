@@ -1,146 +1,104 @@
 <?php
     session_start();
     include("../../config.php");
+    include($CFG->dir."lib/mainlib.php");
+    include("v1lib.php");
+	$token = $_GET["token"];
+	$timestamp = $_GET["timestamp"];
+	$external_username = $_GET["user"];
 
+			//to debug//////////////////////////////////
+	if ($_GET["XDEBUG_SESSION_START"] == "ECLIPSE_DBGP") { 		
+		$timestamp = time();
+		$external_username = luis;
+		$token = md5($timestamp.$external_username."glasscrif");
+	}
+
+	
+	// 1. do we have a session?
+	// 2. do we have a correct token?
     if(isset ($_SESSION['s_username']))
     {
-        //PHP includes
-        include_once($CFG->dir."lang/lang.php");
-        include_once($CFG->dir."lib/mainlib.php");
-        //Username handle
+    	$can_show_page = true;    	
+    } else if (($token != null) && ($timestamp != null) && ($external_username != null))
+	{
+
+		///////////////////////////////////////
+		//let's check if the token was created with the valid key
+		$valid_token = check_token($token, $timestamp, $external_username, $CFG);
+		$in_system = user_in_system($external_username, $CFG);
+		
+		if ( $valid_token && $in_system ){
+			create_user_session($external_username, $CFG);			
+			$can_show_page = true;
+		}
+	} 
+
+	// now we know if the pic can be shown. If not, go to login page 
+	if ($can_show_page){
         $username = $_SESSION['s_username'];
-        $userid = get_user_id($CFG,$username);
-        //HTML structure
-        echo "<html>";
-        echo "<head>";
-        echo "<title>GLASS</title>";
-        echo "<LINK href='".$CFG->url."Themes/clasic/style.css' rel='stylesheet' type='text/css'>";
-        echo "<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>";
-        echo "<script language='JavaScript' type='text/javascript' src='".$CFG->url."lib/jslib.js'></script>";
-        echo "<link href='http://fonts.googleapis.com/css?family=Orbitron:400,500' rel='stylesheet' type='text/css'>";    
-        echo "</head>";
-        echo "<body>";
-        echo '<div id="glass_body"><div id="glass_header">'. _APLICATION_TITLE.'</div>';
-        echo "<div id='glass_leftsection'>";
-        echo "<div id='glass_logo'></div>";
-        show_menu($CFG,$username);
-        echo "</div>";
-        echo "<div id='glass_rightsection'>";
-        
-        ///////////////////// MODULE CODE ////////////////////////
-        //////////////////////////////////////////////////////////
-        $confiId =  $_GET['conf'];
-        $fconfId =  $_GET['fconf'];
-        $userid = get_user_id($CFG,$username);
-        $my_permision = new permision($CFG,$username);
-        //link from widget
-        if($confiId!=null || $fconfId!=null)
+        $my_permission = new permision($CFG,$username);
+
+        //TODO: fake conf
+        $right_now = strtotime("1 April 2012");     	
+        //$right_now=strtotime("now");
+        $one_week_ago = strtotime("-2 week", $right_now);
+        //below functions understand the time in milisecons
+        $jsrn = $right_now*1000;
+        $jsowa = $one_week_ago*1000;
+
+       	//TODO: value (now is TICPrimaria) should be taken from mongo user data        
+        $cValue = "TICPrimaria";
+        if ($my_permission->get_viewUser() == 0) //ESTÁ AL REVÉS PARA PRUEBAS!!! CAMBIAR 
         {
-            $conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
-        		or die(mysql_error());
-        	mysql_select_db($CFG->dbname) 
-        		or die(mysql_error());
-            if($fconfId!=null){
-                //get my favorite views values
-                $query = "SELECT * 
-        		FROM ".$CFG->prefix."myview
-        		WHERE id='$fconfId'";
-                $confiId=0;                
-            }
-            if($confiId!=null){
-                //get the dashboard values 
-            	$query = "SELECT * 
-            		FROM ".$CFG->prefix."dashboard
-            		WHERE id='$confiId'";
-                    $fconfId=0;
-            }
-        	
-        	$result = mysql_query($query) 
-        			or die(mysql_error());
-        	$data = mysql_fetch_array($result)
-        			or die(mysql_error());
-            
-            mysql_close($conexion);
-            
-            //create the _GET structure with the params of the database
-            $conf = json_decode($data['widgetconf']);
-            $CAMid = $data['bdCAMid'];
-                        
-            $option = "CAMid=".$CAMid."&";
-            
-            for($i=0;$i<count($conf->key);$i++)
-            {
-                $option = $option."group".($i+1)."=".$conf->group[$i]."&key".($i+1)."=".$conf->key[$i]."&value".($i+1)."=".$conf->value[$i]."&";
-            }
-            if($conf->mMax!=null && $conf->mMin!=null)
-            {
-                 $option = $option."mMax=".$conf->mMax."&";
-                 $option = $option."mMin=".$conf->mMin."&";
-            }
-            //be carfull, view is allways 1 because is necesary the first view to generate second
-            $option = $option."view=1";
+        	//the teacher view: average values        	       	
+			$conf="{\"group\":[\"role\"],\"key\":[\"community\"],\"value\":[\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";			
         }
-        //link from module menu
-        else
+        else 
         {
-            $conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
-        		or die(mysql_error());
-        	mysql_select_db($CFG->dbname) 
-        		or die(mysql_error());
-            //get the dashboard values 
-        	$query = "SELECT * 
-        		FROM ".$CFG->prefix."settings
-        		WHERE userId='$userid'";
+			//the student view: average view with self-view
+        	//TODO: $fake_username should be $username
+        	$fake_username = "00756209b";			      
+			$conf="{\"group\":[\"role\",\"role\"],\"key\":[\"user_name\",\"community\"],\"value\":[\"$fake_username\",\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
+		}
+
+       	//fake conf
+       	$userid = $username; //userid is useless
+       	$dbid = 1; //I think it's useless. But it requires a value. Not sure yet...
+
+		//Open database conection
+	    $conection = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
+			or die(mysql_error());
+		mysql_select_db($CFG->dbname) 
+			or die(mysql_error());		
+       	
+		//Note that this query starts from the username
+		//whether userId or name will depend on the final usermodel
+		//userid would be more correct	
+		$query = "SELECT s.ddbbId 
+	    		  FROM glass_settings s, glass_user u 
+	    		  WHERE u.name='".$userid."' and u.userId=s.userId";	 
+	    
+	    $result = mysql_query($query) 
+				or die(mysql_error());
+	    
+		//Id of the mongo database to show. 
+		//By default, the ddbb selected by the user.
+		$CAMdb = mysql_result($result,0);
+		
+	    mysql_close($conection);
+       	        
+        $conf = json_decode($conf);
+       	$jsondata = get_visualization1_Json_data($CFG,$userid,$conf->view,$conf->group,$conf->key,$conf->value,$conf->mMax,$conf->mMin,$dbid,$CAMdb);   	
         	
-        	$result = mysql_query($query) 
-        			or die(mysql_error());
-        	$data = mysql_fetch_array($result)
-        			or die(mysql_error());
-            
-            mysql_close($conexion);
-            $option=null;
-            
-            $CAMid = $data['ddbbId'];
-            $option = "CAMid=".$data['ddbbId']."&";
-            $option = $option."view=1";
-            $confiId = $fconfId = 0;
-        }   
-        
-        include ("index.html");
-       
-        //Get the dafault parameters
-        echo '<script>';
-        
-        echo 'get_control_filters("'.$CAMid.'");';
-        echo 'get_data("getdata.php?'.$option.'");';
-        echo '</script>';
-              
-        if($confiId==0)
-        {
-            echo '<script>
-                    document.all.update1.style.visibility="hidden";
-                    document.all.update2.style.visibility="hidden";
-                </script>';
-        }
-        if($fconfId==0)
-        {
-            echo '<script>
-                    document.all.update3.style.visibility="hidden";
-                    document.all.update4.style.visibility="hidden";
-                </script>';
-        }
-        
-        ///////////////////// MODULE END /////////////////////////
-        //////////////////////////////////////////////////////////
-        
-        echo "</div></div></body></html>";	
-        	
-	}
+     	include("pic.html");
+      	echo '<div id="container'.$dbid.'"></div>';
+      	echo '<div id="error'.$dbid.'"></div>';
+      	echo "<script>show_widget('".$jsondata."');</script>";
+    }
 	else
 	{
         $goto = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
 		header("Location: ".$CFG->url."index.html?goto=".$goto);
 	} 
-
-
 ?>
