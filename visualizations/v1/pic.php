@@ -50,17 +50,17 @@
 
         //TODO: value (now is TICPrimaria) should be taken from mongo user data        
         $cValue = "TICPrimaria";
-        if ($my_permission->get_viewUser() == 0) //ESTÁ AL REVÉS PARA PRUEBAS!!! CAMBIAR 
-        {
-            //the teacher view: average values
-            $conf="{\"group\":[\"role\"],\"key\":[\"community\"],\"value\":[\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
-        }
-        else 
+        if ($my_permission->get_viewUser() == 0)
         {
             //the student view: average view with self-view
             //TODO: $fake_username should be $username
             $fake_username = "00756209b";
             $conf="{\"group\":[\"role\",\"role\"],\"key\":[\"user_name\",\"community\"],\"value\":[\"$fake_username\",\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
+        }
+        else 
+        {
+            //the teacher view: average values
+            $conf="{\"group\":[\"role\"],\"key\":[\"community\"],\"value\":[\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
         }
 
         //fake conf
