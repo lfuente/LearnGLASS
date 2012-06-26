@@ -131,11 +131,30 @@
         //secondly the diferet point of the view
         for($j=0;$j<count($myArray);$j++)
         {
+       	
             uksort($myArray[$j],"usort_handle");
             $obj_data = json_decode($jd1[$j]);
             $data_key_name = $array_data_key[$j];
             $data_vale_name = $array_data_value[$j];
             $data_group_name = $array_group_value[$j];
+            
+        	//TODO: get the number of users in the current community
+        	// it's waiting for the correct usermodel in mongo
+        	// here we have a temporal hack with the fixed magic number 
+        	
+        	if ($data_key_name == 'user_name') 
+        	{
+        		$n_users = 1; 
+        	// else if ($data_key_name == 'community') 
+			//			$n_users = db.users.find({community:$value}).count();
+        	}
+        	else 
+        	{
+        		$n_users = $objDB->users->count();
+        		//$n_users = 186; //fake conf
+        	}
+        		            
+            
             //event-time visualization
             if($view==1)
             {
@@ -149,7 +168,7 @@
                             $events_number += $v2;
                         }
                         $data_date[count($data_date)] = str_replace("-","/",$k1);
-                        $data_value[count($data_value)] = $events_number;
+                        $data_value[count($data_value)] = $events_number/$n_users;
                     }
                 }
                 //only with the selected event type
@@ -162,7 +181,7 @@
                             $events_number = 0;
                         }
                         $data_date[count($data_date)] = str_replace("-","/",$k1);
-                        $data_value[count($data_value)] = $events_number;
+                        $data_value[count($data_value)] = $events_number/$n_users;
                     }
                 }
                 $jdata[$j+1] = array("dgroup" => $data_group_name,"dkey" => $data_key_name, "dvalue" => $data_vale_name,"value" => $data_value, "date" => $data_date);
