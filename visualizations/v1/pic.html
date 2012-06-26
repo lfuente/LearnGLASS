@@ -4,7 +4,6 @@
 
 <!-- 1. Add these JavaScript inclusions in the head of your page -->
 <script type="text/javascript" src="<? echo $CFG->url;?>lib/jquery.js"></script>
-
 <script type="text/javascript" src="<? echo $CFG->url;?>visualizations/v1/js/highstock.js"></script>
 
 <script type="text/javascript">
@@ -83,7 +82,8 @@ function show_widget(data)
     				name: name,
     				data: data_grph
                 }
-            }            
+            }
+                       
             
             chart = new Highcharts.Chart({
                 chart: {
@@ -176,6 +176,7 @@ function show_widget(data)
     				data: data_grph
     			};    
             }
+
             
             var chart= new Highcharts.Chart
             ({
