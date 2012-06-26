@@ -1,7 +1,8 @@
 <?php
     session_start();
     include("../../config.php");
-    include($CFG->dir."lib/mainlib.php");
+    include_once($CFG->dir."lib/mainlib.php");
+    include_once($CFG->dir."lang/lang.php");
     include("v1lib.php");
     $token = $_GET["token"];
     $timestamp = $_GET["timestamp"];
