@@ -20,7 +20,7 @@
     // 2. do we have a correct token?
     if(isset ($_SESSION['s_username']))
     {
-        $can_show_page = true;    	
+        $can_show_page = true; 
     } else if (($token != null) && ($timestamp != null) && ($external_username != null))
     {
 
@@ -29,7 +29,11 @@
         $valid_token = check_token($token, $timestamp, $external_username, $CFG);
         $in_system = user_in_system($external_username, $CFG);
 
-        if ( $valid_token && $in_system ){
+        if ( !$valid_token[0] ) {
+            $msg = $valid_token[1];
+        } else if (!$in_system[0]) {
+            $msg = $in_system[1];
+        } else {
             create_user_session($external_username, $CFG);
             $can_show_page = true;
         }

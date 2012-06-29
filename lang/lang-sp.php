@@ -87,4 +87,13 @@
     define('_ABOUT_GRADIENT_RESEARCH_BODY_1','Los miembos del laboratorio son profesores, investigadores y estudiantes. Nuestras actividades se dividen en dos áreas, enseñanza e investigación. La investigación se organiza alrededor de un serie de proyectos. El laboratorio ha participado en múltiples proyectos con objetivos localles e internacionales. El laboratorio tiene también experiencia en la coordinación de estas iniciativas y está continuamente persiguiendo nuevos retos en esta área. Nuestros colaboradores son empresas privadas, instituciones de investigación y universidades de todo el mundo. El grupo tiene también una actividad sostenida en la publicación como se puede ver en la lista de publicaciones <A HREF="https://gradient.it.uc3m.es/xowiki/Publications">lista de publicaciones</A>. ');
     define('_ABOUT_GRADIENT_RESEARCH_BODY_2','Actualmente, el laboratorio participa en varios proyectos centrados en la adaptación del entorno de aprendizaje, nuevos escenarios de aprendizaje avanzado, las mejores prácticas en el área de aprendizaje de la tecnología mejorada, y el uso de dispositivos móviles, los escenarios en 3D y la Web Semántica para el aprendizaje.');
 
+
+    define('_TOKEN_ERROR_MSG_1_0','La solicitud de acceso tiene fecha incorrecta.');
+    define('_TOKEN_ERROR_MSG_1_1','Fecha/Hora:');
+    define('_TOKEN_ERROR_MSG_2_0','Solicitud de acceso demasiado antigua:');
+    define('_TOKEN_ERROR_MSG_2_1','Fecha/Hora:');
+    define('_TOKEN_ERROR_MSG_3_0','Datos de autenticación incorrectos.');
+
+    define('_USER_AUTH_ERROR_MSG_1','Nombre de usuario no válido.');
+
 ?> 

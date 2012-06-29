@@ -8,8 +8,8 @@
 
 <script type="text/javascript">
 //width and height size of the widget
-var heightsize=300;
-var widthsize=400;
+var heightsize=200;
+var widthsize=290;
 
 function show_widget(data)
 {
@@ -18,202 +18,92 @@ function show_widget(data)
     {
         var numwidget = data[0].id;
         var view = data[0].view;
-        if(view =="2")
+    
+        var DateMin = new Date(parseInt(data[0].mMin));
+        var DateMax = new Date(parseInt(data[0].mMax));
+        var DateAux = new Date(parseInt(data[0].mMin));
+        var app = data[0].app;
+        var graphs = [];
+        for(var j=1; j < data.length; j++)
         {
-            var bars = [];
-            var cat = [];
-            var max_bars = 5 //max number of programs to visualize(DEFINE)
-            var max_posible_bars = 0 //max posibles bars 
-            var bigger = 0; //bigger value of the serie
-            var jbigger = 1; //id of the bigger value
-            var DateMin = new Date(parseInt(data[0].mMin));
-            var DateMax = new Date(parseInt(data[0].mMax));
-            var mMinString = DateMin.getDate()+"/"+(DateMin.getMonth()+1)+"/"+DateMin.getFullYear();       
-            var mMaxString = DateMax.getDate()+"/"+(DateMax.getMonth()+1)+"/"+DateMax.getFullYear(); 
-            
-            //Search
-            for(var j=1; j < data.length; j++)
-            {
-                //Search the serie with the bigger value
-                if(bigger<=data[j].bdv[0])
+            DateAux.setTime(DateMin.getTime());
+            var data_grph=new Array();
+            dataAux = data[j];
+            var name = dataAux.dkey+" "+dataAux.dvalue;
+            writedata = 0;
+            pointdata = 0;
+                    
+            var myDate = new Date(dataAux.date[pointdata]);
+            utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+            utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+            while(DateAux.getTime()<=DateMax.getTime() && pointdata<dataAux.value.length)
+            {   
+                if(utcAux<utcMyDate)
                 {
-                    bigger = data[j].bdv[0];
-                    jbigger = j;
+                    data_grph[writedata]=new Array(2);
+                    data_grph[writedata][0]= utcAux;
+                    data_grph[writedata][1]= 0;
+                    writedata++;
+                    DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
                 }
-                //Search if there is enought program comparing to max_bar
-                if(max_posible_bars<=data[j].bdn.length)
+                else if(utcAux == utcMyDate)
                 {
-                    max_posible_bars = data[j].bdn.length;
+                    data_grph[writedata]=new Array(2);
+                    data_grph[writedata][0]= utcAux;
+                    data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
+                    writedata++;
+                    pointdata++;
+                    DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+                    var myDate = new Date(dataAux.date[pointdata]);
+                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+                }
+                else
+                {
+                    pointdata++;
+                    var myDate = new Date(dataAux.date[pointdata]);
+                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
                 }
             }
-            //set max_bars 
-            if(max_posible_bars < max_bars)
-                max_bars = max_posible_bars;
-            //set categories
-            for(var i=0; i < max_bars; i++)
-            {
-                cat[i]=data[jbigger].bdn[i]
-            }
-            //generate each serie
-            for(var j=1; j < data.length; j++)
-            {
-                var data_grph=new Array();
-                dataAux = data[j]; 
-                var name = dataAux.dkey+" "+dataAux.dvalue; //name of the srie
-                //for each category
-                for(var i=0; i < max_bars; i++)
-                {
-                    //serch the value
-                    for(var k=0; k < dataAux.bdn.length; k++)
-                    {
-                        //set the value
-                        if(dataAux.bdn[k]==cat[i])
-                        {
-                            data_grph[i] = dataAux.bdv[k];
-                            break;
-                        }
-                    }
-                    //if it doesn't have value
-                    if(data_grph[i]==null)
-                        data_grph[i]=0;
-                }
-                //generate the serie
-                bars[j-1] = {
-    				name: name,
-    				data: data_grph
-                }
-            }
-                       
-            
-            chart = new Highcharts.Chart({
-                chart: {
-                 renderTo:  "container"+numwidget,
-                 height: heightsize,
-                 width: widthsize,
-                 defaultSeriesType: 'column'
-                },
-                title: {
-                 text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ6;?>'
-                },
-                subtitle: {
-                    text: mMinString+' <? echo V1_MSJ6;?> '+ mMaxString
-                },
-                xAxis: {
-                 categories: cat,
-                 labels: {
-                    rotation: -15,
-                    align: 'right'
-                 }
-                },
-                yAxis: {
-                    title: {
-                        text: '#<? echo V1_MSJ7;?>'
-                    }
-                }, 
-                tooltip: {
-                 formatter: function() {
-                    return ''+
-                        this.series.name +': '+ this.y +'';
-                 }
-                },
-                credits: {
-                 enabled: false
-                },
-                series: bars
-            });
+            graphs[j-1] = {
+                name: name,
+                data: data_grph
+            };    
         }
-        else
-        {
-            var DateMin = new Date(parseInt(data[0].mMin));
-            var DateMax = new Date(parseInt(data[0].mMax));
-            var DateAux = new Date(parseInt(data[0].mMin));
-            var app = data[0].app;
-            var graphs = [];
-            for(var j=1; j < data.length; j++)
-            {
-                DateAux.setTime(DateMin.getTime());
-                var data_grph=new Array();
-                dataAux = data[j];
-                var name = dataAux.dkey+" "+dataAux.dvalue;
-                writedata = 0;
-                pointdata = 0;
-                        
-                var myDate = new Date(dataAux.date[pointdata]);
-                utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
-                while(DateAux.getTime()<=DateMax.getTime() && pointdata<dataAux.value.length)
-                {   
-                    if(utcAux<utcMyDate)
-                    {
-                        data_grph[writedata]=new Array(2);
-                        data_grph[writedata][0]= utcAux;
-                        data_grph[writedata][1]= 0;
-                        writedata++;
-                        DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-                        utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
-                    }
-                    else if(utcAux == utcMyDate)
-                    {
-                        data_grph[writedata]=new Array(2);
-                        data_grph[writedata][0]= utcAux;
-                        data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
-                        writedata++;
-                        pointdata++;
-                        DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-                        var myDate = new Date(dataAux.date[pointdata]);
-                        utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                        utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
-                    }
-                    else
-                    {
-                        pointdata++;
-                        var myDate = new Date(dataAux.date[pointdata]);
-                        utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                    }
-                }
-                graphs[j-1] = {
-    				name: name,
-    				data: data_grph
-    			};    
-            }
 
-            
-            var chart= new Highcharts.Chart
-            ({
-                chart: {
-                    renderTo: "container"+numwidget,
-                    height: heightsize,
-                    width: widthsize
-                },
-                credits: {
-                    enabled: false
-                },
-                exporting: {
-                    enabled: false
-                },
+        
+        var chart= new Highcharts.Chart
+        ({
+            chart: {
+                renderTo: "container"+numwidget,
+                height: heightsize,
+                width: widthsize
+            },
+            credits: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            title: {
+                text: '<? echo V1_MSJ8;?>'
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
                 title: {
-                    text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ8;?>'
-                },
-                subtitle: {
-                    text: '<? echo V1_MSJ7;?>: '+app
-                },
-                xAxis: {
-                    type: 'datetime'
-                },
-                yAxis: {
-                    title: {
-                        text: '#<? echo V1_MSJ7;?>'
-                    }
-                }, 
-                legend: {
-                    align: 'center',
-                    layout: 'horizontal',
-                    verticalAlign: 'bottom'
-                },
-                 series: graphs
-            });
-                
-       }      
+                    text: '#<? echo V1_MSJ7;?>'
+                }
+            }, 
+            legend: {
+                enabled: false
+            },
+             series: graphs
+        });
+            
+         
    }
 };
 
