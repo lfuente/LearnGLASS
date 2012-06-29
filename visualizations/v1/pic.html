@@ -78,7 +78,13 @@ function show_widget(data)
             chart: {
                 renderTo: "container"+numwidget,
                 height: heightsize,
-                width: widthsize
+                width: widthsize,
+                events: {
+                    click: function(e) {
+                        $(this).attr('target', '_blank');
+                        window.open("index.php");
+                    }
+                }
             },
             credits: {
                 enabled: false
@@ -87,7 +93,7 @@ function show_widget(data)
                 enabled: false
             },
             title: {
-                text: '<a href="index.php"><? echo V1_MSJ8;?></a>'
+                text: null
             },
             xAxis: {
                 type: 'datetime'
