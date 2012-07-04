@@ -20,15 +20,17 @@
     
     //Call the construct
     $change_config = new file_vars("../config.php");
-    $change_dbfile = new file_vars("install.sql");
+    copy("install.sql", "installinstance.sql");
+    chmod("./installinstance.sql", 0777);
+    $change_dbfile = new file_vars("./installinstance.sql");
     
     //Set the values of the variables
     if ($dbhost!='' && $dbhost!=null && $dbhost!=$CFG->dbhost){
         $change_config->replace_PHP_value("\$CFG->dbhost" , $dbhost);
     }
+    $change_dbfile->replace_SQL_value("create database if not exists ##dbname##", "create database if not exists ".$dbname);
+    $change_dbfile->replace_SQL_value("use ##dbname##", "use ".$dbname);
     if ($dbname!='' && $dbname!=null && $dbname!=$CFG->dbname){
-        $change_dbfile->replace_SQL_value("create database if not exists ".$CFG->dbname, "create database if not exists ".$dbname);
-        $change_dbfile->replace_SQL_value("use ".$CFG->dbname, "use ".$dbname);
         $change_config->replace_PHP_value("\$CFG->dbname" , $dbname);
     }
     if ($dbuser!='' && $dbuser!=null && $dbuser!=$CFG->dbuser){
@@ -37,15 +39,15 @@
     if ($dbpass!='' && $dbpass!=null && $dbpass!=$CFG->dbpass){
         $change_config->replace_PHP_value("\$CFG->dbpass" , $dbpass);
     }
+    $change_dbfile->replace_SQL_value("##prefix##" , $prefix);
     if ($prefix!='' && $prefix!=null && $prefix!=$CFG->prefix){
-        $change_dbfile->replace_SQL_value($CFG->prefix , $prefix);
         $change_config->replace_PHP_value("\$CFG->prefix" , $prefix);
     }
     if ($url!='' && $url!=null && $url!=$CFG->url){
         $change_config->replace_PHP_value("\$CFG->url" , $url);
     }
+    $change_dbfile->replace_SQL_value("##dir##" , $dir);
     if ($dir!='' && $dir!=null && $dir!=$CFG->dir){
-        $change_dbfile->replace_SQL_value($CFG->dir , $dir);
         $change_config->replace_PHP_value("\$CFG->dir" , $dir);
     }
     if ($LDAPhost!='' && $LDAPhost!=null && $LDAPhost!=$CFG->LDAPhost){
@@ -64,7 +66,7 @@
    
     if($dbOp=='yes'){
         //Install de data base
-        $newImport = new sqlImport ($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, "install.sql"); 
+        $newImport = new sqlImport ($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, "installinstance.sql"); 
         $newImport->import(); 
         //------------------ Show Messages !!! --------------------------- 
         $import = $newImport -> ShowErr (); 
