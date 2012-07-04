@@ -74,8 +74,8 @@ CREATE TABLE  `glass_myview` (
  `filters` TEXT NOT NULL
 );
 
-INSERT INTO `glass_user` (`name`, `userType`) VALUES 
-('admin', 'admin');
+INSERT INTO `glass_user` (`userID`, `name`, `userType`) VALUES 
+(NULL, 'admin', 'admin');
 
 INSERT INTO `glass_settings` (`userId`, `dbcol`)
 SELECT `userId`, 2
