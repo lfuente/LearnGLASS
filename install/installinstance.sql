@@ -1,21 +1,21 @@
-create database if not exists glass;
-use glass;
+create database if not exists ;
+use ;
 
-CREATE TABLE `glass_user` (
+CREATE TABLE `user` (
   `userId` int NOT NULL AUTO_INCREMENT,
   `name` varchar(30) NOT NULL,
   `userType` varchar(30) NOT NULL,
   PRIMARY KEY (`userID`)
 );
 
-CREATE TABLE  `glass_modules` (
+CREATE TABLE  `modules` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
  `name` VARCHAR( 30 ) NOT NULL ,
  `folder` VARCHAR( 30 ) NOT NULL ,
  `description` VARCHAR( 500 ) NULL
 );
 
-CREATE TABLE  `glass_dashboard` (
+CREATE TABLE  `dashboard` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
  `userId` INT NOT NULL ,
  `moduleId` INT NOT NULL ,
@@ -24,7 +24,7 @@ CREATE TABLE  `glass_dashboard` (
  `pos` INT NOT NULL 
 );
 
-CREATE TABLE  `glass_ddbb` (
+CREATE TABLE  `ddbb` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
  `host` VARCHAR( 30 ) NOT NULL ,
  `name` VARCHAR( 30 ) NOT NULL ,
@@ -34,7 +34,7 @@ CREATE TABLE  `glass_ddbb` (
  `description` VARCHAR( 500 ) NULL
 );
 
-CREATE TABLE  `glass_permision`(
+CREATE TABLE  `permision`(
 `userType` varchar(30) NOT NULL PRIMARY KEY ,
 `userViewLevel` INT NOT NULL,
 `userModifyPermision` BINARY NOT NULL,
@@ -47,7 +47,7 @@ CREATE TABLE  `glass_permision`(
 `viewUser` BINARY NOT NULL,
 `viewSuggest` BINARY NOT NULL
 );
-INSERT INTO  `glass_permision` (`userType`,`userViewLevel`,`userModifyPermision`,`userTypeChange`,
+INSERT INTO  `permision` (`userType`,`userViewLevel`,`userModifyPermision`,`userTypeChange`,
 `moduleInstall`,`importView`,`varSettings`,`addBBDDCAM`,`download`,`viewUser`,`viewSuggest`)VALUES
 ('admin','4','1','1','1','1','1','1','1','1','1'),
 ('instructor','3','0','0','0','1','0','1','1','1','1'),
@@ -55,14 +55,14 @@ INSERT INTO  `glass_permision` (`userType`,`userViewLevel`,`userModifyPermision`
 ('student',  '1', '0','0','0','0','0','0','1','0','1');
 
 
-CREATE TABLE  `glass_settings` (
+CREATE TABLE  `settings` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
  `userId` INT NOT NULL,
  `ddbbId` INT NOT NULL,
  `dbcol` INT NOT NULL
 );
 
-CREATE TABLE  `glass_myview` (
+CREATE TABLE  `myview` (
  `id` INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
  `name` VARCHAR( 60 ) NOT NULL ,
  `userid` INT NOT NULL ,
@@ -74,11 +74,11 @@ CREATE TABLE  `glass_myview` (
  `filters` TEXT NOT NULL
 );
 
-INSERT INTO `glass_user` (`userID`, `name`, `userType`) VALUES 
-(NULL, 'admin', 'admin');
+INSERT INTO `user` (`name`, `userType`) VALUES 
+('admin', 'admin');
 
-INSERT INTO `glass_settings` (`userId`, `dbcol`)
+INSERT INTO `settings` (`userId`, `dbcol`)
 SELECT `userId`, 2
-FROM `glass_user`
+FROM `user`
 WHERE `name` = 'admin';
 
