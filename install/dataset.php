@@ -267,7 +267,7 @@ session_start();
          // DB connect
 		$conexion = mysql_connect ($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)or die("error: ".mysql_error());
 		mysql_select_db($CFG->dbname) or die("error: ".mysql_error());
-        //Slect the database of the user
+        //Slect the database the user is currently using
         $query = "SELECT ".$CFG->prefix."ddbb.name
                 FROM ".$CFG->prefix."settings, ".$CFG->prefix."ddbb
                 WHERE ".$CFG->prefix."settings.ddbbId=".$CFG->prefix."ddbb.id
@@ -275,6 +275,7 @@ session_start();
        	$result = mysql_query($query) or die("error: ".mysql_error());
 		$data = mysql_fetch_array($result);
         $selname = $data["name"];
+        
         //Search the CAM database
         $query = "SELECT * FROM ".$CFG->prefix."ddbb";
 		$result = mysql_query($query) or die("error: ".mysql_error());
@@ -282,7 +283,8 @@ session_start();
         $jdata[1] = $selname;
         $i=1;
         while ($data = mysql_fetch_array($result)){
-            $jdata[count($jdata)] = $data['description'];
+            $jdata[count($jdata)] = $data['name'];
+            //$jdata[count($jdata)] = $data['description'];
         }
         
         mysql_close($conexion);

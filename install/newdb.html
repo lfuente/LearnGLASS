@@ -15,13 +15,15 @@ function add_and_show_CAM_database(op,values){
     todbajax=objetoAjax();
 	todbajax.open("POST", "install/dataset.php", true );
 	todbajax.onreadystatechange=function() {
-    	if (todbajax.readyState==4) {
-            str = todbajax.responseText;
+		console.log("1", todbajax.responseText);
+		if (todbajax.readyState==4) {
+			console.log("2", todbajax.responseText);
+    		str = todbajax.responseText;
             //alert(str);
             if(str.match("error:")==null){
-                data = eval(str);
-                //Whrite the message with the first elemet
-                if(data[0]=="installing"){                  
+            	data = eval(str);
+                //Write the message with the first elemet
+                if(data[0]=="installing"){
                     document.getElementById('error').innerHTML = "";
                     document.getElementById('textplace').innerHTML = "<? echo _DATASET_MSJ3;?><br>";
                     if(data[1].e!=null){
@@ -90,6 +92,8 @@ function add_and_show_CAM_database(op,values){
                     document.getElementById('error').innerHTML = "<?php echo _DROPPED;?>";
                 }
                 if(data[0]!="installing"){
+                	//DEBUG
+                	console.log(data);
                     //Reset the select to delete old values   
                     size=document.getElementById("selcam").length;
                     for(i=0;i<size;i++){
@@ -101,14 +105,17 @@ function add_and_show_CAM_database(op,values){
                         document.getElementById("selcam").options[i-2] = new Option(data[i]);
                     }
                     //The second element index to the selected value
-                    document.all.selcam.value = data[1]; 
+                    //document.all.selcam.value = data[1]; 
                 }               
             }
            	else document.getElementById('error').innerHTML = todbajax.responseText;
         }
 	}
+	console.log("3", todbajax.responseText);
     todbajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    console.log("4", todbajax.responseText);
 	todbajax.send("host="+host+"&name="+name+"&user="+user+"&pass="+pass+"&des="+des+"&op="+op+"&values="+values);
+	console.log("5", todbajax.responseText);
 }
 
 

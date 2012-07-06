@@ -1,1 +1,9 @@
+## Ignored Extensions ##
 *.bak
+*~
+
+## Ignored Files ##
+tokenkey.php
+#config.php
+installinstance.php
+
