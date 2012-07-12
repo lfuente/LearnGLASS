@@ -5,6 +5,8 @@ body{
     background-repeat:repeat-x;
 }
 #glass_body{
+	margin-left: auto;
+	margin-right: auto;
 }
 #glass_header{
     font-family: 'Orbitron', sans-serif; 
