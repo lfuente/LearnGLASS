@@ -15,9 +15,7 @@ function add_and_show_CAM_database(op,values){
     todbajax=objetoAjax();
 	todbajax.open("POST", "install/dataset.php", true );
 	todbajax.onreadystatechange=function() {
-		console.log("1", todbajax.responseText);
 		if (todbajax.readyState==4) {
-			console.log("2", todbajax.responseText);
     		str = todbajax.responseText;
             //alert(str);
             if(str.match("error:")==null){
@@ -111,11 +109,8 @@ function add_and_show_CAM_database(op,values){
            	else document.getElementById('error').innerHTML = todbajax.responseText;
         }
 	}
-	console.log("3", todbajax.responseText);
     todbajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    console.log("4", todbajax.responseText);
 	todbajax.send("host="+host+"&name="+name+"&user="+user+"&pass="+pass+"&des="+des+"&op="+op+"&values="+values);
-	console.log("5", todbajax.responseText);
 }
 
 

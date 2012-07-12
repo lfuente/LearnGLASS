@@ -77,7 +77,7 @@
                  $option = $option."mMax=".$conf->mMax."&";
                  $option = $option."mMin=".$conf->mMin."&";
             }
-            //be carfull, view is allways 1 because is necesary the first view to generate second
+            //be careful, view is always 1 because it is necessary for the first view to generate the second
             $option = $option."view=1";
         }
         //link from module menu

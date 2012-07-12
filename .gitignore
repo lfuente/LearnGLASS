@@ -4,6 +4,6 @@
 
 ## Ignored Files ##
 tokenkey.php
-#config.php
+config.php
 installinstance.php
 

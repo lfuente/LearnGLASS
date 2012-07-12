@@ -1,5 +1,5 @@
 <?php
-	define('_APLICATION_TITLE','<b>G</b>radient´s <b>L</b>earning <b>A</b>nalytics <b>S</b>y<b>S</b>tem');
+	define('_APLICATION_TITLE','<b>G</b>radient\'s <b>L</b>earning <b>A</b>nalytics <b>S</b>y<b>S</b>tem');
 	define('_LOGOUT_MSJ','Sesion desconected');
 	define('_MENU','Menu');
     define('_MENU_MODULES','Modules');

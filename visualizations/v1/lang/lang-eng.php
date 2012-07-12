@@ -7,7 +7,7 @@
     define('V1_MSJ5','No Json data');
     define('V1_MSJ6','Events activity');
     define('V1_MSJ7','Events');
-    define('V1_MSJ8','Total daily events');
+    define('V1_MSJ8','Mean daily events');
     define('V1_MSJ9','Add to dashboard');
     define('V1_MSJ10','Add to myView');
     define('V1_MSJ11','Update dashboard');

@@ -8,26 +8,26 @@
     //=========================================================================
     // 1. DATABASE SETUP
     //=========================================================================
-    $CFG->dbhost = '';  // eg 'localhost' o 'it.uc3m.es'
-    $CFG->dbname = '';      // database name, ej GLASS
-    $CFG->dbuser = '';       // your database username
-    $CFG->dbpass = '';       // your database password
-    $CFG->prefix = '';       // prefix to use for all table names
+    $CFG->dbhost = 'localhost';  // eg 'localhost' o 'it.uc3m.es'
+    $CFG->dbname = 'glass';      // database name, ej GLASS
+    $CFG->dbuser = 'root';       // your database username
+    $CFG->dbpass = 'root';       // your database password
+    $CFG->prefix = 'glass_';       // prefix to use for all table names
     
     
     //=========================================================================
     // 2. CONFIGURATION SETUP
     //=========================================================================
     $CFG->adminName = '';
-    $CFG->url = ''; //URL where glass is published
-    $CFG->dir = '';                      //path where glass is locally stored
+    $CFG->url = 'http://localhost/glasstest/'; //URL where glass is published
+    $CFG->dir = '/var/www/glasstest/';                      //path where glass is locally stored
     
     //=========================================================================
     // 3. LDAP SETUP
     //=========================================================================
-    $CFG->LDAPhost = '';          // host or server name
-    $CFG->LDAPport = '';                             // LDAP server port
-    $CFG->LDAPdn = '';   //LDAP dn
+    $CFG->LDAPhost = 'mozart.gast.it.uc3m.es';          // host or server name
+    $CFG->LDAPport = '389';                             // LDAP server port
+    $CFG->LDAPdn = 'ou=people,dc=mozart,dc=local';   //LDAP dn
     
 
 ?>
