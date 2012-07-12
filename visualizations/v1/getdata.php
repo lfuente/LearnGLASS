@@ -31,7 +31,7 @@
             $Akey[count($Akey)]   = $_GET["key$count"];
             $Avalue[count($Avalue)] = $_GET["value$count"];
             $count++;
-        }        
+        }
         
         
         echo get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$id,$datasetId);

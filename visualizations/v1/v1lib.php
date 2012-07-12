@@ -197,7 +197,7 @@
 				$mMinD = gmdate($mMin/1000);
 				$mMaxD = gmdate($mMax/1000);
 				foreach($myArray[$j] as $k1=>$v1){
-					$idate = strtotime($k1);
+					$idate = strtotime($k1." UTC");
 					if($mMinD <= $idate && $idate<=$mMaxD){
 						foreach($myArray[$j][$k1] as $k2=>$v2){
 							if(isset($aux_array[$k2])){
