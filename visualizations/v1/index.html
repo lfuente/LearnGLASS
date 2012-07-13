@@ -1,5 +1,5 @@
 
-<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<meta http-equiv='content-Type' content='text/html; charset=UTF8'/>
 
 <script type="text/javascript" src="../../lib/jquery.js"></script>        
 <script type="text/javascript" src="./js/highstock.js"></script>
@@ -89,14 +89,14 @@ function print_filter(op){
         imgdrop.title = "<? echo V1_MSJ1;?>";
         imgdrop.src = "../../Themes/clasic/drop.png";
         var a1 = document.createElement('a');
-        a1.name = dataAux.name;
+    Â  Â  a1.name = dataAux.name;
         a1.id = i;
-        a1.href = 'javascript:void(0);';
-        a1.addEventListener("click",function(){
+    Â  Â  a1.href = 'javascript:void(0);';
+    Â  Â  a1.addEventListener("click",function(){
             filter_obj_array.splice(this.id,1);       
             document.all.button1.click();
             print_filter(2);
-        },false);
+    Â  Â  },false);
         a1.appendChild(imgdrop);
         div_father.appendChild(a1);
         //Suggest metadata filters DOM
@@ -104,10 +104,10 @@ function print_filter(op){
         imgsug.title = "suggest metadata related to this filter";
         imgsug.src = "css/sugest.png"; 
         var a2 = document.createElement('a');
-        a2.name = type;
+    Â  Â  a2.name = type;
         a2.id = value;
-        a2.href = 'javascript:void(0);';
-        a2.addEventListener("click",function(){
+    Â  Â  a2.href = 'javascript:void(0);';
+    Â  Â  a2.addEventListener("click",function(){
             sugest_text = sugest("../../lib/sugest.php",this.name,this.id,CAMdb);
             sugest_data = eval(sugest_text);
             //We tested if no data
@@ -127,7 +127,7 @@ function print_filter(op){
                 window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000);
                 document.getElementById('sugest').innerHTML = html_response;  
             }
-        },false);
+    Â  Â  },false);
         a2.appendChild(imgsug);
         if(group=="role"){
             div_father.appendChild(a2);

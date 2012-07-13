@@ -45,7 +45,7 @@
 			break;
 		//default language
 		default : 
-			$lang_file = "lang-eng.php"; 
+			$lang_file = "lang-sp.php"; 
 			$lang_glass_file = $CFG->dir."lang/".$lang_file;
 			include_once($lang_glass_file);
             while($data = mysql_fetch_array($result)){

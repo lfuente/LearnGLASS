@@ -14,7 +14,7 @@
     	include("./lib/mainlib.php");
        	echo "<LINK href='./Themes/clasic/style.css' rel='stylesheet' type='text/css'>";
         echo "<LINK href='./Themes/clasic/table.css' rel='stylesheet' type='text/css'>";
-        echo "<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>";
+        echo "<meta http-equiv='content-Type' content='text/html; charset=UTF8'/>";
 
         
         // DB connect

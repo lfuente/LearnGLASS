@@ -1,9 +1,9 @@
 
-<script language='JavaScript' type='text/javascript' src='../../lib/tempfil.js'></script>
+<script type='text/javascript' src='../../lib/tempfil.js'></script>
 <link rel="stylesheet" type="text/css" href="../../Themes/clasic/jscal2.css" />
 <link rel="stylesheet" type="text/css" href="../../Themes/clasic/border-radius.css" />
 <link rel="stylesheet" type="text/css" href="../../Themes/clasic/steel/steel.css" />
-<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+<meta http-equiv='content-Type' content='text/html; charset=UTF8'/>
 <link href='css/style.css' rel='stylesheet' type='text/css' />
 
 <script type="text/javascript">
@@ -232,10 +232,10 @@ function print_data(all_data,temporalFilter,num_entity){
            else num_entity = num_of_entitys; 
         }
         //Create "a" element to delete entity
-        a1 = document.createElement('a');
-        a1.id = "less"
-        a1.href = 'javascript:void(0);';
-        a1.addEventListener("click",function(){
+    Â  Â  a1 = document.createElement('a');
+    Â  Â  a1.id = "less"
+    Â  Â  a1.href = 'javascript:void(0);';
+    Â  Â  a1.addEventListener("click",function(){
             num_entity = document.getElementById(container1).childNodes.length;
             document.getElementById(container1).removeChild(document.getElementById(container1).lastChild);     
             document.getElementById(container2).removeChild(document.getElementById(container2).firstChild);
@@ -251,10 +251,10 @@ function print_data(all_data,temporalFilter,num_entity){
              },false);
           
         //Create "a" element to add entity
-        a2 = document.createElement('a');
+    Â  Â  a2 = document.createElement('a');
         a2.id = "more";
-        a2.href = 'javascript:void(0);';
-        a2.addEventListener("click",function(){
+    Â  Â  a2.href = 'javascript:void(0);';
+    Â  Â  a2.addEventListener("click",function(){
             num_entity = document.getElementById(container1).childNodes.length;
             add_entity_to_container(num_entity,container1,data,"bottom")
             add_entity_to_container(num_of_data-1-num_entity,container2,data,"top")
