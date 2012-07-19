@@ -1,20 +1,20 @@
 
 <meta http-equiv='content-Type' content='text/html; charset=UTF8'/>
 
-<script type="text/javascript" src="../../lib/jquery.js"></script>        
+<script type="text/javascript" src="../../lib/jquery.js"></script>		
 <script type="text/javascript" src="./js/highstock.js"></script>
 <script type="text/javascript" src="./js/themes/grid.js"></script>
 <link href='css/style.css' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="./js/modules/exporting.js"></script>
 
 <script type="text/javascript">
-      
+	  
 
 //Class that store the filter type-value
 function filter(group,type,value){
-    this.group = group;
-    this.type = type;
-    this.value = value;
+	this.group = group;
+	this.type = type;
+	this.value = value;
 }
 
 //Array of filters
@@ -24,309 +24,310 @@ count_time=0;
 
 //Add an objet to the array of filters
 function add_filter(group,type,value){
-    if(value!="none"){
-        if(type=="event_type"){
-            var index = search_filter(group,type,null);
-            if(index==-1){
-                filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
-            }
-            else{
-                filter_obj_array[index].group = group;
-                filter_obj_array[index].type = type;
-                filter_obj_array[index].value = value;
-            }
-            print_filter(1);
-        }
-        else{
-            if(search_filter(group,type,value)==-1){
-                filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
-                print_filter(1);
-            }
-            else{
-                print_filter(3);
-            }
-                
-        }
-        document.all.button1.click();
-    }   
+	if(value!="none"){
+		if(type=="event_type"){
+			var index = search_filter(group,type,null);
+			if(index==-1){
+				filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
+			}
+			else{
+				filter_obj_array[index].group = group;
+				filter_obj_array[index].type = type;
+				filter_obj_array[index].value = value;
+			}
+			print_filter(1);
+		}
+		else{
+			if(search_filter(group,type,value)==-1){
+				filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
+				print_filter(1);
+			}
+			else{
+				print_filter(3);
+			}
+				
+		}
+		document.all.button1.click();
+	}   
 }
 
 //Fetch a filter in the array
 function search_filter(group,type,value){
-    for(i=0;i<filter_obj_array.length;i++){
-        //fetch the first match of a filter type        
-        if(filter_obj_array[i].type==type && filter_obj_array[i].group==group && value==null){
-            return i;
-        }
-        //fetch the filter with an especific value
-        if(filter_obj_array[i].type==type && filter_obj_array[i].group==group && filter_obj_array[i].value==value){
-            return i;
-        }
-    }
-    //if no match
-    return -1;
+	for(i=0;i<filter_obj_array.length;i++){
+		//fetch the first match of a filter type		
+		if(filter_obj_array[i].type==type && filter_obj_array[i].group==group && value==null){
+			return i;
+		}
+		//fetch the filter with an especific value
+		if(filter_obj_array[i].type==type && filter_obj_array[i].group==group && filter_obj_array[i].value==value){
+			return i;
+		}
+	}
+	//if no match
+	return -1;
 }
 
 //Print the list of selected filters
 function print_filter(op){
-    CAMdb = <?php echo $CAMid; ?>;
-    for(i=0;i<filter_obj_array.length;i++){
-        type = filter_obj_array[i].type;
-        value = filter_obj_array[i].value;
-        group = filter_obj_array[i].group;
-        
-        var text_filter = "";
-        var fila = document.getElementById('filterlist').insertRow(i+1);
-        fila.className="table-row";
-        var cadena0=fila.insertCell(0).innerHTML = i+1;
-    	var cadena1=fila.insertCell(1).innerHTML = type;
-        var cadena2=fila.insertCell(2).innerHTML = value;
-        
-        //Create div father and append the options of the table
-        var div_father = document.createElement('div');
-        //Create DOM elements
-        var imgdrop = document.createElement("img");
-        imgdrop.title = "<? echo V1_MSJ1;?>";
-        imgdrop.src = "../../Themes/clasic/drop.png";
-        var a1 = document.createElement('a');
-        a1.name = dataAux.name;
-        a1.id = i;
-        a1.href = 'javascript:void(0);';
-        a1.addEventListener("click",function(){
-            filter_obj_array.splice(this.id,1);       
-            document.all.button1.click();
-            print_filter(2);
-        },false);
-        a1.appendChild(imgdrop);
-        div_father.appendChild(a1);
-        //Suggest metadata filters DOM
-        /*var imgsug = document.createElement("img");
-        imgsug.title = "suggest metadata related to this filter";
-        imgsug.src = "css/sugest.png"; 
-        var a2 = document.createElement('a');
-        a2.name = type;
-        a2.id = value;
-        a2.href = 'javascript:void(0);';
-        a2.addEventListener("click",function(){
-            sugest_text = sugest("../../lib/sugest.php",this.name,this.id,CAMdb);
-            sugest_data = eval(sugest_text);
-            //We tested if no data
-            if(sugest_data[0].text!="none"){
-                html_response = sugest_data[0].text;
-                document.getElementById('sugest').innerHTML = html_response;
-                window.setTimeout("document.getElementById('sugest').innerHTML=''",5000);
-            }
-            //if there is data
-            else{
-                html_response = "";
-                for(i=0;i<sugest_data.length;i++){
-                    dataAux = sugest_data[i];
-                    html_response += '<a href="" onclick="add_filter(\''+dataAux.group+'\',\''+dataAux.key+'\',\''+dataAux.value+'\'); return false; ">'+dataAux.key+': '+dataAux.value+'</a><br>';
-                }
-                document.getElementById("msg-info").innerHTML = "Links to metadata of "+this.name+" "+this.id+" has been created!";
-                window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000);
-                document.getElementById('sugest').innerHTML = html_response;  
-            }
-        },false);
-        a2.appendChild(imgsug);
-        if(group=="role"){
-            div_father.appendChild(a2);
-        }*/
-        
-        
-        
-              
-        //Apend div to the cell
-        fila.insertCell(3).appendChild(div_father);
-        
-        
-    }
-    len = document.getElementById("filterlist").rows.length;
-    for(var i=len-1; i > filter_obj_array.length; i--){
-        document.getElementById("filterlist").deleteRow(i);
-    }
-    //print info messagge
-    if(op==1){
-        document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ2;?>";
-    }
-    else if(op==2){
-        document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ3;?>";
-    }
-    else{
-        document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ4;?>";
-    }
-    window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000); 
+	CAMdb = <?php echo $CAMid; ?>;
+	for(i=0;i<filter_obj_array.length;i++){
+		type = filter_obj_array[i].type;
+		value = filter_obj_array[i].value;
+		group = filter_obj_array[i].group;
+		
+		var text_filter = "";
+		var fila = document.getElementById('filterlist').insertRow(i+1);
+		fila.className="table-row";
+		var cadena0=fila.insertCell(0).innerHTML = i+1;
+		var cadena1=fila.insertCell(1).innerHTML = type;
+		var cadena2=fila.insertCell(2).innerHTML = value;
+		
+		//Create div father and append the options of the table
+		var div_father = document.createElement('div');
+		//Create DOM elements
+		var imgdrop = document.createElement("img");
+		imgdrop.title = "<? echo V1_MSJ1;?>";
+		imgdrop.src = "../../Themes/clasic/drop.png";
+		var a1 = document.createElement('a');
+	    a1.name = dataAux.name;
+		a1.id = i;
+	    a1.href = 'javascript:void(0);';
+	    a1.addEventListener("click",function(){
+			filter_obj_array.splice(this.id,1);	   
+			document.all.button1.click();
+			print_filter(2);
+	    },false);
+		a1.appendChild(imgdrop);
+		div_father.appendChild(a1);
+		//Suggest metadata filters DOM
+		/*var imgsug = document.createElement("img");
+		imgsug.title = "suggest metadata related to this filter";
+		imgsug.src = "css/sugest.png"; 
+		var a2 = document.createElement('a');
+	    a2.name = type;
+		a2.id = value;
+	    a2.href = 'javascript:void(0);';
+	    a2.addEventListener("click",function(){
+			sugest_text = sugest("../../lib/sugest.php",this.name,this.id,CAMdb);
+			sugest_data = eval(sugest_text);
+			//We tested if no data
+			if(sugest_data[0].text!="none"){
+				html_response = sugest_data[0].text;
+				document.getElementById('sugest').innerHTML = html_response;
+				window.setTimeout("document.getElementById('sugest').innerHTML=''",5000);
+			}
+			//if there is data
+			else{
+				html_response = "";
+				for(i=0;i<sugest_data.length;i++){
+					dataAux = sugest_data[i];
+					html_response += '<a href="" onclick="add_filter(\''+dataAux.group+'\',\''+dataAux.key+'\',\''+dataAux.value+'\'); return false; ">'+dataAux.key+': '+dataAux.value+'</a><br>';
+				}
+				document.getElementById("msg-info").innerHTML = "Links to metadata of "+this.name+" "+this.id+" has been created!";
+				window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000);
+				document.getElementById('sugest').innerHTML = html_response;  
+			}
+	    },false);
+		a2.appendChild(imgsug);
+		if(group=="role"){
+			div_father.appendChild(a2);
+		}*/
+		
+		
+		
+			  
+		//Apend div to the cell
+		fila.insertCell(3).appendChild(div_father);
+		
+		
+	}
+	len = document.getElementById("filterlist").rows.length;
+	for(var i=len-1; i > filter_obj_array.length; i--){
+		document.getElementById("filterlist").deleteRow(i);
+	}
+	//print info messagge
+	if(op==1){
+		document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ2;?>";
+	}
+	else if(op==2){
+		document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ3;?>";
+	}
+	else{
+		document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ4;?>";
+	}
+	window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000); 
 }
 
 
-//Get datha of the first graph
+//Get data of the first graph
 function get_data(page)
 {
-    ajaxv1=objetoAjax();
+	ajaxv1=objetoAjax();
 	ajaxv1.open("GET", page);
 	ajaxv1.onreadystatechange=function() 
-    {
-        if (ajaxv1.readyState==4)
-        {
-            //document.getElementById("error").innerHTML = ajaxv1.responseText;
-            //alert(ajaxv1.responseText);
-            data = eval(ajaxv1.responseText);
-            if(data!=null)
-            {
-                ///////////////////
-                //Set form values//
-                ///////////////////
-                //only for load of the page
-                if(count_time==0)
-                {
-                    for(var j=1; j < data.length; j++){
-                        dataAux = data[j]; 
-                        if(dataAux.dvalue!="all"){
-                            add_filter(dataAux.dgroup,dataAux.dkey,dataAux.dvalue);
-                        }
-                    }
-                    count_time++;
-                }
-                                  
-                
-                /////////////////////////////
-                //Generate the grpah values//
-                /////////////////////////////
-                var numwidget = data[0].id;
-                mMax = parseInt(data[0].mMax);
-                mMin = parseInt(data[0].mMin);               
-                app = data[0].app;
-                maxminnumber = 0;
-                var graphs = new Array();
-                var maxarray = new Array();
-                var minarray = new Array();  
-                //generate the serie
-                for(var j=1; j < data.length; j++){          
-                    var data_grph=new Array();
-                    dataAux = data[j];
-                    var name = dataAux.dkey+" "+dataAux.dvalue; //name of he serie                       
-                    //Check if this search have data
-                    if(dataAux.date[0] == null){
-                        //Create a graph without data
-                        data_grph = [[mMin,0],[mMax,0]];
-                        theminAux = mMin;
-                        themaxAux = mMax;
-                    }
-                    //Check if there is a second data
-                    else if(dataAux.date[1] == null)
-                    {
-                        var myDate = new Date(dataAux.date[0]);
-                        var myDateB = new Date(dataAux.date[0]);
-                        var myDateA = new Date(dataAux.date[0]);
-                        myDateB.setDate(myDateB.getDate()-1);
-                        myDateA.setDate(myDateA.getDate()+1);
-                        UTCmyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                        UTCmyDateB = Date.UTC(myDateB.getYear()+1900,myDateB.getMonth(),myDateB.getDate());
-                        UTCmyDateA = Date.UTC(myDateA.getYear()+1900,myDateA.getMonth(),myDateA.getDate());
-                        myValue = parseInt(dataAux.value[0]);
-                        if(mMin<UTCmyDateB){
-                            if(mMax>UTCmyDateA){
-                                data_grph = [[mMin,0],[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0],[mMax,0]];    
-                                theminAux = mMin;
-                                themaxAux = mMax;
-                            }
-                            else{
-                                data_grph = [[mMin,0],[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0]];
-                                theminAux = mMin;
-                                themaxAux = mMax = UTCmyDateA;
-                            }
-                            
-                        }
-                        else{
-                            if(mMax>UTCmyDateA){
-                                data_grph = [[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0],[mMax,0]];    
-                                theminAux = mMin = UTCmyDateB;
-                                themaxAux = mMax;
-                            }
-                            else{
-                                data_grph = [[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0]];
-                                theminAux = mMin = UTCmyDateB;
-                                themaxAux = mMax = UTCmyDateA; 
-                            }
-                        } 
-                    }
-                    //More than 2 datas
-                    else
-                    {
-                        writedata = 0; //point of serie dates
-                        pointdata = 0; //point of dates  
-                        //date converter  
-                        var DateMin = new Date(dataAux.date[0]);
-                        var DateMax = new Date(dataAux.date[dataAux.date.length-1]);
-                        var DateAux = new Date(dataAux.date[0]);                                      
-                        var myDate = new Date(dataAux.date[pointdata]);
-                        //convert to utc date
-                        utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                        utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());             
-                        //generate the values of the serie
-                        while(pointdata<dataAux.value.length)
-                        {
-                            //there isn't a data in this day
-                            if(utcAux<utcMyDate)
-                            {
-                                data_grph[writedata]=new Array(2);
-                                data_grph[writedata][0]= utcAux;
-                                data_grph[writedata][1]= 0;
-                                writedata++;
-                                DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-                                utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
-                            }
-                            //there is a data in this day
-                            else if(utcAux == utcMyDate)
-                            {
-                                data_grph[writedata]=new Array(2);
-                                data_grph[writedata][0]= utcAux;
-                                data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
-                                writedata++;
-                                pointdata++;
-                                DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-                                var myDate = new Date(dataAux.date[pointdata]);
-                                utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                                utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
-                            }
-                        }
-                        theminAux = data_grph[0][0];
-                        themaxAux = data_grph[writedata-1][0]; 
-                    }
-                    
-                    //Get min and max value of each serie
-                    if(j==1){
-                        themin = theminAux;
-                        themax = themaxAux;
-                    } 
-                    else{
-                        if(theminAux<themin){
-                            themin = theminAux;
-                        }
-                        if(themaxAux>themax){
-                            themax = themaxAux;
-                        }
-                    }
-                    
-                    //generate the serie
-                    graphs[j-1] = {
-        				name: name,
-        				data: data_grph
-        			};
-                }
-                //Check is margins are betwen the max and min date
-                if(themin > mMin || isNaN(mMin)){
-                    mMin = themin;
-                }
-                if(themax < mMax || isNaN(mMax)){
-                    mMax = themax;
-                }  
-                create_chart(graphs,mMin,mMax,app);      
-            }
-            else {
-                document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ5;?>";
-            }
-        }
+	{
+		if (ajaxv1.readyState==4)
+		{
+			//document.getElementById("error").innerHTML = ajaxv1.responseText;
+			//alert(ajaxv1.responseText);
+			data = eval(ajaxv1.responseText);
+			if(data!=null)
+			{
+				///////////////////
+				//Set form values//
+				///////////////////
+				//only for load of the page
+				if(count_time==0)
+				{
+					for(var j=1; j < data.length; j++){
+						dataAux = data[j];
+						if(dataAux.dvalue!="all"){
+							add_filter(dataAux.dgroup,dataAux.dkey,dataAux.dvalue);
+						}
+					}
+					count_time++;
+				}
+								  
+				
+				/////////////////////////////
+				//Generate the grpah values//
+				/////////////////////////////
+				var numwidget = data[0].id;
+				mMax = parseInt(data[0].mMax);
+				mMin = parseInt(data[0].mMin);			   
+				app = data[0].app;
+				maxminnumber = 0;
+				var graphs = new Array();
+				var maxarray = new Array();
+				var minarray = new Array();  
+				//generate the serie
+				//TODO check this for (j=0? j<=data.length?)
+				for(var j=1; j < data.length; j++){		  
+					var data_grph=new Array();
+					dataAux = data[j];
+					var name = dataAux.dkey+" "+dataAux.dvalue; //name of he serie					   
+					//Check if this search have data
+					if(dataAux.date[0] == null){
+						//Create a graph without data
+						data_grph = [[mMin,0],[mMax,0]];
+						theminAux = mMin;
+						themaxAux = mMax;
+					}
+					//Check if there is a second data
+					else if(dataAux.date[1] == null)
+					{
+						var myDate = new Date(dataAux.date[0]);
+						var myDateB = new Date(dataAux.date[0]);
+						var myDateA = new Date(dataAux.date[0]);
+						myDateB.setDate(myDateB.getDate()-1);
+						myDateA.setDate(myDateA.getDate()+1);
+						UTCmyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+						UTCmyDateB = Date.UTC(myDateB.getYear()+1900,myDateB.getMonth(),myDateB.getDate());
+						UTCmyDateA = Date.UTC(myDateA.getYear()+1900,myDateA.getMonth(),myDateA.getDate());
+						myValue = parseInt(dataAux.value[0]);
+						if(mMin<UTCmyDateB){
+							if(mMax>UTCmyDateA){
+								data_grph = [[mMin,0],[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0],[mMax,0]];	
+								theminAux = mMin;
+								themaxAux = mMax;
+							}
+							else{
+								data_grph = [[mMin,0],[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0]];
+								theminAux = mMin;
+								themaxAux = mMax = UTCmyDateA;
+							}
+							
+						}
+						else{
+							if(mMax>UTCmyDateA){
+								data_grph = [[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0],[mMax,0]];	
+								theminAux = mMin = UTCmyDateB;
+								themaxAux = mMax;
+							}
+							else{
+								data_grph = [[UTCmyDateB,0],[UTCmyDate,myValue],[UTCmyDateA,0]];
+								theminAux = mMin = UTCmyDateB;
+								themaxAux = mMax = UTCmyDateA; 
+							}
+						} 
+					}
+					//More than 2 datas
+					else
+					{
+						writedata = 0; //point of serie dates
+						pointdata = 0; //point of dates  
+						//date converter  
+						var DateMin = new Date(dataAux.date[0]);
+						var DateMax = new Date(dataAux.date[dataAux.date.length-1]);
+						var DateAux = new Date(dataAux.date[0]);									  
+						var myDate = new Date(dataAux.date[pointdata]);
+						//convert to utc date
+						utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+						utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());			 
+						//generate the values of the serie
+						while(pointdata<dataAux.value.length)
+						{
+							//there isn't a data in this day
+							if(utcAux<utcMyDate)
+							{
+								data_grph[writedata]=new Array(2);
+								data_grph[writedata][0]= utcAux;
+								data_grph[writedata][1]= 0;
+								writedata++;
+								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+							}
+							//there is a data in this day
+							else if(utcAux == utcMyDate)
+							{
+								data_grph[writedata]=new Array(2);
+								data_grph[writedata][0]= utcAux;
+								data_grph[writedata][1]= parseFloat(dataAux.value[pointdata]);
+								writedata++;
+								pointdata++;
+								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+								var myDate = new Date(dataAux.date[pointdata]);
+								utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+							}
+						}
+						theminAux = data_grph[0][0];
+						themaxAux = data_grph[writedata-1][0]; 
+					}
+					
+					//Get min and max value of each serie
+					if(j==1){
+						themin = theminAux;
+						themax = themaxAux;
+					} 
+					else{
+						if(theminAux<themin){
+							themin = theminAux;
+						}
+						if(themaxAux>themax){
+							themax = themaxAux;
+						}
+					}
+					
+					//generate the serie
+					graphs[j-1] = {
+						name: name,
+						data: data_grph
+					};
+				}
+				//Check is margins are betwen the max and min date
+				if(themin > mMin || isNaN(mMin)){
+					mMin = themin;
+				}
+				if(themax < mMax || isNaN(mMax)){
+					mMax = themax;
+				}  
+				create_chart(graphs,mMin,mMax,app);	  
+			}
+			else {
+				document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ5;?>";
+			}
+		}
 	}
 	ajaxv1.send(null);
 }
@@ -338,123 +339,123 @@ function get_data2(page)
 	ajaxv2=objetoAjax();
 	ajaxv2.open("GET", page);
 	ajaxv2.onreadystatechange=function() 
-    {
-        if (ajaxv2.readyState==4)
-        {
-            //document.getElementById("error").innerHTML = ajaxv2.responseText;
-            //alert(ajaxv2.responseText);
-            data = eval(ajaxv2.responseText);
-            if(data!=null)
-            {
-                ///////////////////////////
-                //Generate de bars values//
-                ///////////////////////////
-                var bars = [];
-                var AllCat = [];
-                var catBigger = [];
-                var cat = [];
-                var max_bars = 5 //max number of programs to visualize(DEFINE)
-                var max_posible_bars = 0 //max posibles bars 
-                var bigger = 0; //bigger value of the serie
-                var jbigger = 1; //id of the bigger value
-                var DateMin = new Date(parseInt(data[0].mMin));
-                var DateMax = new Date(parseInt(data[0].mMax));
-                var mMinString = DateMin.getDate()+"/"+(DateMin.getMonth()+1)+"/"+DateMin.getFullYear();       
-                var mMaxString = DateMax.getDate()+"/"+(DateMax.getMonth()+1)+"/"+DateMax.getFullYear(); 
-                var interval = mMinString+' to '+ mMaxString;
-                //Fetch all the diferent categories
-                pointer=0;
-                for(var i=1; i < data.length; i++){
-                    for(var j=0; j < data[i].bdn.length; j++){
-                        //add the first value
-                        if(i==1 && j==0){
-                            AllCat[pointer]=data[i].bdn[j];
-                            pointer++;
-                        }
-                        //next values
-                        else{
-                            var cat_fetched = 0;
-                            //fetch match
-                            for(var k=0; k < cat.length; k++){
-                                if(cat[k]==data[i].bdn[j]){
-                                    cat_fetched = 1;
-                                    break;
-                                }
-                            }
-                            //no match
-                            if(cat_fetched==0){
-                                AllCat[pointer]=data[i].bdn[j];
-                                pointer++;
-                            }          
-                        }
-                    }
-                }
-                //Fetch the serie with the bigger value
-                for(var j=1; j < data.length; j++){
-                    if(bigger<=data[j].bdv[0]){
-                        bigger = data[j].bdv[0];
-                        jbigger = j;
-                    }
-                }
-                //Set max_bars
-                if(AllCat.length < max_bars) max_bars = AllCat.length;
-                //sort categories to print
-                for(var i=0; i < data[jbigger].bdn.length; i++){
-                    catBigger[i]=data[jbigger].bdn[i];
-                    for(var j=0;j<AllCat.length;j++){
-                        if(catBigger[i]==AllCat[j]){
-                            AllCat.splice(j,1);
-                            break;
-                        }    
-                    }
-                }
-                for(var i=0;i<max_bars;i++){
-                    if(i<catBigger.length){
-                        cat[i]=catBigger[i];
-                    }
-                    else{
-                        cat[i]=AllCat[i-catBigger.length];
-                    }
-                }
-                
-                //generate each serie
-                for(var j=1; j < data.length; j++)
-                {
-                    var data_grph=new Array();
-                    dataAux = data[j]; 
-                    var name = dataAux.dkey+" "+dataAux.dvalue; //name of the srie
-                    //for each category
-                    for(var i=0; i < max_bars; i++)
-                    {
-                        //serch the value
-                        for(var k=0; k < dataAux.bdn.length; k++)
-                        {
-                            //set the value
-                            if(dataAux.bdn[k]==cat[i])
-                            {
-                                data_grph[i] = dataAux.bdv[k];
-                                break;
-                            }
-                        }
-                        //if it doesn't have value
-                        if(data_grph[i]==null)
-                            data_grph[i]=0;
-                    }
-                    //generate the serie
-                    bars[j-1] = {
-        				name: name,
-        				data: data_grph
-                    }
-                }
-                
-                //Print the chart
-                create_bst_chart(bars,cat,interval);
-                
-            }
-            else{
-                document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ5;?>";
-            }   
-        }
+	{
+		if (ajaxv2.readyState==4)
+		{
+			//document.getElementById("error").innerHTML = ajaxv2.responseText;
+			//alert(ajaxv2.responseText);
+			data = eval(ajaxv2.responseText);
+			if(data!=null)
+			{
+				///////////////////////////
+				//Generate de bars values//
+				///////////////////////////
+				var bars = [];
+				var AllCat = [];
+				var catBigger = [];
+				var cat = [];
+				var max_bars = 5 //max number of programs to visualize(DEFINE)
+				var max_posible_bars = 0 //max posibles bars 
+				var bigger = 0; //biggest value of the serie
+				var jbigger = 1; //id of the biggest value
+				var DateMin = new Date(parseInt(data[0].mMin));
+				var DateMax = new Date(parseInt(data[0].mMax));
+				var mMinString = DateMin.getDate()+"/"+(DateMin.getMonth()+1)+"/"+DateMin.getFullYear();	   
+				var mMaxString = DateMax.getDate()+"/"+(DateMax.getMonth()+1)+"/"+DateMax.getFullYear(); 
+				var interval = mMinString+' to '+ mMaxString;
+				//Fetch all the diferent categories
+				pointer=0;
+				for(var i=1; i < data.length; i++){
+					for(var j=0; j < data[i].bdn.length; j++){
+						//add the first value
+						if(i==1 && j==0){
+							AllCat[pointer]=data[i].bdn[j];
+							pointer++;
+						}
+						//next values
+						else{
+							var cat_fetched = 0;
+							//fetch match
+							for(var k=0; k < cat.length; k++){
+								if(cat[k]==data[i].bdn[j]){
+									cat_fetched = 1;
+									break;
+								}
+							}
+							//no match
+							if(cat_fetched==0){
+								AllCat[pointer]=data[i].bdn[j];
+								pointer++;
+							}		  
+						}
+					}
+				}
+				//Fetch the serie with the bigger value
+				for(var j=1; j < data.length; j++){
+					if(bigger<=data[j].bdv[0]){
+						bigger = data[j].bdv[0];
+						jbigger = j;
+					}
+				}
+				//Set max_bars
+				if(AllCat.length < max_bars) max_bars = AllCat.length;
+				//sort categories to print
+				for(var i=0; i < data[jbigger].bdn.length; i++){
+					catBigger[i]=data[jbigger].bdn[i];
+					for(var j=0;j<AllCat.length;j++){
+						if(catBigger[i]==AllCat[j]){
+							AllCat.splice(j,1);
+							break;
+						}	
+					}
+				}
+				for(var i=0;i<max_bars;i++){
+					if(i<catBigger.length){
+						cat[i]=catBigger[i];
+					}
+					else{
+						cat[i]=AllCat[i-catBigger.length];
+					}
+				}
+				
+				//generate each serie
+				for(var j=1; j < data.length; j++)
+				{
+					var data_grph=new Array();
+					dataAux = data[j]; 
+					var name = dataAux.dkey+" "+dataAux.dvalue; //name of the srie
+					//for each category
+					for(var i=0; i < max_bars; i++)
+					{
+						//serch the value
+						for(var k=0; k < dataAux.bdn.length; k++)
+						{
+							//set the value
+							if(dataAux.bdn[k]==cat[i])
+							{
+								data_grph[i] = dataAux.bdv[k];
+								break;
+							}
+						}
+						//if it doesn't have value
+						if(data_grph[i]==null)
+							data_grph[i]=0;
+					}
+					//generate the serie
+					bars[j-1] = {
+						name: name,
+						data: data_grph
+					}
+				}
+				
+				//Print the chart
+				create_bst_chart(bars,cat,interval);
+				
+			}
+			else{
+				document.getElementById("msg-info").innerHTML = "<? echo V1_MSJ5;?>";
+			}   
+		}
 	}
 	ajaxv2.send(null);
 }
@@ -470,360 +471,360 @@ function get_data2(page)
 function create_bst_chart(bars,cat,interval)
 {
 
-    Bchart = new Highcharts.Chart({
-      chart: {
-         renderTo: 'container2',
-         defaultSeriesType: 'column'
-      },
-      title: {
-         text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ6;?>'
-      },
-      subtitle: {
-         text: interval
-      },
-      
-      plotOptions: {
-         column: {
-            cursor: 'pointer',
-            point: {
-               events: {
-                  click: function() {
-                    var cat_index = this.x;
-                    add_filter("event_type","event_type",cat[cat_index])
-                  }
-               }
-            }
-         },
-      },
-      
-      xAxis: {
-         categories: cat,
-         labels: {
-            rotation: -25,
-            align: 'right'
-         }
-      },
-       yAxis: {
-         title: {
-            text: '#<? echo V1_MSJ7;?>'
-         }
-      },
-      tooltip: {
-         formatter: function() {
-            return ''+
-                this.series.name +': '+ this.y +'';
-         }
-      },
-      credits: {
-         enabled: false
-      },
-      series: bars
-    });
-    if(bars==null)
-    {
-        Bchart.showLoading();
-    }    
+	Bchart = new Highcharts.Chart({
+	  chart: {
+		 renderTo: 'container2',
+		 defaultSeriesType: 'column'
+	  },
+	  title: {
+		 text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ6;?>'
+	  },
+	  subtitle: {
+		 text: interval
+	  },
+	  
+	  plotOptions: {
+		 column: {
+			cursor: 'pointer',
+			point: {
+			   events: {
+				  click: function() {
+					var cat_index = this.x;
+					add_filter("event_type","event_type",cat[cat_index])
+				  }
+			   }
+			}
+		 },
+	  },
+	  
+	  xAxis: {
+		 categories: cat,
+		 labels: {
+			rotation: -25,
+			align: 'right'
+		 }
+	  },
+	   yAxis: {
+		 title: {
+			text: '#<? echo V1_MSJ7;?>'
+		 }
+	  },
+	  tooltip: {
+		 formatter: function() {
+			return ''+
+				this.series.name +': '+ this.y +'';
+		 }
+	  },
+	  credits: {
+		 enabled: false
+	  },
+	  series: bars
+	});
+	if(bars==null)
+	{
+		Bchart.showLoading();
+	}	
 }
 
 function get_string_generate(camId,mMax,mMin,view)
 {
-    //Extract the GET values of the form
-    var options = "CAMid="+camId;
-    point=0;
-    for(var i=0; i<filter_obj_array.length ; i++)
-    {
-        if(filter_obj_array[i].value != "none")
-        {
-                point++;
-                options += "&group"+point+"="+filter_obj_array[i].group+"&key"+point+"="+filter_obj_array[i].type+"&value"+point+"="+filter_obj_array[i].value;
-        }
-    }     
-    options += "&mMax="+mMax+"&mMin="+mMin+"&view="+view;
-    return options;
+	//Extract the GET values of the form
+	var options = "CAMid="+camId;
+	point=0;
+	for(var i=0; i<filter_obj_array.length ; i++)
+	{
+		if(filter_obj_array[i].value != "none")
+		{
+				point++;
+				options += "&group"+point+"="+filter_obj_array[i].group+"&key"+point+"="+filter_obj_array[i].type+"&value"+point+"="+filter_obj_array[i].value;
+		}
+	}	 
+	options += "&mMax="+mMax+"&mMin="+mMin+"&view="+view;
+	return options;
 }
 
 
 function json_string_generate(mMax,mMin,view)
 {
-    //Create the Json format to save the values in the DDBB
-    var JsonOptions = '{';
-    var jgroup = '[';
-    var jkey = '[';
-    var jvalue = '[';
-    var count =0;                                                           
-    for(var i=0; i< filter_obj_array.length ; i++)
-    {
-        if(filter_obj_array[i].value != "none")
-        {
-            jgroup += '"'+filter_obj_array[i].group+'",';
-            jkey += '"'+filter_obj_array[i].type+'",';
-            jvalue += '"'+filter_obj_array[i].value+'",';
-            count++;                      
-        }                                      
-    }
-    if(count==0){
-        jgroup += "]"; 
-        jkey += "]"; 
-        jvalue += "]";
-    }
-    else{
-        jgroup = jgroup.substring(0,jgroup.length-1)+"]";
-        jkey = jkey.substring(0,jkey.length-1)+"]"; 
-        jvalue = jvalue.substring(0,jvalue.length-1)+"]";
-    }
-    JsonOptions += '"group":'+jgroup+',"key":'+jkey+',"value":'+jvalue+',';
-    JsonOptions += '"mMax":"'+mMax+'","mMin":"'+mMin+'","view":"'+view+'"';
-    JsonOptions += '}';
-    return JsonOptions;
+	//Create the Json format to save the values in the DDBB
+	var JsonOptions = '{';
+	var jgroup = '[';
+	var jkey = '[';
+	var jvalue = '[';
+	var count =0;														   
+	for(var i=0; i< filter_obj_array.length ; i++)
+	{
+		if(filter_obj_array[i].value != "none")
+		{
+			jgroup += '"'+filter_obj_array[i].group+'",';
+			jkey += '"'+filter_obj_array[i].type+'",';
+			jvalue += '"'+filter_obj_array[i].value+'",';
+			count++;					  
+		}									  
+	}
+	if(count==0){
+		jgroup += "]"; 
+		jkey += "]"; 
+		jvalue += "]";
+	}
+	else{
+		jgroup = jgroup.substring(0,jgroup.length-1)+"]";
+		jkey = jkey.substring(0,jkey.length-1)+"]"; 
+		jvalue = jvalue.substring(0,jvalue.length-1)+"]";
+	}
+	JsonOptions += '"group":'+jgroup+',"key":'+jkey+',"value":'+jvalue+',';
+	JsonOptions += '"mMax":"'+mMax+'","mMin":"'+mMin+'","view":"'+view+'"';
+	JsonOptions += '}';
+	return JsonOptions;
 }
 
 
 
-//generate the grap highcharts view      
-function create_chart(data,mMin,mMax,app)
-{  
-    var chart = new Highcharts.StockChart
-    ({
-        chart: {
-            renderTo: 'container1',
-        },
-        credits: {
-            enabled: true
-        },
-	    title: {
-	        text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ8;?>'
-	    },
-        subtitle: {
-                    text: '<? echo V1_MSJ7;?>: '+app
-        },
-	    xAxis: {
-	        maxZoom: 14 * 24 * 3600000, // fourteen days
-            events: {
-                setExtremes: function(e) {
-                    create_bst_chart(null,null);
-                    var mMax = e.max;
-                    var mMin = e.min;
-                    var camId = <?php echo $CAMid; ?>;
-                    //build the diferent chanis
-                    options = get_string_generate(camId,mMax,mMin,2);           
-                    get_data2("getdata.php?"+options);
-                }
-            }
-	    },
-	    yAxis: {
-	        title: {
-	            text: '#<? echo V1_MSJ7;?>'
-	        }
-	    }, 
-        rangeSelector: {
-            buttons: 
-            [
-                {
-                    inputEnabled: true,
-                	type: 'day',
-                	count: 7,
-                	text: '1w'
-                },
-                {
-                    inputEnabled: true,
-                	type: 'month',
-                	count: 1,
-                	text: '1m'
-                }, 
-                {
-                	type: 'month',
-                	count: 3,
-                	text: '3m'
-                }, 
-                {
-                	type: 'all',
-                	text: 'All'
-                }
-            ]
-        },
-        legend: {
-            enabled: true,
-            align: 'center',
-            borderColor: 'black',
-            borderWidth: 1,
-            layout: 'horizontal',
-            verticalAlign: 'top',
-            y: 40,
-            shadow: true
-        },
-        series: data
-    });
-    
-    if(mMax!=null && mMin!=null)
-    {
-        //I don`t know why but it is necesary two times execution to get a correct operation 
-        chart.xAxis[0].setExtremes(mMin,mMax);
-        chart.xAxis[0].setExtremes(mMin,mMax);
-    }   
+//generate the grap highcharts view	  
+function create_chart(data,mMin,mMax,app){
+	var chart = new Highcharts.StockChart
+	({
+		chart: {
+			renderTo: 'container1',
+		},
+		credits: {
+			enabled: true
+		},
+		title: {
+			text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ8;?>'
+		},
+		subtitle: {
+					text: '<? echo V1_MSJ7;?>: '+app
+		},
+		xAxis: {
+			maxZoom: 14 * 24 * 3600000, // fourteen days
+			events: {
+				setExtremes: function(e) {
+					create_bst_chart(null,null);
+					var mMax = e.max;
+					var mMin = e.min;
+					var camId = <?php echo $CAMid; ?>;
+					//build the diferent chanis
+					options = get_string_generate(camId,mMax,mMin,2);		   
+					get_data2("getdata.php?"+options);
+				}
+			}
+		},
+		yAxis: {
+			title: {
+				text: '#<? echo V1_MSJ7;?>'
+			}
+		}, 
+		rangeSelector: {
+			buttons: 
+			[
+				{
+					inputEnabled: true,
+					type: 'day',
+					count: 7,
+					text: '1w'
+				},
+				{
+					inputEnabled: true,
+					type: 'month',
+					count: 1,
+					text: '1m'
+				}, 
+				{
+					type: 'month',
+					count: 3,
+					text: '3m'
+				}, 
+				{
+					type: 'all',
+					text: 'All'
+				}
+			]
+		},
+		legend: {
+			enabled: true,
+			align: 'center',
+			borderColor: 'black',
+			borderWidth: 1,
+			layout: 'horizontal',
+			verticalAlign: 'top',
+			y: 40,
+			shadow: true
+		},
+		series: data
+	});
 
-    count=0;
-    puls++;
-    //Get data button, this button is hidden and it is pushed automatically
-    $('#button1').click(function() 
-    { 
-        if(count==puls-1)
-        {
-            chart.showLoading();
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            options = get_string_generate(camId,mMax,mMin,1);      
-            get_data("getdata.php?"+options);
-        }
-        count++;
-    });
-    
-    
-    
-    
-    //add to dshboard line graph
-    $('#button2').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=1;
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/todashboard.php",camId);
-            count=-1;
-        }
-        count++;
-    });
-    
-    
-    //add to dshboard bar graph
-    $('#button3').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=2;
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/todashboard.php",camId);
-            count=-1;
-        }
-        count++;      
-    });
-    
-      
-    //add to myview bar graph
-    $('#acept').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op = document.myfviewform.hidefield.value;
-            name = document.myfviewform.name.value;
-            des = document.myfviewform.des.value;
-            document.getElementById("capaFondo1").style.visibility="hidden";
-        	document.getElementById("capaVentana").style.visibility="hidden";
-        	document.myfviewform.blur();
-            
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/tomyview.php",camId,name,des);
-            count=-1;
-        }
-        count++;    
-    });
-    
-    
-    //update the dashboard widget view 1
-    $('#update1').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=1;
-            dashId = <?php echo $confiId; ?>;
-            
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/updatedash.php",camId,null,null,dashId);
-            count=-1;
-        }
-        count++;    
-    }); 
-    
-    
-    //update the dashboard widget view 2
-    $('#update2').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=2;
-            dashId = <?php echo $confiId; ?>;
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/updatedash.php",camId,null,null,dashId);
-            count=-1;
-        }
-        count++;      
-    });
-    
-    
-    //update the my favorite view 1
-    $('#update3').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=1;
-            fviewId = <?php echo $fconfId; ?>;
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/updaterfview.php",camId,null,null,fviewId);
-            count=-1;
-        }
-        count++;    
-    });
-    
-        //update the my favorite view 2
-    $('#update4').click(function() 
-    {
-        if(count==puls-1)
-        {
-            op=2;
-            fviewId = <?php echo $fconfId; ?>;
-            var mMax = chart.xAxis[0].getExtremes().max;
-            var mMin = chart.xAxis[0].getExtremes().min;
-            var camId = <?php echo $CAMid; ?>;
-            //build the diferent chanis
-            joption = json_string_generate(mMax,mMin,op);
-            //Execute the process with each string
-            add_to_page_said(joption,"v1","../../lib/updaterfview.php",camId,null,null,fviewId);
-            count=-1;
-        }
-        count++;    
-    }); 
-      
+	if(mMax!=null && mMin!=null)
+	{
+		//I don`t know why but it is necesary two times execution to get a correct operation 
+		//chart.xAxis[0].setExtremes(mMin,mMax);
+		chart.xAxis[0].setExtremes(mMin,mMax);
+	}   
+
+	count=0;
+	puls++;
+	//Get data button, this button is hidden and it is pushed automatically
+	$('#button1').click(function() 
+	{ 
+		if(count==puls-1)
+		{
+			chart.showLoading();
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			options = get_string_generate(camId,mMax,mMin,1);	  
+			get_data("getdata.php?"+options);
+			console.log(data);
+		}
+		count++;
+	});
+	
+	
+	
+	
+	//add to dshboard line graph
+	$('#button2').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=1;
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/todashboard.php",camId);
+			count=-1;
+		}
+		count++;
+	});
+	
+	
+	//add to dshboard bar graph
+	$('#button3').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=2;
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/todashboard.php",camId);
+			count=-1;
+		}
+		count++;	  
+	});
+	
+	  
+	//add to myview bar graph
+	$('#acept').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op = document.myfviewform.hidefield.value;
+			name = document.myfviewform.name.value;
+			des = document.myfviewform.des.value;
+			document.getElementById("capaFondo1").style.visibility="hidden";
+			document.getElementById("capaVentana").style.visibility="hidden";
+			document.myfviewform.blur();
+			
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/tomyview.php",camId,name,des);
+			count=-1;
+		}
+		count++;	
+	});
+	
+	
+	//update the dashboard widget view 1
+	$('#update1').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=1;
+			dashId = <?php echo $confiId; ?>;
+			
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/updatedash.php",camId,null,null,dashId);
+			count=-1;
+		}
+		count++;	
+	}); 
+	
+	
+	//update the dashboard widget view 2
+	$('#update2').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=2;
+			dashId = <?php echo $confiId; ?>;
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/updatedash.php",camId,null,null,dashId);
+			count=-1;
+		}
+		count++;	  
+	});
+	
+	
+	//update the my favorite view 1
+	$('#update3').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=1;
+			fviewId = <?php echo $fconfId; ?>;
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/updaterfview.php",camId,null,null,fviewId);
+			count=-1;
+		}
+		count++;	
+	});
+	
+		//update the my favorite view 2
+	$('#update4').click(function() 
+	{
+		if(count==puls-1)
+		{
+			op=2;
+			fviewId = <?php echo $fconfId; ?>;
+			var mMax = chart.xAxis[0].getExtremes().max;
+			var mMin = chart.xAxis[0].getExtremes().min;
+			var camId = <?php echo $CAMid; ?>;
+			//build the diferent chanis
+			joption = json_string_generate(mMax,mMin,op);
+			//Execute the process with each string
+			add_to_page_said(joption,"v1","../../lib/updaterfview.php",camId,null,null,fviewId);
+			count=-1;
+		}
+		count++;	
+	}); 
+	  
 }
 count=0;
 puls=0;
@@ -832,7 +833,7 @@ function open_window(op)
 {
 	document.getElementById("capaFondo1").style.visibility="visible";
 	document.getElementById("capaVentana").style.visibility="visible";
-    document.myfviewform.hidefield.value = op;
+	document.myfviewform.hidefield.value = op;
 	document.myfviewform.name.focus();
 }
 	
@@ -849,26 +850,26 @@ function cancel()
 
 function get_control_filters(CAMdb)
 {
-    //Event type filters
-    filter_type1="event_type";
-    ajax_1_v1=objetoAjax();
+	//Event type filters
+	filter_type1="event_type";
+	ajax_1_v1=objetoAjax();
 	ajax_1_v1.open("POST", "../../lib/getfilters.php",true);//async
 	ajax_1_v1.onreadystatechange=function(){
-        if (ajax_1_v1.readyState==4){
-            print_control_filters(ajax_1_v1.responseText,filter_type1,CAMdb);
-        }
+		if (ajax_1_v1.readyState==4){
+			print_control_filters(ajax_1_v1.responseText,filter_type1,CAMdb);
+		}
 	}
 	ajax_1_v1.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax_1_v1.send("filter_type="+filter_type1+"&CAMdb="+CAMdb);
-    
-    //Role filters
-    filter_type2="role";
-    ajax_2_v1=objetoAjax();
+	
+	//Role filters
+	filter_type2="role";
+	ajax_2_v1=objetoAjax();
 	ajax_2_v1.open("POST", "../../lib/getfilters.php",true);//async
 	ajax_2_v1.onreadystatechange=function(){
-        if (ajax_2_v1.readyState==4){
-            print_control_filters(ajax_2_v1.responseText,filter_type2,CAMdb);
-        }
+		if (ajax_2_v1.readyState==4){
+			print_control_filters(ajax_2_v1.responseText,filter_type2,CAMdb);
+		}
 	}
 	ajax_2_v1.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax_2_v1.send("filter_type="+filter_type2+"&CAMdb="+CAMdb);
@@ -877,38 +878,38 @@ function get_control_filters(CAMdb)
 
 
 function print_control_filters(data_text,filter_type,CAMdb){
-    if(data_text!="" && data_text!=null && typeof(data_text)!="undefined" && data_text!="null" && data_text!="undefined"){           
-        //if (filter_type=="event_type")document.getElementById("error").innerHTML = data_text;  
-        data = eval(data_text);
-        for(var i=0;i<data.length;i++){
-            //create title div
-            var div_father = document.createElement('div');
-            //create the select
-            var sel = document.createElement('select');
-            sel.style.maxWidth = "200";
-            sel.name = data[i].f_name;
-            for(var j=0;j<data[i].f_values.length;j++){
-                sel.options[j] = new Option(data[i].f_values[j]);
-            }
-            sel.onchange = function(){
-                add_filter(filter_type,this.name, this.value);             
-            }           
-            //create info img
-            var img= document.createElement("img");
-            img.src = "../../Themes/clasic/help.png";
-            img.title = data[i].f_des;
-            //Put the element into a father div
-            div_father.innerHTML = data[i].f_name+": ";
-            div_father.appendChild(sel);
-            div_father.appendChild(img);
-            //Add the filter to the list
-            document.getElementById(filter_type).appendChild(div_father);                        
-        }
-    }
-    else{
-        document.getElementById("msg-info").innerHTML = filter_type+" filters haven't got data";
-        window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000); 
-    } 
+	if(data_text!="" && data_text!=null && typeof(data_text)!="undefined" && data_text!="null" && data_text!="undefined"){		   
+		//if (filter_type=="event_type")document.getElementById("error").innerHTML = data_text;  
+		data = eval(data_text);
+		for(var i=0;i<data.length;i++){
+			//create title div
+			var div_father = document.createElement('div');
+			//create the select
+			var sel = document.createElement('select');
+			sel.style.maxWidth = "200";
+			sel.name = data[i].f_name;
+			for(var j=0;j<data[i].f_values.length;j++){
+				sel.options[j] = new Option(data[i].f_values[j]);
+			}
+			sel.onchange = function(){
+				add_filter(filter_type,this.name, this.value);			 
+			}		   
+			//create info img
+			var img= document.createElement("img");
+			img.src = "../../Themes/clasic/help.png";
+			img.title = data[i].f_des;
+			//Put the element into a father div
+			div_father.innerHTML = data[i].f_name+": ";
+			div_father.appendChild(sel);
+			div_father.appendChild(img);
+			//Add the filter to the list
+			document.getElementById(filter_type).appendChild(div_father);						
+		}
+	}
+	else{
+		document.getElementById("msg-info").innerHTML = filter_type+" filters haven't got data";
+		window.setTimeout("document.getElementById('msg-info').innerHTML=''",5000); 
+	} 
 }
 
 
@@ -919,69 +920,69 @@ function print_control_filters(data_text,filter_type,CAMdb){
 </script>
 
 <div class="graph">
-    <div class="lineal">
+	<div class="lineal">
 		<div id="container1" style="width: 470px; height: 350px; margin: 0 auto"></div>
-        <button id="button2"><? echo V1_MSJ9;?></button>
-        <button id="button4" onclick="open_window(1);"><? echo V1_MSJ10;?></button>
-        <button id="update1"><? echo V1_MSJ11;?></button>
-        <button id="update3"><? echo V1_MSJ12;?></button>
-    </div>
-    <div class="bars">        
-        <div id="container2" style="width: 400px; height: 350px; margin: 0 auto"></div>
-        <button id="button3"><? echo V1_MSJ9;?></button>
-        <button id="button5" onclick="open_window(2);"><? echo V1_MSJ10;?></button>
-        <button id="update2"><? echo V1_MSJ11;?></button>
-        <button id="update4"><? echo V1_MSJ12;?></button>
-    </div>
-    <div id='filters'>
-        <div id='list'>
-            <div id="msg-info"></div>
-            <div class='table-style'>
-                <div style='overflow:auto; max-height: 150px'>
-                    <table id='filterlist'>
-                    	<tr>
-                    		<th>#</th>
-                            <th><? echo V1_MSJ13;?></th>
-                            <th><? echo V1_MSJ14;?></th>
-                            <th><? echo V1_MSJ15;?></th>
-                    	</tr>
-                    </table>
-                </div>
-            </div>
-        </div>
-        <form name='filters'>           
-            <div id='appfilter'>
-                <div id='event_type'></div>
-            </div>
-            <div id='userfilter'>
-                <div id='role'></div>
-            </div>
-        </form>
-    </div>  
+		<button id="button2"><? echo V1_MSJ9;?></button>
+		<button id="button4" onclick="open_window(1);"><? echo V1_MSJ10;?></button>
+		<button id="update1"><? echo V1_MSJ11;?></button>
+		<button id="update3"><? echo V1_MSJ12;?></button>
+	</div>
+	<div class="bars">		
+		<div id="container2" style="width: 400px; height: 350px; margin: 0 auto"></div>
+		<button id="button3"><? echo V1_MSJ9;?></button>
+		<button id="button5" onclick="open_window(2);"><? echo V1_MSJ10;?></button>
+		<button id="update2"><? echo V1_MSJ11;?></button>
+		<button id="update4"><? echo V1_MSJ12;?></button>
+	</div>
+	<div id='filters'>
+		<div id='list'>
+			<div id="msg-info"></div>
+			<div class='table-style'>
+				<div style='overflow:auto; max-height: 150px'>
+					<table id='filterlist'>
+						<tr>
+							<th>#</th>
+							<th><? echo V1_MSJ13;?></th>
+							<th><? echo V1_MSJ14;?></th>
+							<th><? echo V1_MSJ15;?></th>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<form name='filters'>		   
+			<div id='appfilter'>
+				<div id='event_type'></div>
+			</div>
+			<div id='userfilter'>
+				<div id='role'></div>
+			</div>
+		</form>
+	</div>  
 </div>
 
 <div id="bhid">
-    <button id="button1">get data</button>
+	<button id="button1">get data</button>
 </div>
 
 <div id="error"></div>
 
 
 <div id="capaVentana">   
-    <div class="box14">
-        <table id="form-window">
-            <tr><td>          
-            <form name="myfviewform" action="" method="post" onSubmit='return false'>
-                <p><? echo V1_MSJ17;?>: <input type="text" id="name" value="Daily activity"/></p>
-                <p><? echo V1_MSJ18;?>: <input type="text" id="des" /></p>
-                <input type="hidden" id="hidefield" />
+	<div class="box14">
+		<table id="form-window">
+			<tr><td>		  
+			<form name="myfviewform" action="" method="post" onSubmit='return false'>
+				<p><? echo V1_MSJ17;?>: <input type="text" id="name" value="Daily activity"/></p>
+				<p><? echo V1_MSJ18;?>: <input type="text" id="des" /></p>
+				<input type="hidden" id="hidefield" />
 				<button id="acept"><? echo V1_MSJ19;?></button> 
-                <button id="acept" onclick="cancel();"><? echo V1_MSJ16;?></button> 
+				<button id="acept" onclick="cancel();"><? echo V1_MSJ16;?></button> 
 			</form>
-            </td></tr>
-        </table> 
-       <div class="box14_ribbon"></div>
-    </div>
+			</td></tr>
+		</table> 
+	   <div class="box14_ribbon"></div>
+	</div>
 </div> 
 
 <div id="capaFondo1"></div>

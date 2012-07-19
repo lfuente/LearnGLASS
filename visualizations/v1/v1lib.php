@@ -41,15 +41,15 @@
 		if($key[0]==null && $value[0]==null ){//all events
 			$users = $objDB->roleuser->find()->timeout($time*1000);
 			try {
-				foreach ($users as $user) {  
+				foreach ($users as $user) {
 					if(isset($myArray[0][$user["_id"]["date"]][$user["_id"]["type"]])){
 						$myArray[0][$user["_id"]["date"]][$user["_id"]["type"]]+=$user["value"]["count"];				  
 					}
 					else{
 						$myArray[0][$user["_id"]["date"]][$user["_id"]["type"]]=$user["value"]["count"];
-					} 
+					}
 				}
-			}		   
+			}
 			catch(MongoCursorTimeoutException $e) {
 				echo "<br>Exception catched: ".$e;
 			}
