@@ -1,6 +1,9 @@
 ## Ignored Extensions ##
-*.bak
+*bak
 *~
+*tgz
+*gz
+*csv
 
 ## Ignored Files ##
 tokenkey.php
