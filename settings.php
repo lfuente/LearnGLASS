@@ -59,7 +59,7 @@
         if($my_permision->get_addBBDDCAM()==1)
         {     
             echo '<div class="carpet-style">';
-            echo "<p class='glass-title'>"._DATASET_TITLE."</p>";           
+            echo "<p class='glass-title'>"._CAM_DB_TITLE."</p>";           
             include ($CFG->dir."install/newdb.html");
             if($_GET["c"]=="ok")echo "<script>document.getElementById('error').innerHTML = '"._CREATED."'</script>";
             echo '</div>';

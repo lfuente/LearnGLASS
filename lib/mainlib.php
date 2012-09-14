@@ -644,7 +644,7 @@ function MongoConnect($username, $password, $database, $host) {
             $db = $con->selectDB($database); // Connect to Database   
         }
         else{
-            echo "error: The database not have glass format!";
+            echo "error: The database does not have GLASS format!";
             exit();
         }
     }

@@ -121,13 +121,14 @@ session_start();
         //Add new database process
         if($host!=null && $name!=null && $user!=null && $pass!=null && $des!=null && $op=="created"){  
             //////////////////////////////////////////////////
-            ///ADD TO DE GLASS DATABASE
+            ///ADD TO THE GLASS DATABASE
             $conexion = mysql_connect($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)or die("error: ".mysql_error());
     		mysql_select_db($CFG->dbname) or die("error: ".mysql_error());
             //Search matchs
             $query = "SELECT * FROM ".$CFG->prefix."ddbb WHERE name='".$name."'" ;
     		$result = mysql_query($query) or die("error: ".mysql_error());
-            //if there isn't match the we can insert into database
+            //check if there already exists a database with the same name
+            //if no other database has the same name, add it, else, throw error
             if(mysql_num_rows($result)==0){
                 $query = "INSERT INTO ".$CFG->prefix."ddbb (host,name,user,pass,description,filters) 
                     VALUES ('".$host."','".$name."','".$user."','".$pass."','".$des."','".$_POST["values"]."')";
@@ -152,6 +153,7 @@ session_start();
             $collection = $objDB->filters;
             $objDB->dropCollection('filters');
             $collection = $objDB->filters;
+            
             //event type filter creation
             $des="Captured event type";
             $f_values = array();
@@ -199,11 +201,11 @@ session_start();
             }
     
             //////////////////////////////////////////////////
-            ///MAP- REDUCE 
+            ///MAP-REDUCE 
             foreach ($keysArray as $k=>$v) {
                 if($k!="_id" && $k!="name" && $k!="datetime"){
                     if($k=="user"){
-                        //Creamos el MAP-REDUCE para los usuarios
+                        //Users MAP-REDUCE
                         $strMap = '
                             function() {
                                 var myDate = new Date(this.datetime);

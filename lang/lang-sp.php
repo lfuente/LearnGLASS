@@ -47,7 +47,7 @@
 	define('_GLASS_USER_CONF','Configuración personal del usuario');
     define('_USE_ALPH_CHAR','Sólo caracteres alfanyméricos y :, /, - y _');
     define('_ADV_CONF','Esto puede dañar la configuración del servidor. ¿De verdad desea continuar?');    
-    define('_DATASET_TITLE','Gestor de bases de datos Mongo');
+    define('_CAM_DB_TITLE','Gestor de bases de datos Mongo');
     define('_DATASET_MSJ1','Bases de datos Mongo disponibles: ');
     define('_DATASET_MSJ2','Añadir una nueva base de datos Mongo');
     define('_DATASET_MSJ3','A continuación puede seleccionar los filtros que GLASS ha detectado. Aparecen marcados aquellos campos que GLASS recomienda, sino aparece seleccionado por defecto significa  que el número de datos dieferentes es demasiado alto lo que conllevará un tiempo de procesamiento  mayor. Puedes añadir una descripción del filtro si lo desea.');
