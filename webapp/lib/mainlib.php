@@ -433,7 +433,7 @@ class file_vars{
         }
         else 
         {
-            exit ("Error!!! the file can not be read, check permissions");
+            exit ("Error!!! the file {$fileName} can not be read, check permissions.");
         }
     }
     
@@ -466,7 +466,7 @@ class file_vars{
             fclose($fp);
         } 
         else {
-            exit ("Error!!! the file can not be write, check permissions");
+            exit ("Error!!! the file {$this->file} can not be write, check permissions.");
         } 
     }
     
