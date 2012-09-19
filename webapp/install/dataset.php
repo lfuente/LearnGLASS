@@ -167,7 +167,9 @@ session_start();
             $des="Name of the user who made the event";
             $f_values = array();
             $f_values[0] = "None";
-            $cursor = $objDB->command(array("distinct"=>"users","key"=>"name"));
+            //UPF TWEAK
+            //$cursor = $objDB->command(array("distinct"=>"users","key"=>"name"));
+            $cursor = $objDB->command(array("distinct"=>"events","key"=>"user"));
             $f_values = array_merge($f_values,$cursor['values']);
             $toinsert = array("group"=>"role","name"=>"user_name","des"=>$des,"values"=>$f_values);
             $collection->insert($toinsert);
@@ -206,13 +208,21 @@ session_start();
                 if($k!="_id" && $k!="name" && $k!="datetime"){
                     if($k=="user"){
                         //Users MAP-REDUCE
+                        //UPF TWEAK
+//                         $strMap = '
+//                             function() {
+//                                 var myDate = new Date(this.datetime);
+//                                 STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+//                                 for (var user in this.user) {
+//                                     emit({name:this.user[user]._id,date:STRmyDate,type:this.name},{count:1});
+//                                 }
+//                             }
+//                         ';
                         $strMap = '
                             function() {
                                 var myDate = new Date(this.datetime);
                                 STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
-                                for (var user in this.user) {
-                                    emit({name:this.user[user]._id,date:STRmyDate,type:this.name},{count:1});
-                                }
+                                emit({name:this.user,date:STRmyDate,type:this.name},{count:1});
                             }
                         ';
                         $strReduce = '

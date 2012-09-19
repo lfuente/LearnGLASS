@@ -144,6 +144,12 @@
 			//TODO: get the number of users in the current community
 			// it's waiting for the correct usermodel in mongo
 			// here we have a temporal hack with the fixed magic number 
+			// 
+			// I believe that is fixed, but two other things are pending:
+			// - The mean when a community is selected is calculated with all the users
+			// instead with only those on the community.
+			// - When a user is selected through a different parameter than user_name the
+			// data is divided by the number of users as if a mean was necessary.
 			
 			if ($data_key_name == 'user_name') 
 			{
