@@ -1,0 +1,119 @@
+
+<meta http-equiv='content-Type' content='text/html; charset=iso-8859-1'/>
+
+
+<!-- 1. Add these JavaScript inclusions in the head of your page -->
+<script type="text/javascript" src="<? echo $CFG->url;?>lib/jquery.js"></script>
+<script type="text/javascript" src="<? echo $CFG->url;?>visualizations/v1/js/highstock.js"></script>
+
+<script type="text/javascript">
+//width and height size of the widget
+var heightsize=200;
+var widthsize=290;
+
+function show_widget(data)
+{
+    data = eval(data);
+    if(data!=null)
+    {
+        var numwidget = data[0].id;
+        var view = data[0].view;
+    
+        var DateMin = new Date(parseInt(data[0].mMin));
+        var DateMax = new Date(parseInt(data[0].mMax));
+        var DateAux = new Date(parseInt(data[0].mMin));
+        var app = data[0].app;
+        var graphs = [];
+        for(var j=1; j < data.length; j++)
+        {
+            DateAux.setTime(DateMin.getTime());
+            var data_grph=new Array();
+            dataAux = data[j];
+            var name = dataAux.dkey+" "+dataAux.dvalue;
+            writedata = 0;
+            pointdata = 0;
+                    
+            var myDate = new Date(dataAux.date[pointdata]);
+            utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+            utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+            while(DateAux.getTime()<=DateMax.getTime() && pointdata<dataAux.value.length)
+            {   
+                if(utcAux<utcMyDate)
+                {
+                    data_grph[writedata]=new Array(2);
+                    data_grph[writedata][0]= utcAux;
+                    data_grph[writedata][1]= 0;
+                    writedata++;
+                    DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+                }
+                else if(utcAux == utcMyDate)
+                {
+                    data_grph[writedata]=new Array(2);
+                    data_grph[writedata][0]= utcAux;
+                    data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
+                    writedata++;
+                    pointdata++;
+                    DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+                    var myDate = new Date(dataAux.date[pointdata]);
+                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+                }
+                else
+                {
+                    pointdata++;
+                    var myDate = new Date(dataAux.date[pointdata]);
+                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+                }
+            }
+            graphs[j-1] = {
+                name: name,
+                data: data_grph
+            };    
+        }
+
+        
+        var chart= new Highcharts.Chart
+        ({
+            chart: {
+                renderTo: "container"+numwidget,
+                height: heightsize,
+                width: widthsize,
+                events: {
+                    click: function(e) {
+                        $(this).attr('target', '_blank');
+                        window.open("index.php");
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            exporting: {
+                enabled: false
+            },
+            title: {
+                text: null
+            },
+            xAxis: {
+                type: 'datetime'
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: '#<? echo V1_MSJ7;?>'
+                }
+            }, 
+            legend: {
+                enabled: false
+            },
+             series: graphs
+        });
+            
+         
+   }
+};
+
+
+</script>
+   
