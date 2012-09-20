@@ -170,7 +170,6 @@ function get_data(page)
 		{
 			//document.getElementById("error").innerHTML = ajaxv1.responseText;
 			//alert(ajaxv1.responseText);
-			debugger;
 			data = eval(ajaxv1.responseText);
 			if(data!=null)
 			{
@@ -347,6 +346,7 @@ function get_data(page)
 
 function get_data2(page)
 {
+	debugger;
 	ajaxv2=objetoAjax();
 	ajaxv2.open("GET", page);
 	ajaxv2.onreadystatechange=function() 
