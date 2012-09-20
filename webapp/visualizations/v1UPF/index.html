@@ -170,6 +170,7 @@ function get_data(page)
 		{
 			//document.getElementById("error").innerHTML = ajaxv1.responseText;
 			//alert(ajaxv1.responseText);
+			debugger;
 			data = eval(ajaxv1.responseText);
 			if(data!=null)
 			{
@@ -219,11 +220,15 @@ function get_data(page)
 						var myDate = new Date(dataAux.date[0]);
 						var myDateB = new Date(dataAux.date[0]);
 						var myDateA = new Date(dataAux.date[0]);
-						myDateB.setDate(myDateB.getDate()-1);
-						myDateA.setDate(myDateA.getDate()+1);
-						UTCmyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-						UTCmyDateB = Date.UTC(myDateB.getYear()+1900,myDateB.getMonth(),myDateB.getDate());
-						UTCmyDateA = Date.UTC(myDateA.getYear()+1900,myDateA.getMonth(),myDateA.getDate());
+						//UPF TWEAKS
+						myDateB.setHours(myDateB.getHours()-1);
+						myDateA.setHours(myDateA.getHours()+1);
+// 						UTCmyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+// 						UTCmyDateB = Date.UTC(myDateB.getYear()+1900,myDateB.getMonth(),myDateB.getDate());
+// 						UTCmyDateA = Date.UTC(myDateA.getYear()+1900,myDateA.getMonth(),myDateA.getDate());
+						UTCmyDate = myDate.valueOf();
+						UTCmyDateB = myDateB.valueOf();
+						UTCmyDateA = myDateA.valueOf();
 						myValue = parseInt(dataAux.value[0]);
 						if(mMin<UTCmyDateB){
 							if(mMax>UTCmyDateA){
@@ -262,8 +267,10 @@ function get_data(page)
 						var DateAux = new Date(dataAux.date[0]);									  
 						var myDate = new Date(dataAux.date[pointdata]);
 						//convert to utc date
-						utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-						utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());			 
+// 						utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+// 						utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());			 
+						utcMyDate = myDate.valueOf();
+						utcAux = DateAux.valueOf();	
 						//generate the values of the serie
 						while(pointdata<dataAux.value.length)
 						{
@@ -274,8 +281,10 @@ function get_data(page)
 								data_grph[writedata][0]= utcAux;
 								data_grph[writedata][1]= 0;
 								writedata++;
-								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+// 								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+// 								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+								DateAux.setMinutes(DateAux.getMinutes()+1); // increase 1 minute
+								utcAux = DateAux.valueOf();
 							}
 							//there is a data in this day
 							else if(utcAux == utcMyDate)
@@ -285,10 +294,12 @@ function get_data(page)
 								data_grph[writedata][1]= parseFloat(dataAux.value[pointdata]);
 								writedata++;
 								pointdata++;
-								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
+								DateAux.setMinutes(DateAux.getMinutes()+1); // increase 1 day
 								var myDate = new Date(dataAux.date[pointdata]);
-								utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+// 								utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+// 								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+								utcMyDate = myDate.valueOf();
+								utcAux = DateAux.valueOf();
 							}
 						}
 						theminAux = data_grph[0][0];
@@ -597,7 +608,9 @@ function create_chart(data,mMin,mMax,app){
 					text: '<? echo V1_MSJ7;?>: '+app
 		},
 		xAxis: {
-			maxZoom: 14 * 24 * 3600000, // fourteen days
+			//UPF TWEAK
+			//maxZoom: 14 * 24 * 3600000, // fourteen days
+			minRange:3600000, //one hour
 			events: {
 				setExtremes: function(e) {
 					create_bst_chart(null,null);
@@ -618,23 +631,39 @@ function create_chart(data,mMin,mMax,app){
 		rangeSelector: {
 			buttons: 
 			[
+			 //UPF TWEAK
+// 				{
+// 					inputEnabled: true,
+// 					type: 'day',
+// 					count: 7,
+// 					text: '1w'
+// 				},
+// 				{
+// 					inputEnabled: true,
+// 					type: 'month',
+// 					count: 1,
+// 					text: '1m'
+// 				}, 
+// 				{
+// 					type: 'month',
+// 					count: 3,
+// 					text: '3m'
+// 				}, 
 				{
-					inputEnabled: true,
-					type: 'day',
-					count: 7,
-					text: '1w'
+					type: 'hour',
+					count: 1,
+					text: '1h'
 				},
 				{
-					inputEnabled: true,
-					type: 'month',
-					count: 1,
-					text: '1m'
-				}, 
+					type: 'hour',
+					count: 2,
+					text: '2h'
+				},
 				{
-					type: 'month',
-					count: 3,
-					text: '3m'
-				}, 
+					type: 'hour',
+					count: 4,
+					text: '4h'
+				},
 				{
 					type: 'all',
 					text: 'All'

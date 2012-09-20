@@ -168,8 +168,8 @@ session_start();
             $f_values = array();
             $f_values[0] = "None";
             //UPF TWEAK
-            //$cursor = $objDB->command(array("distinct"=>"users","key"=>"name"));
-            $cursor = $objDB->command(array("distinct"=>"events","key"=>"user"));
+            $cursor = $objDB->command(array("distinct"=>"users","key"=>"name"));
+            //$cursor = $objDB->command(array("distinct"=>"events","key"=>"user"));
             $f_values = array_merge($f_values,$cursor['values']);
             $toinsert = array("group"=>"role","name"=>"user_name","des"=>$des,"values"=>$f_values);
             $collection->insert($toinsert);
@@ -218,10 +218,17 @@ session_start();
 //                                 }
 //                             }
 //                         ';
+//                         $strMap = '
+//                             function() {
+//                                 var myDate = new Date(this.datetime);
+//                                 STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+//                                 emit({name:this.user,date:STRmyDate,type:this.name},{count:1});
+//                             }
+//                         ';
                         $strMap = '
                             function() {
                                 var myDate = new Date(this.datetime);
-                                STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+                                STRmyDate = (myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours())+":"+(myDate.getMinutes());
                                 emit({name:this.user,date:STRmyDate,type:this.name},{count:1});
                             }
                         ';
@@ -244,14 +251,23 @@ session_start();
                         ));
                     }
                     else{
+//                         $strMap = '
+//                             function() {
+//                                 var myDate = new Date(this.datetime);
+//                                 STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+//                                 if(this.'.$k.'){
+//                                     emit({name:this.'.$k.',date:STRmyDate,type:this.name},{count:1});
+//                                 }
+//                             }
+//                         ';
                         $strMap = '
-                            function() {
-                                var myDate = new Date(this.datetime);
-                                STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
-                                if(this.'.$k.'){
-                                    emit({name:this.'.$k.',date:STRmyDate,type:this.name},{count:1});
-                                }
-                            }
+	                        function() {
+		                        var myDate = new Date(this.datetime);
+		                        STRmyDate = (myDate.getFullYear()+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate()+" "+myDate.getHours())+":"+(myDate.getMinutes());
+		                        if(this.'.$k.'){
+		                        	emit({name:this.'.$k.',date:STRmyDate,type:this.name},{count:1});
+		                        }
+	                        }
                         ';
                         $strReduce = '
                             function(k,v){

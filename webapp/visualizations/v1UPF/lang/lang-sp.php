@@ -1,13 +1,13 @@
 <?php
-	define('V1_MODULE_TITTLE','Visualización 1');
+	define('V1_MODULE_TITTLE','Visualización UPF');
     define('V1_MSJ1','Borrar filtro');
     define('V1_MSJ2','Se ha añadido un nuevo filtro!');
     define('V1_MSJ3','Se ha borrado un filtro de la lista!');
     define('V1_MSJ4','Ese filtro ya existe!');
     define('V1_MSJ5','No hay datos Json');
-    define('V1_MSJ6','Actividad de eventos');
+    define('V1_MSJ6','Nº de eventos por tipo');
     define('V1_MSJ7','Eventos');
-    define('V1_MSJ8','Eventos diarios totales');
+    define('V1_MSJ8','Actividad media en intervalos');
     define('V1_MSJ9','Añadir al tablón');
     define('V1_MSJ10','Añadir a mis vistas');
     define('V1_MSJ11','Actualizar tablón');

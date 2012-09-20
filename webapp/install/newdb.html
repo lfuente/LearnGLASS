@@ -160,7 +160,8 @@ function on_submit2(formobj){
 function on_submit1(formobj)
 {
     if(document.newdbcam.fpass.value == document.newdbcam.frepass.value){       
-        if(validate_send(formobj,"<?php echo _USE_ALPH_CHAR; ?>","<?php echo _EMPTY_FIELD; ?>")){
+        //TODO: validate only mandatory fields
+    	if(validate_send(formobj,"<?php echo _USE_ALPH_CHAR; ?>","<?php echo _EMPTY_FIELD; ?>")){
             if(confirm("<?php echo _CREATE_DB; ?>")){
                 document.getElementById('error').innerHTML = "<? echo _DATASET_MSJ5;?>";
                 document.getElementById("formarea1").style.visibility = "hidden";
