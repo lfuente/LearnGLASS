@@ -1,2 +1,0 @@
-name:Visualización UPF
-description:Visualización que representa los eventos en el tiempo
