@@ -5,15 +5,13 @@ Cloning everything
 ------------------
 You have several options:
 
-	1)
-		git clone [LearnGLASS.git] [rootdir] --recursive
+	1)	git clone [LearnGLASS.git] [rootdir] --recursive
 
-	2)
-		git clone [LearnGLASS.git] [rootdir]
+	2)	git clone [LearnGLASS.git] [rootdir]
 		cd [rootdir]
 		git submodules update --init
-	3)
-		git clone <LearnGLASS.git> <rootdir>
+	
+	3)	git clone <LearnGLASS.git> <rootdir>
 		git submodules init
 		git submodules update
 
@@ -36,3 +34,14 @@ Some files are not tracked online because they contain private information. They
 /capture/Sources/get_logfiles.sh
 /capture/Metadata/User_data/get_userfiles.sh
 /capture/Process/basic.cfg
+
+Files that should not be changed
+================================
+There may be files whose changes shouldn't be uploaded but a default file needs to be in the repository.
+
+To stop git from pushing changes to those files do before staging (git add) them:
+		
+		git update-index --assume-unchanged <file>
+		
+List of these files:
+/webapp/config.php
