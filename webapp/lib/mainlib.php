@@ -640,7 +640,7 @@ function return_date($date){
 function MongoConnect($username, $password, $database, $host) {
     try{
         $con = new Mongo("mongodb://{$username}:{$password}@{$host}/{$database}"); // Connect to Mongo Server
-        if($con->selectDB($database)->events->find()->count()>0){
+        if($con->selectDB($database)->events->count()>0){
             $db = $con->selectDB($database); // Connect to Database   
         }
         else{
