@@ -9,6 +9,9 @@
         //Main includes
         include($CFG->dir."lib/mainlib.php");
         
+        $username = $_SESSION['s_username'];
+        $my_per = new permision($CFG,$username);
+        
         $filter_type = $_POST["filter_type"];
         $mongoID = $_POST["CAMdb"];
         
@@ -23,8 +26,9 @@
         mysql_close($conexion);
         
         $objDB = MongoConnect($data["user"],$data["pass"],$data["name"],$data["host"]);        
-        //Role Filter
-        if($filter_type=="role"){
+        //Role Filter (only if user is not student <view level = 1>)
+        if($filter_type=="role" && $my_per->get_userViewLevel()!=1){
+        //if($filter_type=="role"){
             $cursor = $objDB->filters->find(array("group"=>"role"));         
         }
         //Event Type Filter
