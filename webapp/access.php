@@ -10,24 +10,27 @@
         //Look if there is any input empty
         if($user!=null && $pass!=null){
             //LDAP access
-            $ldap['user'] = $user;
-            $ldap['pass'] = $pass;
-            $ldap['host'] = $CFG->LDAPhost;
-            $ldap['port'] = (int)$CFG->LDAPport;
-            $ldap['dn']   = 'uid='.$ldap['user'].','.$CFG->LDAPdn;
-            // conexion a ldap
-            $ldap['conn'] = ldap_connect( $ldap['host'], $ldap['port'] );
-            ldap_set_option($ldap['conn'], LDAP_OPT_PROTOCOL_VERSION, 3);
-            // match de usuario y password
-            @$ldap['bind'] = ldap_bind( $ldap['conn'], $ldap['dn'], $ldap['pass'] );
-            if ($ldap['bind']){
-            	create_user_session($ldap['user'], $CFG);
-                //go to home.php or the type page 
-                echo 1;
-            } 
-            else {
-                echo _LOGIN_WRONG;
-            }   
+//             $ldap['user'] = $user;
+//             $ldap['pass'] = $pass;
+//             $ldap['host'] = $CFG->LDAPhost;
+//             $ldap['port'] = (int)$CFG->LDAPport;
+//             $ldap['dn']   = 'uid='.$ldap['user'].','.$CFG->LDAPdn;
+//             // conexion a ldap
+//             $ldap['conn'] = ldap_connect( $ldap['host'], $ldap['port'] );
+//             ldap_set_option($ldap['conn'], LDAP_OPT_PROTOCOL_VERSION, 3);
+//             // match de usuario y password
+//             @$ldap['bind'] = ldap_bind( $ldap['conn'], $ldap['dn'], $ldap['pass'] );
+//             if ($ldap['bind']){
+//             	create_user_session($ldap['user'], $CFG);
+//                 //go to home.php or the type page 
+//                 echo 1;
+//             } 
+//             else {
+//                 echo _LOGIN_WRONG;
+//             }   
+			//Tweak to bypass ldap
+			create_user_session('admin',$CFG);
+			echo 1;
         }
         else{
             echo _LOGIN_NODATA;

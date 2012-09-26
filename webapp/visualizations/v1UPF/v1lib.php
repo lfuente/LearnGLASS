@@ -159,8 +159,10 @@
 			}
 			else 
 			{
-				$n_users = $objDB->users->count();
+				//Tweak UPF, absolute values instead of mean
+				//$n_users = $objDB->users->count();
 				//$n_users = 186; //fake conf
+				$n_users = 1;
 			}
 							
 			

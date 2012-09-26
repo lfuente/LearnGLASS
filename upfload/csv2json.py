@@ -63,7 +63,7 @@ def main():
             l[2] = rightnow.tm_mday
             timestamp = time.struct_time(l)
             date = dict()
-            date["$date"] = int(time.mktime(timestamp) * 1000 )
+            date["$date"] = int((time.mktime(timestamp) + 7200) * 1000 )
 
             row["datetime"] = date
 #            row["datetime"] = time.strftime("%Y-%m-%dT%H:%M:%SZ",timestamp)
