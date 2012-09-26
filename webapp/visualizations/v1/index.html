@@ -28,7 +28,7 @@ function add_filter(group,type,value){
 		if(type=="event_type"){
 			var index = search_filter(group,type,null);
 			if(index==-1){
-				filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
+				filter_obj_array[filter_obj_array.length] = new filter(group,type,value);
 			}
 			else{
 				filter_obj_array[index].group = group;
@@ -39,7 +39,7 @@ function add_filter(group,type,value){
 		}
 		else{
 			if(search_filter(group,type,value)==-1){
-				filter_obj_array[filter_obj_array.length] = new filter(group,type,value)
+				filter_obj_array[filter_obj_array.length] = new filter(group,type,value);
 				print_filter(1);
 			}
 			else{

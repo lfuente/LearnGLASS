@@ -110,7 +110,6 @@
        
         //Get the dafault parameters
         echo '<script>';
-        
         echo 'get_control_filters("'.$CAMid.'");';
         echo 'get_data("getdata.php?'.$option.'");';
         echo '</script>';
@@ -129,6 +128,14 @@
                     document.all.update4.style.visibility="hidden";
                 </script>';
         }
+        
+        //CONTINUE HERE
+        echo "\n".'<script>'."\n";
+        echo 'var dataAux;';
+        echo 'dataAux.dgroup = "role"; dataAux.dkey = "user_name"; dataAux.dvalue = 10011;'."\n";
+        echo 'add_filter(dataAux.dgroup,dataAux.dkey,dataAux.dvalue);';
+        //echo 'window.onload = add_filter("role","user_name",10011);';
+        echo "\n".'</script>'."\n";
         
         ///////////////////// MODULE END /////////////////////////
         //////////////////////////////////////////////////////////
