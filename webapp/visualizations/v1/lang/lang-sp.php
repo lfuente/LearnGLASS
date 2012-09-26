@@ -7,7 +7,7 @@
     define('V1_MSJ5','No hay datos Json');
     define('V1_MSJ6','Actividad de eventos');
     define('V1_MSJ7','Eventos');
-    define('V1_MSJ8','Eventos diarios totales');
+    define('V1_MSJ8','Eventos diarios medios');
     define('V1_MSJ9','Añadir al tablón');
     define('V1_MSJ10','Añadir a mis vistas');
     define('V1_MSJ11','Actualizar tablón');
