@@ -3,10 +3,10 @@
 
 	include_once("../../webapp/lib/mainlib.php");
 	
-	$user = "";
-	$pass = "";
-	$name = "test2";
-	$host = "localhost/test2";
+	$user = "u";
+	$pass = "u";
+	$name = "crif_demo";
+	$host = "localhost";
 
 	$database = MongoConnect($user,$pass,$name,$host);
 	MongoCursor::$timeout = -1; // if the process is too long
