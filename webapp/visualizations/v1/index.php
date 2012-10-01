@@ -129,7 +129,7 @@
                 </script>';
         }
         
-        //CONTINUE HERE
+        //WORK IN PROGRESS
         echo "\n".'<script>'."\n";
         echo 'var dataAux;';
         echo 'dataAux.dgroup = "role"; dataAux.dkey = "user_name"; dataAux.dvalue = 10011;'."\n";

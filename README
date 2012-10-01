@@ -29,11 +29,12 @@ The only time when you need to be careful is if you modify PLA. In this case, pu
 
 Omitted files
 =============
-Some files are not tracked online because they contain private information. They are usually scripts with credentials that run other scripts, so no big funcionality is missing, but they are included here anyway. Contact the original developers to get them.
+Some files are not tracked online because they contain private information. They are usually scripts that run other things with credentials, config files or temporal tweaks. Ask the developers if you need them.
 
 /capture/Sources/get_logfiles.sh
 /capture/Metadata/User_data/get_userfiles.sh
 /capture/Process/basic.cfg
+/tokenkey.php
 
 Files that should not be changed
 ================================
