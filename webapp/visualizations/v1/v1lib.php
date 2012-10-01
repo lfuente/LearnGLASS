@@ -1,6 +1,5 @@
 <?php
-
-	function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId)
+	function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId,$userViewLevel)
 	{
 		$time = 60*1000;//60seconds		
 		//Extract the name of the application is this exists
@@ -38,6 +37,16 @@
 		$objDB = MongoConnect($db->username,$db->password,$db->database,$db->host);
 		
 		$jd1 = array();
+		
+		
+		//TODO use actual user name, instead of a predefined one
+ 		if($key[0]==null && $value[0]==null && $userViewLevel==1){
+			$key[0]="user_name";
+			$value[0]="10011";
+			$group[0]="role";
+ 		}
+		
+		
 		if($key[0]==null && $value[0]==null ){//all events
 			$users = $objDB->roleuser->find()->timeout($time*1000);
 			try {
@@ -53,9 +62,11 @@
 			catch(MongoCursorTimeoutException $e) {
 				echo "<br>Exception catched: ".$e;
 			}
+			
 			$array_data_key[0] = "";
 			$array_data_value[0] = "all";
-			$array_group_value[0] = "all"; 
+			$array_group_value[0] = "all";
+			
 		}
 		else {		  
 			for($i=0;$i<count($key);$i++){//metadata events
@@ -78,7 +89,7 @@
 						echo "<br>Exception catched: ".$e;
 					}
 					
-					//Obtains all the events for all users (needs improvement)
+					//Obtains all the events for all users TODO(needs improvement)
 					$cursor = $objDB->roleuser->find()->timeout($time*1000);
 					try {
 						foreach ($cursor as $cu) {
