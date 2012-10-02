@@ -26,5 +26,5 @@ cd ../Cron
 echo [CRONDOIT] Working on $(pwd)
 
 echo [CRONDOIT] Calling: mapreduce.php
-php mapreduce.php
+php mapreduce.php localhost crif2011pruebas u u
 echo [CRONDOIT] Finished: mapreduce.php
