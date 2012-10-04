@@ -649,7 +649,7 @@ function MongoConnect($username, $password, $database, $host) {
         }
     }
     catch(Exception $e){
-        echo "error: Impossible to connect!";
+        echo "error: Impossible to connect!", PHP_EOL;
         exit();
     }
     return $db;

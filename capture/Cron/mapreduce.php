@@ -3,8 +3,9 @@
 
 	include_once("../../webapp/lib/mainlib.php");
 	
-	if (count($argv) != 5){
-		echo "Usage: php mapreduce.php <host> <database name> <user> <password>\n";
+	if ($argc != 5){
+		echo "The number of parameters (".($argc-1).") is not right.",PHP_EOL;
+		echo "Usage: php mapreduce.php <host> <database name> <user> <password>", PHP_EOL;
 		exit;
 	}
 	
@@ -66,7 +67,7 @@
 				'reduce' => $reduceCode,
 				'out' => "role".$colname
 			));
-			echo " Done.\n";
+			echo " Done.", PHP_EOL;
 		}
 	}
 	
