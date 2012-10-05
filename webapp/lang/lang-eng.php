@@ -7,6 +7,7 @@
     define('_USER_MANAGER','User manager');
 	define('_DASHBOARD','Dashboard');
     define('_CREDITS','About us');
+    define('_CONTACT','Contact us');
     define('_SETTINGS','Settings');
     define('_DOCUMENTATION','Documentation');
     define('_FAV_VIEWS','My favorite views');
@@ -85,4 +86,8 @@
     define('_ABOUT_GRADIENT_RESEARCH_TITLE','Research');
     define('_ABOUT_GRADIENT_RESEARCH_BODY_1','The laboratory members are university professors, research assistants and students. Our activities are divided into two main areas, teaching and research. The research portion organized around several projects. The laboratory has participated in multiple projects with different scope ranging from local to international. The laboratory has also experience in the coordination of these initiatives and is continuously pursuing new challenges in this area. Our collaborators include private companies, research institutions and universities from all over the world. The group has also a sustained publication activity as you may see in the <A HREF="https://gradient.it.uc3m.es/xowiki/Publications">list of publications</A>. ');
     define('_ABOUT_GRADIENT_RESEARCH_BODY_2','Currently the laboratory participates in several projects focussing in adaptation of learning environment, new advanced learning scenarios, best practices in the area technology enhanced learning, and the use of mobile devices, 3D scenarios and Semantic Web for learning.');
+    
+    define('_CONTACT_TITLE','Contact Info');
+    define('_CONTACT_BODY','If you have any question, suggestion or problem with this application, or just want to contact us for any reason, use the following email address:<br /><a href="mailto:learnglass@inv.it.uc3m.es">learnglass@inv.it.uc3m.es</a>');
+    
 ?> 

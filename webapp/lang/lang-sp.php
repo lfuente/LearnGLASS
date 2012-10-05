@@ -7,6 +7,7 @@
     define('_USER_MANAGER','Gestor de usuarios');
     define('_DASHBOARD','Tablón');
     define('_CREDITS','Conócenos');
+    define('_CONTACT','Contacto');
     define('_SETTINGS','Configuración');
     define('_DOCUMENTATION','Documentación');
     define('_FAV_VIEWS','Mis vistas');
@@ -95,5 +96,8 @@
     define('_TOKEN_ERROR_MSG_3_0','Datos de autenticación incorrectos.');
 
     define('_USER_AUTH_ERROR_MSG_1','Nombre de usuario no válido.');
+    
+    define('_CONTACT_TITLE','Información de contacto');
+    define('_CONTACT_BODY','Si tienes preguntas, sugerencias o algún problema con la aplicación, o quieres ponerte en contacto con nosotros por cualquier otra razón, utiliza la siguiente dirección de correo electrónico:<br /><a href="mailto:learnglass@inv.it.uc3m.es">learnglass@inv.it.uc3m.es</a>');
 
 ?> 
