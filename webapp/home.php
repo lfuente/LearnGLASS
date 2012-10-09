@@ -34,8 +34,8 @@
 <?php
 
 		
-		//////////////////////////////////////////			
-		/////////////DASBOARD/////////////////////	   
+		//////////////////////////////////////////
+		/////////////DASHBOARD////////////////////
 		
 		//DDBB manager
 		$dashboard_conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
@@ -47,7 +47,7 @@
 		 $dashboard_query = "SELECT dbcol 
 			FROM ".$CFG->prefix."settings
 			WHERE userId='$userid'";
-		$dashboard_result = mysql_query($dashboard_query) 
+		$dashboard_result = mysql_query($dashboard_query)
 				or die(mysql_error());
 		$dashboard_data = mysql_fetch_array($dashboard_result);
 		define('_COL',$dashboard_data['dbcol']);

@@ -1,9 +1,15 @@
 /*GLASS Structure*/
-body{
-    background: url('127.jpg');
-    background-size: auto 100%;
-    background-repeat:repeat-x;
+html {
+	height: 100%;
+	background: url('127.jpg');
+	background-size: auto 100%;
+	background-repeat:repeat-x;
 }
+
+body{
+
+}
+
 #glass_body{
 	margin-left: auto;
 	margin-right: auto;
