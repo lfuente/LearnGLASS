@@ -17,7 +17,7 @@
         echo "<title>GLASS</title>";
         echo "<LINK href='".$CFG->url."themes/classic/style.css' rel='stylesheet' type='text/css'>";
         echo "<meta http-equiv='content-Type' content='text/html; charset=UTF8'/>";
-        echo "<script language='JavaScript' type='text/javascript' src='".$CFG->url."lib/jslib.js'></script>";
+        echo "<script type='text/javascript' src='".$CFG->url."lib/jslib.js'></script>";
         echo "<link href='http://fonts.googleapis.com/css?family=Orbitron:400,500' rel='stylesheet' type='text/css'>";    
         echo "</head>";
         echo "<body>";

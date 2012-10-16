@@ -1,0 +1,36 @@
+[DEFAULT]
+debug = 1
+file_modification_cache = file_modification.txt
+# from_date = 2011/09/05 00:00:00
+# until_date = 2011/12/23 23:59:59
+
+# [ldap_lookup]
+# uri = ldap://ldap.uc3m.es
+# base = ou=Gente,o=Universidad Carlos III,c=es
+# fields = uid cn mail
+
+# [anonymize]
+# file = mapfile
+# passwd = as_2011_dataset
+ 
+[event_output]
+# format = CSV
+format = mongo
+db_host = localhost
+# db_user = abel
+db_name = criftest2
+# Make sure events from ourselves are filtered out
+exclude_users = 
+Javier Salvador Sanz Rodriguez	
+	ldelafuentevalentin, 12830,
+	Javier Rodríguez Pascua, 121,
+	Roberto Gil Vicente, 801,
+	Tomás Boga Vellón, 608,
+	José Miguel Sancho Espiau, 42,
+	José Cuerva Moreno, 14
+	Rosario Fernández Aguirre, 20,
+	Mª del Mar García Sanchez, 4978,
+	Hugo Muñoz Robles, 1489,
+	José Manuel Pérez Lobato, 846,
+	Javier Salvador Sanz Rodriguez, 2243
+
