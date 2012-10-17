@@ -1,7 +1,7 @@
 
-<meta http-equiv='content-Type' content='text/html; charset=UTF8'/>
+<meta http-equiv='content-Type' content='text/html; charset=UTF8' />
 
-<script type="text/javascript" src="../../lib/jquery.js"></script>		
+<script type="text/javascript" src="../../lib/jquery.js"></script>
 <script type="text/javascript" src="./js/highstock.js"></script>
 <script type="text/javascript" src="./js/themes/grid.js"></script>
 <link href='css/style.css' rel='stylesheet' type='text/css'>
@@ -659,7 +659,7 @@ function create_chart(data,mMin,mMax,app){
 		//I don`t know why but it is necesary two times execution to get a correct operation 
 		//chart.xAxis[0].setExtremes(mMin,mMax);
 		chart.xAxis[0].setExtremes(mMin,mMax);
-	}   
+	}
 
 	count=0;
 	puls++;
@@ -921,36 +921,60 @@ function print_control_filters(data_text,filter_type,CAMdb){
 
 <div class="graph">
 	<div class="lineal">
-		<div id="container1" style="width: 470px; height: 350px; margin: 0 auto"></div>
-		<button id="button2"><? echo V1_MSJ9;?></button>
-		<button id="button4" onclick="open_window(1);"><? echo V1_MSJ10;?></button>
-		<button id="update1"><? echo V1_MSJ11;?></button>
-		<button id="update3"><? echo V1_MSJ12;?></button>
+		<div id="container1"
+			style="width: 470px; height: 350px; margin: 0 auto"></div>
+		<button id="button2">
+			<? echo V1_MSJ9;?>
+		</button>
+		<button id="button4" onclick="open_window(1);">
+			<? echo V1_MSJ10;?>
+		</button>
+		<button id="update1">
+			<? echo V1_MSJ11;?>
+		</button>
+		<button id="update3">
+			<? echo V1_MSJ12;?>
+		</button>
 	</div>
-	<div class="bars">		
-		<div id="container2" style="width: 400px; height: 350px; margin: 0 auto"></div>
-		<button id="button3"><? echo V1_MSJ9;?></button>
-		<button id="button5" onclick="open_window(2);"><? echo V1_MSJ10;?></button>
-		<button id="update2"><? echo V1_MSJ11;?></button>
-		<button id="update4"><? echo V1_MSJ12;?></button>
+	<div class="bars">
+		<div id="container2"
+			style="width: 400px; height: 350px; margin: 0 auto"></div>
+		<button id="button3">
+			<? echo V1_MSJ9;?>
+		</button>
+		<button id="button5" onclick="open_window(2);">
+			<? echo V1_MSJ10;?>
+		</button>
+		<button id="update2">
+			<? echo V1_MSJ11;?>
+		</button>
+		<button id="update4">
+			<? echo V1_MSJ12;?>
+		</button>
 	</div>
 	<div id='filters'>
 		<div id='list'>
 			<div id="msg-info"></div>
 			<div class='table-style'>
-				<div style='overflow:auto; max-height: 150px'>
+				<div style='overflow: auto; max-height: 150px'>
 					<table id='filterlist'>
 						<tr>
 							<th>#</th>
-							<th><? echo V1_MSJ13;?></th>
-							<th><? echo V1_MSJ14;?></th>
-							<th><? echo V1_MSJ15;?></th>
+							<th>
+								<? echo V1_MSJ13;?>
+							</th>
+							<th>
+								<? echo V1_MSJ14;?>
+							</th>
+							<th>
+								<? echo V1_MSJ15;?>
+							</th>
 						</tr>
 					</table>
 				</div>
 			</div>
 		</div>
-		<form name='filters'>		   
+		<form name='filters'>
 			<div id='appfilter'>
 				<div id='event_type'></div>
 			</div>
@@ -958,7 +982,7 @@ function print_control_filters(data_text,filter_type,CAMdb){
 				<div id='role'></div>
 			</div>
 		</form>
-	</div>  
+	</div>
 </div>
 
 <div id="bhid">
@@ -968,22 +992,35 @@ function print_control_filters(data_text,filter_type,CAMdb){
 <div id="error"></div>
 
 
-<div id="capaVentana">   
+<div id="capaVentana">
 	<div class="box14">
 		<table id="form-window">
-			<tr><td>		  
-			<form name="myfviewform" action="" method="post" onSubmit='return false'>
-				<p><? echo V1_MSJ17;?>: <input type="text" id="name" value="Daily activity"/></p>
-				<p><? echo V1_MSJ18;?>: <input type="text" id="des" /></p>
-				<input type="hidden" id="hidefield" />
-				<button id="acept"><? echo V1_MSJ19;?></button> 
-				<button id="acept" onclick="cancel();"><? echo V1_MSJ16;?></button> 
-			</form>
-			</td></tr>
-		</table> 
-	   <div class="box14_ribbon"></div>
+			<tr>
+				<td>
+					<form name="myfviewform" action="" method="post"
+						onSubmit='return false'>
+						<p>
+							<? echo V1_MSJ17;?>
+							: <input type="text" id="name" value="Daily activity" />
+						</p>
+						<p>
+							<? echo V1_MSJ18;?>
+							: <input type="text" id="des" />
+						</p>
+						<input type="hidden" id="hidefield" />
+						<button id="acept">
+							<? echo V1_MSJ19;?>
+						</button>
+						<button id="acept" onclick="cancel();">
+							<? echo V1_MSJ16;?>
+						</button>
+					</form>
+				</td>
+			</tr>
+		</table>
+		<div class="box14_ribbon"></div>
 	</div>
-</div> 
+</div>
 
 <div id="capaFondo1"></div>
 

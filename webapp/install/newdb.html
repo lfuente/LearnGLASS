@@ -180,31 +180,47 @@ function on_submit1(formobj)
 
 
 <div id="formarea1">
-    <p class="glass-body"><?php echo _DATASET_MSJ1;?>  <select id="selcam"></select> 
-        <a href='' onclick='if(confirm("<?php echo _WANT_SELECT;?>"))add_and_show_CAM_database("select"); return false;'><?php echo _SELECT;?></a>
-        <a href='' onclick='if(confirm("<?php echo _WANT_DROP;?>"))add_and_show_CAM_database("drop"); return false;'><?php echo _DROP;?></a>
-    </p>
-    <p class="glass-body"><?php echo _DATASET_MSJ2;?></p>
-    <form class="glass-form" name="newdbcam" method="post" onsubmit="on_submit1(this); return false;">
-        Host <input type="text" name="fhost" />
-        <br/><label>Name </label><input type="text" name="fname" />
-        <br/><label>User </label><input type="text" name="fuser" />
-        <br/><label>Password </label><input type="password" name="fpass" />
-        <br/><label>Retry password </label><input type="password" name="frepass" />
-        <br/><label>Description </label><input type="text" name="fdes" />
-        <br/><button>Add</button> 
-    </form>
+	<p class="glass-body">
+		<?php echo _DATASET_MSJ1;?>
+		<select id="selcam"></select> <a href=''
+			onclick='if(confirm("<?php echo _WANT_SELECT;?>"))add_and_show_CAM_database("select"); return false;'>
+			<?php echo _SELECT;?>
+		</a> <a href=''
+			onclick='if(confirm("<?php echo _WANT_DROP;?>"))add_and_show_CAM_database("drop"); return false;'>
+			<?php echo _DROP;?>
+		</a>
+	</p>
+	<p class="glass-body">
+		<?php echo _DATASET_MSJ2;?>
+	</p>
+	<form class="glass-form" name="newdbcam" method="post"
+		onsubmit="on_submit1(this); return false;">
+		Host <input type="text" name="fhost" /> <br />
+		<label>Name </label><input type="text" name="fname" /> <br />
+		<label>User </label><input type="text" name="fuser" /> <br />
+		<label>Password </label><input type="password" name="fpass" /> <br />
+		<label>Retry password </label><input type="password" name="frepass" />
+		<br />
+		<label>Description </label><input type="text" name="fdes" /> <br />
+		<button>Add</button>
+	</form>
 </div>
 <div id="formarea2">
-    <div id="textplace"></div>
-    <form name="dbfilters" id="dbfilters" method="post" onsubmit="on_submit2(this); return false;">
-        <div class="table-style" >
-            <table id="filter-table">
-                <tr><th></th><th>Name</th><th></th><th>Description</th></tr>
-            </table>
-        </div>
-        <div id="bottonplace"></div>
-    </form>
+	<div id="textplace"></div>
+	<form name="dbfilters" id="dbfilters" method="post"
+		onsubmit="on_submit2(this); return false;">
+		<div class="table-style">
+			<table id="filter-table">
+				<tr>
+					<th></th>
+					<th>Name</th>
+					<th></th>
+					<th>Description</th>
+				</tr>
+			</table>
+		</div>
+		<div id="bottonplace"></div>
+	</form>
 </div>
 <div id="error"></div>
 

@@ -1,14 +1,17 @@
-* {margin:0; padding:0;}
+* {
+	margin: 0;
+	padding: 0;
+}
 
-html{
+html {
 	height: 100%;
 	background: url('127.jpg');
-    background-size: auto 100%;
-    background-repeat: repeat-x;
+	background-size: auto 100%;
+	background-repeat: repeat-x;
 }
 
 body {
-	font: 90%/1.3 arial,sans-serif;
+	font: 90%/1.3 arial, sans-serif;
 	padding: 2em;
 }
 
@@ -16,64 +19,68 @@ form {
 	margin: auto;
 	margin-top: 1em;
 	background: rgba(255, 255, 255, 0.90);
-	padding:1em;
-	border:4px solid #855E42;
+	padding: 1em;
+	border: 4px solid #855E42;
 	border-radius: 20px;
-	width:27em;
+	width: 27em;
 	text-align: left;
 }
+
 .login {
-	background:url(user.gif) no-repeat 95% 1em;
+	background: url(user.gif) no-repeat 95% 1em;
 }
+
 fieldset div {
-	margin:0.3em 0;
-	clear:both;
+	margin: 0.3em 0;
+	clear: both;
 }
+
 fieldset {
-	border:2px solid #855E42;
-	padding:0 0.5em 0.5em;
+	border: 2px solid #855E42;
+	padding: 0 0.5em 0.5em;
 	border-radius: 10px;
 }
 
 label {
-	float:left;
-	width:8em;
-	text-align:right;
-	margin-right:1em;
+	float: left;
+	width: 8em;
+	text-align: right;
+	margin-right: 1em;
 }
+
 legend {
-	color:#0b77b7;
-	font-size:1.2em;
+	color: #0b77b7;
+	font-size: 1.2em;
 }
 
 input {
-	padding:0.15em;
-	width:10em;
-	border:2px solid #855E42;
-	background:#fafafa;
-	font:bold 0.95em arial, sans-serif;
-	border-radius:0.4em;
-    -moz-border-radius: 0.4em;
-    -webkit-border-radius: 0.4em;
+	padding: 0.15em;
+	width: 10em;
+	border: 2px solid #855E42;
+	background: #fafafa;
+	font: bold 0.95em arial, sans-serif;
+	border-radius: 0.4em;
+	-moz-border-radius: 0.4em;
+	-webkit-border-radius: 0.4em;
 }
-input:hover, input:focus {
-	border-color:#c5c5c5;
-	background:#f6f6f6;
-} 
 
+input:hover,input:focus {
+	border-color: #c5c5c5;
+	background: #f6f6f6;
+}
 
-#buttons{
-    font-family: verdana, arial, sans-serif; 
-    font-size: 10pt; 
-    font-weight: bold; 
-    padding: 4px; 
-    background-color: #ADD8E6; 
-    color: #666666; 
-    margin-left: 10px;
-    margin-right: 10px; 
-    margin-top: 20px; 
-    margin-bottom: 20px;
-    border-radius: 8px;
-    -moz-border-radius: 8px;
-    -webkit-border-radius: 8px;
+#buttons {
+	font-family: verdana, arial, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	padding: 4px;
+	background-color: #ADD8E6;
+	color: #666666;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
 }
