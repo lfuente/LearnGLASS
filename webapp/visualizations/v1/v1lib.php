@@ -38,12 +38,14 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 
 	$jd1 = array();
 
-
-	//TODO use actual user name, instead of a predefined one
+	//Adds a filter with the user fullname in case he is a student
 	if($key[0]==null && $value[0]==null && $userViewLevel==1){
 		$key[0]="user_fullname";
 		$value[0]=$username;
 		$group[0]="role";
+		$key[1]="community";
+		$value[1]="TutoresMoodle";
+		$group[1]="role";
 	}
 
 	if($key[0]==null && $value[0]==null ){//all events
