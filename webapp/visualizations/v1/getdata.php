@@ -36,7 +36,7 @@ if(isset ($_SESSION['s_username']))
 	}
 
 
-	echo get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$id,$datasetId,$permission->get_userViewLevel());
+	echo get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$id,$datasetId,$permission->get_userViewLevel());
 
 
 

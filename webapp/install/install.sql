@@ -1,4 +1,4 @@
-create database if not exists ##dbname##;
+create database if not exists ##dbname## DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci;
 use ##dbname##;
 
 CREATE TABLE `##prefix##user` (

@@ -76,7 +76,7 @@ body {
 	box-shadow: 4px 4px 7px #999;
 	-webkit-box-shadow: 4px 4px 7px #999;
 	-moz-box-shadow: 4px 4px 7px #999;
-	filter: shadow(color = #999999, direction = 135, strength = 4);
+	filter: shadow(color =   #999999, direction =   135, strength =   4);
 }
 
 #glass_widget_head div {
@@ -96,7 +96,7 @@ body {
 	box-shadow: 4px 4px 7px #999;
 	-webkit-box-shadow: 4px 4px 7px #999;
 	-moz-box-shadow: 4px 4px 7px #999;
-	filter: shadow(color = #999999, direction = 135, strength = 4);
+	filter: shadow(color =   #999999, direction =   135, strength =   4);
 }
 
 /*Buttons*/

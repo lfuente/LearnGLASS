@@ -147,6 +147,6 @@ mysql_close($conexion);
 
 echo "<br>Fin: ".strftime("%Y-%m-%d %I:%M:%S %p",time()).". Tiempo trascurrido: ".(INT)(time() - $datestart)."segundos";
 echo '<br>Memoria utilizada: ' . round(memory_get_usage() / (1024*1024),1) . ' MB de ' . round(memory_get_usage(1) / (1024*1024),1) . ' MB';
- 
- 
+
+
 ?>

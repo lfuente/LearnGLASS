@@ -15,7 +15,6 @@ if ($_GET["XDEBUG_SESSION_START"] == "ECLIPSE_DBGP") {
 	$token = md5($timestamp.$external_username."glasscrif");
 }
 
-
 // 1. do we have a session?
 // 2. do we have a correct token?
 if(isset ($_SESSION['s_username']))
@@ -23,12 +22,11 @@ if(isset ($_SESSION['s_username']))
 	$can_show_page = true;
 } else if (($token != null) && ($timestamp != null) && ($external_username != null))
 {
-
 	///////////////////////////////////////
 	//let's check if the token was created with the valid key
 	$valid_token = check_token($token, $timestamp, $external_username, $CFG);
 	$in_system = user_in_system($external_username, $CFG);
-
+	
 	if ( !$valid_token[0] ) {
 		$msg = $valid_token[1];
 	} else if (!$in_system[0]) {
@@ -45,21 +43,22 @@ if ($can_show_page){
 	$my_permission = new permision($CFG,$username);
 
 	//TODO: fake conf
-	$right_now = strtotime("1 April 2012");
-	//$right_now=strtotime("now");
+	//$right_now = strtotime("1 April 2012");
+	$right_now=strtotime("now");
 	$one_week_ago = strtotime("-2 week", $right_now);
 	//below functions understand the time in milisecons
 	$jsrn = $right_now*1000;
 	$jsowa = $one_week_ago*1000;
 
 	//TODO: value (now is TICPrimaria) should be taken from mongo user data
-	$cValue = "TICPrimaria";
+	$cValue = "TutoresMoodle";
 	if ($my_permission->get_viewUser() == 0)
 	{
 		//the student view: average view with self-view
 		//TODO: $fake_username should be $username
-		$fake_username = "00756209b";
-		$conf="{\"group\":[\"role\",\"role\"],\"key\":[\"user_name\",\"community\"],\"value\":[\"$fake_username\",\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
+		//$fake_username = "13569";
+		//$conf="{\"group\":[\"role\",\"role\"],\"key\":[\"user_fullname\",\"community\"],\"value\":[\"$username\",\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
+		$conf="{\"group\":[\"role\"],\"key\":[\"user_fullname\"],\"value\":[\"$username\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
 	}
 	else
 	{
@@ -94,7 +93,7 @@ if ($can_show_page){
 	mysql_close($conection);
 
 	$conf = json_decode($conf);
-	$jsondata = get_visualization1_Json_data($CFG,$userid,$conf->view,$conf->group,$conf->key,$conf->value,$conf->mMax,$conf->mMin,$dbid,$CAMdb);
+	$jsondata = get_visualization1_Json_data($CFG,$username,$conf->view,$conf->group,$conf->key,$conf->value,$conf->mMax,$conf->mMin,$dbid,$CAMdb);
 
 	include("pic.html");
 	echo '<div id="container'.$dbid.'"></div>';

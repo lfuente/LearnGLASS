@@ -43,7 +43,7 @@ if(isset ($_SESSION['s_username']))
 	//////////////////////////////////////////////////////////
 
 	echo "</div></div></body></html>";
-	 
+
 }
 //redirecto to login page to login
 else

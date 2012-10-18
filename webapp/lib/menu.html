@@ -295,8 +295,7 @@
 <ul id="qm0" class="qmmc" style="width: 120px;">
 
 
-	<li><a class="qmitem-m qmparent" href="javascript:void(0)">
-			<? echo $username;?>
+	<li><a class="qmitem-m qmparent" href="javascript:void(0)"> <? echo $username;?>
 	</a>
 		<ul class="qmsub qm-fixedwidth" style="width: 150px;">
 			<li><a class="qmitem-s" href="<? echo $indexurl;?>home.php">
@@ -307,31 +306,26 @@
 			</a></li>
 		</ul></li>
 
-	<li><a class="qmitem-m qmparent" href="javascript:void(0)">
-			<? echo _GLASS_CONF;?>
+	<li><a class="qmitem-m qmparent" href="javascript:void(0)"> <? echo _GLASS_CONF;?>
 	</a>
 		<ul class="qmsub qm-fixedwidth" style="width: 150px;">
 			<li>
-				<? if($my_permision->get_moduleInstall()==1){?>
-				<a class="qmitem-s" href="<? echo $indexurl;?>modules/index.php">
-					<?php echo _MODULE_MANAGER; ?>
-			</a>
-			<?php }?>
+				<? if($my_permision->get_moduleInstall()==1){?> <a class="qmitem-s"
+				href="<? echo $indexurl;?>modules/index.php"> <?php echo _MODULE_MANAGER; ?>
+			</a> <?php }?>
 			</li>
 			<li>
 				<? if($my_permision->get_userModifyPermision()==1 || $my_permision->get_userTypeChange()==1){?>
 				<a class="qmitem-s" href="<? echo $indexurl;?>users/index.php">
 					<?php echo _USER_MANAGER; ?>
-			</a>
-			<?php }?>
+			</a> <?php }?>
 			</li>
 			<li><a class="qmitem-s" href="<? echo $indexurl;?>settings.php">
 					<?php echo _SETTINGS; ?>
 			</a></li>
 		</ul></li>
 
-	<li><a class="qmitem-m qmparent" href="javascript:void(0)">
-			<? echo _VISUALIZATIONS;?>
+	<li><a class="qmitem-m qmparent" href="javascript:void(0)"> <? echo _VISUALIZATIONS;?>
 	</a>
 		<ul class="qmsub qm-fixedwidth" style="width: 150px;">
 			<?php while($module = mysql_fetch_array($query)){?>
@@ -341,8 +335,7 @@
 			<?php } ?>
 		</ul></li>
 
-	<li><a class="qmitem-m qmparent" href="javascript:void(0)">
-			<? echo _GLASS_REF;?>
+	<li><a class="qmitem-m qmparent" href="javascript:void(0)"> <? echo _GLASS_REF;?>
 	</a>
 		<ul class="qmsub qm-fixedwidth" style="width: 150px;">
 			<li><a class="qmitem-s" href="<? echo $indexurl;?>credits.php">
@@ -358,8 +351,7 @@
 		</a></li>
 
 	<li><a class="qmitem-m qmparent"
-		href='<? echo $indexurl;?>logout.php'>
-			<? echo _LOGOUT;?>
+		href='<? echo $indexurl;?>logout.php'> <? echo _LOGOUT;?>
 	</a></li>
 </ul>
 

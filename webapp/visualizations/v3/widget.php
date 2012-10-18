@@ -14,9 +14,9 @@
 //Example: container_widgetId
 //The function names should be unique to the module, so it is recommended to use the function name
 //to choose preceded by the name of the module which is unique
- 
- 
- 
+
+
+
 //check session name
 if(isset ($_SESSION['s_username'])){
 	//Widget HTML+Javascript

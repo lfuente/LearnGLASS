@@ -1,7 +1,7 @@
 <?php
 session_start();
 //configure settings
- 
+
 if(isset ($_SESSION['s_username']))
 {
 	//Code necesary to print the widget.

@@ -117,7 +117,7 @@ if(isset ($_SESSION['s_username']))
 		$i++;
 	}
 	mysql_close($conection);
-	 
+
 	//fetch the folders and the module description
 	$dir_files = scandir($CFG->dir."visualizations/");
 	$avaible_des = array();

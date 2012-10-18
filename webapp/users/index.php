@@ -39,7 +39,7 @@ if(isset ($_SESSION['s_username']))
 	//get the username & his permisions
 	$username = $_SESSION['s_username'];
 	$my_per = new permision($CFG,$username);
-	 
+
 	if($my_per->get_userModifyPermision()==1)
 	{
 		include ("users.html");

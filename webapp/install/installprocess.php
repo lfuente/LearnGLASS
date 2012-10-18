@@ -63,7 +63,7 @@ if ($LDAPdn!='' && $LDAPdn!=null && $LDAPdn!=$CFG->LDAPdn){
 //update file
 $change_config->update_file();
 $change_dbfile->update_file();
- 
+
 if($dbOp=='yes'){
 	//Install de data base
 	$newImport = new sqlImport ($CFG->dbhost, $CFG->dbuser, $CFG->dbpass, "installinstance.sql");

@@ -70,7 +70,7 @@ if(isset ($_SESSION['s_username']))
 	else{
 		$js =  get_event_from_events($db);
 	}
-	 
+
 	echo json_encode($js);
 }
 else

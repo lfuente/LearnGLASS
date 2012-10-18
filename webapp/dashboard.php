@@ -1,7 +1,7 @@
 <?php
 session_start();
 
- 
+
 //configure settings
 define('_COL','2');
 
@@ -71,10 +71,10 @@ if(isset ($_SESSION['s_username']))
 
 	} while ($data = mysql_fetch_array($query));
 	echo "</TR></TABLE>";
-		
+
 
 	mysql_close($conexion);
-		
+
 
 }
 else

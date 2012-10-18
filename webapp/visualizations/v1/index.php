@@ -54,7 +54,7 @@ if(isset ($_SESSION['s_username']))
 			WHERE id='$confiId'";
 			$fconfId=0;
 		}
-		 
+			
 		$result = mysql_query($query)
 		or die(mysql_error());
 		$data = mysql_fetch_array($result)
@@ -91,7 +91,7 @@ if(isset ($_SESSION['s_username']))
 		$query = "SELECT *
 		FROM ".$CFG->prefix."settings
 		WHERE userId='$userid'";
-		 
+			
 		$result = mysql_query($query)
 		or die(mysql_error());
 		$data = mysql_fetch_array($result)
@@ -107,7 +107,7 @@ if(isset ($_SESSION['s_username']))
 	}
 
 	include ("index.html");
-	 
+
 	//Get the dafault parameters
 	echo '<script>';
 	echo 'get_control_filters("'.$CAMid.'");';

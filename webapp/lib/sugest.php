@@ -28,7 +28,7 @@ if(isset ($_SESSION['s_username']))
 			$query = "SELECT *
 			FROM ".$CFG->prefix."bbdd
 			WHERE id='".$CAMdb."'";
-			 
+
 			$result = mysql_query($query)
 			or die(mysql_error());
 
@@ -36,7 +36,7 @@ if(isset ($_SESSION['s_username']))
 			or die(mysql_error());
 
 			mysql_close($linker);
-			 
+
 			//get de data from the cam database
 			$linker = mysql_connect ($data['host'], $data['user'] , $data['pass'] )
 			or die(mysql_error());

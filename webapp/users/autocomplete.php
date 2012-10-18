@@ -21,7 +21,7 @@ if(isset ($_SESSION['s_username']))
 		or die("Imposible to connect to MySQL");
 		mysql_select_db($CFG->dbname)
 		or die("Imposible to connect to GLASS database");
-		 
+			
 		$query = "SELECT name FROM ".$CFG->prefix."user U";
 
 		$query = mysql_query($query)

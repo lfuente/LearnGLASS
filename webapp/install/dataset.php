@@ -265,7 +265,7 @@ if(isset ($_SESSION['s_username']))
 		}
 	}
 
-	 
+
 	// DB connect
 	$conexion = mysql_connect ($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)or die("error: ".mysql_error());
 	mysql_select_db($CFG->dbname) or die("error: ".mysql_error());

@@ -12,7 +12,7 @@ if(isset ($_SESSION['s_username']))
 	$username = $_SESSION['s_username'];
 	$userid = get_user_id($CFG,$username);
 	$dbid = $_GET['widgetId'];
-	 
+
 
 	if($dbid!=null)
 	{
@@ -52,7 +52,7 @@ if(isset ($_SESSION['s_username']))
 		$query = "DELETE FROM ".$CFG->prefix."dashboard
 		WHERE id ='".$dbid."'
 		AND userId='".$userid."'";
-		 
+			
 		$query = mysql_query($query) or die(mysql_error());
 
 		mysql_close($conexion);

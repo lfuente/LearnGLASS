@@ -1,5 +1,5 @@
 <?php
-function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId,$userViewLevel)
+function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId,$userViewLevel)
 {
 	$time = 60*1000;//60seconds
 	//Extract the name of the application is this exists
@@ -19,7 +19,7 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 	$array_data_key = array();
 	$array_data_value = array();
 	$array_group_value = array();
-
+	
 	//Get DDBB vars
 	$conexion = mysql_connect($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)or die(mysql_error());
 	mysql_select_db($CFG->dbname) or die(mysql_error());
@@ -41,11 +41,10 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 
 	//TODO use actual user name, instead of a predefined one
 	if($key[0]==null && $value[0]==null && $userViewLevel==1){
-		$key[0]="user_name";
-		$value[0]="10011";
+		$key[0]="user_fullname";
+		$value[0]=$username;
 		$group[0]="role";
 	}
-
 
 	if($key[0]==null && $value[0]==null ){//all events
 		$users = $objDB->roleuser->find()->timeout($time*1000);
@@ -66,7 +65,6 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 		$array_data_key[0] = "";
 		$array_data_value[0] = "all";
 		$array_group_value[0] = "all";
-			
 	}
 	else {
 		for($i=0;$i<count($key);$i++){//metadata events
@@ -74,8 +72,10 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 			$k = $key[$i];
 			$v = $value[$i];
 			$g = $group[$i];
+			
 			//role events
 			//TODO I think this part of the code can be improved, making less mongo queries
+			//echo $k, ' ###<br />';
 			if(substr($k,0,4) == "user"){
 				//Obtain the ID of the user so other queries can be made
 				$userAtt = substr($k,5);
@@ -144,7 +144,7 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 	//secondly the diferet point of the view
 	for($j=0;$j<count($myArray);$j++)
 	{
-	  
+		 
 		//TODO dodgy line, sorts the array sometimes
 		uksort($myArray[$j],"usort_handle");
 		$obj_data = json_decode($jd1[$j]);
@@ -156,7 +156,8 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 		// it's waiting for the correct usermodel in mongo
 		// here we have a temporal hack with the fixed magic number
 			
-		if ($data_key_name == 'user_name')
+		//if ($data_key_name == 'user_name')
+		if (substr($data_key_name,0,4) == 'user')
 		{
 			$n_users = 1;
 			// else if ($data_key_name == 'community')
@@ -199,7 +200,7 @@ function get_visualization1_Json_data($CFG,$userid,$view,$Agroup,$Akey,$Avalue,$
 				}
 			}
 			$jdata[$j+1] = array("dgroup" => $data_group_name,"dkey" => $data_key_name, "dvalue" => $data_vale_name,"value" => $data_value, "date" => $data_date);
-				
+
 		}
 		//bar visualization
 		else

@@ -13,7 +13,7 @@ if(isset ($_SESSION['s_username']))
 	{
 		$uName = substr($_POST['ref1'],6);
 		$value = $_POST['value'];
-		 
+			
 		$conexion = mysql_connect ($CFG->dbhost, $CFG->dbuser , $CFG->dbpass )
 		or die(mysql_error());
 		mysql_select_db($CFG->dbname)

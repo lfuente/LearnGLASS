@@ -39,7 +39,7 @@ if(isset ($_SESSION['s_username']))
 	foreach ($cursor as $c){
 		$jdata[count($jdata)] = array("f_name"=>$c["name"],"f_des"=>$c["des"],"f_values"=>$c["values"]);
 	}
-	 
+
 	echo json_encode($jdata);
 
 }

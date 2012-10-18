@@ -38,7 +38,7 @@ if(isset ($_SESSION['s_username']))
 	$query = "SELECT *
 	FROM ".$CFG->prefix."settings
 	WHERE userId='$userid'";
-	 
+
 	$result = mysql_query($query)
 	or die(mysql_error());
 	$data = mysql_fetch_array($result)
@@ -53,7 +53,7 @@ if(isset ($_SESSION['s_username']))
 	//////////////////////////////////////////////////////////
 
 	echo "</div></div></body></html>";
-	 
+
 }
 else
 {

@@ -160,7 +160,7 @@ table.DynarchCalendar-titleCont {
 
 .DynarchCalendar-navDisabled {
 	opacity: 0.3;
-	filter: alpha(opacity = 30);
+	filter: alpha(opacity =   30);
 }
 
 .DynarchCalendar-pressed-navBtn div {
@@ -213,7 +213,7 @@ table.DynarchCalendar-titleCont {
 	background-color: #ddd;
 	overflow: hidden;
 	opacity: 0.85;
-	filter: alpha(opacity = 85);
+	filter: alpha(opacity =   85);
 }
 
 .DynarchCalendar-menu table td div {
@@ -381,7 +381,7 @@ table.DynarchCalendar-titleCont {
 .DynarchCalendar-focusLink {
 	position: absolute;
 	opacity: 0;
-	filter: alpha(opacity = 0);
+	filter: alpha(opacity =   0);
 }
 
 .DynarchCalendar-focused {

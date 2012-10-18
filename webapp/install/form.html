@@ -87,28 +87,21 @@ function validate_send()
 				action="installprocess.php" method="post"
 				onsubmit="return validate_send()">
 				<label>Database host:</label> <input type="text" name="dbhost"
-					value="localhost" /> <br />
-				<label>Database name: </label><input type="text" name="dbname"
-					value="glass" /> <br />
-				<label>Database user: </label><input type="text" name="dbuser"
-					value="root" /> <br />
-				<label>Database pass: </label><input type="password" name="dbpass"
-					value="" /> <br />
-				<label>Database prefix: </label><input type="text" name="prefix"
-					value="glass_" /> <br />
+					value="localhost" /> <br /> <label>Database name: </label><input
+					type="text" name="dbname" value="glass" /> <br /> <label>Database
+					user: </label><input type="text" name="dbuser" value="root" /> <br /> <label>Database
+					pass: </label><input type="password" name="dbpass" value="" /> <br /> <label>Database
+					prefix: </label><input type="text" name="prefix" value="glass_" /> <br />
 				<label>GLASS admin: </label><input type="text" name="admin"
-					value="admin" /> <br />
-				<label>Server url: </label><input type="text" name="url"
-					value="http://localhost/glass/" /> <br />
+					value="admin" /> <br /> <label>Server url: </label><input
+					type="text" name="url" value="http://localhost/glass/" /> <br />
 				<label>Server files location: </label><input type="text" name="dir"
-					value="C:/AppServ/www/glass/" /> <br />
-				<label>LDAP host: </label><input type="text" name="LDAPhost"
-					value="mozart.gast.it.uc3m.es" /> <br />
-				<label>LDAP port: </label><input type="text" name="LDAPport"
-					value="389" /> <br />
-				<label>LDAP conection: </label><input type="text" name="LDAPdn"
-					value="ou=people,dc=mozart,dc=local" /> <input type="hidden"
-					name="dbOp" value="yes" /> <br />
+					value="C:/AppServ/www/glass/" /> <br /> <label>LDAP host:
+				</label><input type="text" name="LDAPhost" value="mozart.gast.it.uc3m.es" />
+				<br /> <label>LDAP port: </label><input type="text" name="LDAPport"
+					value="389" /> <br /> <label>LDAP conection: </label><input
+					type="text" name="LDAPdn" value="ou=people,dc=mozart,dc=local" />
+				<input type="hidden" name="dbOp" value="yes" /> <br />
 				<button>Install</button>
 			</form>
 		</div>

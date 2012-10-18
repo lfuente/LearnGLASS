@@ -23,8 +23,8 @@ if(isset ($_SESSION['s_username']))
 	{
 		include("permits.html");
 	}
-	 
-	 
+
+
 }
 else
 {

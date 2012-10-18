@@ -325,12 +325,12 @@ class sqlImport
 					if ($sL == "-")
 						$text = "";
 					break;
-					 
+
 			}
 		}
 		return $text;
 	}
-	 
+
 	//retrieving the vars
 	function sqlImport ($host, $user,$pass, $ArchivoSql) {
 		$this -> host = $host;
@@ -344,7 +344,7 @@ class sqlImport
 	function dbConnect () {
 		$this->con = mysql_connect($this -> host, $this -> user, $this -> pass);
 	}
-	 
+
 	//Processing and importing of the SQL statements
 	function import ()
 	{
@@ -392,9 +392,9 @@ class sqlImport
 			$this->CodigoError[] = "1";
 			$this->TextoError[] = "MySQL server access denied, please check the access data login";
 		}
-		 
+			
 	}//End of importing
-	 
+
 	//Controlling and displaying the errors on the process
 	function ShowErr ()
 	{
@@ -409,7 +409,7 @@ class sqlImport
 
 		return $OutPut;
 	}
-	 
+
 }
 
 
@@ -458,7 +458,7 @@ class file_vars{
 	function replace_SQL_value($var, $varReplace){
 		$this->data = str_replace($var,$varReplace,$this->data); //replace the string
 	}
-	 
+
 	//update the file with the new value set
 	function update_file(){
 		if($fp = fopen($this->file, "w")){
@@ -474,7 +474,7 @@ class file_vars{
 	function set_file($fileName){
 		$this->file = $fileName;
 	}
-	 
+
 }
 
 
@@ -733,7 +733,7 @@ function create_user_session($user, $CFG){
 ////////////////////////////////////////////////////////////
 function check_token($token, $timestamp, $user, $CFG){
 
-	//ONLY FOR THE CRIF PILOT
+	//TODO ONLY FOR THE CRIF PILOT
 	include($CFG->dir."tokenkey.php");
 
 	$key = $KEY->tokenkey;

@@ -2,13 +2,11 @@
 	action="install/installprocess.php" method="post"
 	onSubmit='return confirm("<?php echo _ADV_CONF; ?>"); return validate_send(this,"<?php echo _USE_ALPH_CHAR; ?>","<?php echo _EMPTY_FIELD; ?>");'>
 	Host: <input type="text" name="dbhost"
-		value="<?php echo $CFG->dbhost; ?>" /> <br />
-	<label>Name:</label> <input type="text" name="dbname"
-		value="<?php echo $CFG->dbname; ?>" /> <br />
+		value="<?php echo $CFG->dbhost; ?>" /> <br /> <label>Name:</label> <input
+		type="text" name="dbname" value="<?php echo $CFG->dbname; ?>" /> <br />
 	<label>User:</label> <input type="text" name="dbuser"
-		value="<?php echo $CFG->dbuser; ?>" /> <br />
-	<label>Pass:</label> <input type="password" name="dbpass" /> <br />
-	<label>Prefix:</label> <input type="text" name="prefix"
-		value="<?php echo $CFG->prefix; ?>" /> <br />
+		value="<?php echo $CFG->dbuser; ?>" /> <br /> <label>Pass:</label> <input
+		type="password" name="dbpass" /> <br /> <label>Prefix:</label> <input
+		type="text" name="prefix" value="<?php echo $CFG->prefix; ?>" /> <br />
 	<button>Update</button>
 </form>
