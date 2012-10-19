@@ -209,7 +209,7 @@ if(isset ($_SESSION['s_username']))
 					$strMap = '
 					function() {
 					var myDate = new Date(this.datetime);
-					STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+					STRmyDate = (myDate.getFullYear())+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
 					for (var user in this.user) {
 					emit({name:this.user[user]._id,date:STRmyDate,type:this.name},{count:1});
 				}
@@ -237,7 +237,7 @@ if(isset ($_SESSION['s_username']))
 					$strMap = '
 					function() {
 					var myDate = new Date(this.datetime);
-					STRmyDate = (myDate.getYear()+1900)+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
+					STRmyDate = (myDate.getFullYear())+"-"+(myDate.getMonth()+1)+"-"+myDate.getDate();
 					if(this.'.$k.'){
 					emit({name:this.'.$k.',date:STRmyDate,type:this.name},{count:1});
 				}

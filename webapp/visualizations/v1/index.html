@@ -221,9 +221,9 @@ function get_data(page)
 						var myDateA = new Date(dataAux.date[0]);
 						myDateB.setDate(myDateB.getDate()-1);
 						myDateA.setDate(myDateA.getDate()+1);
-						UTCmyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-						UTCmyDateB = Date.UTC(myDateB.getYear()+1900,myDateB.getMonth(),myDateB.getDate());
-						UTCmyDateA = Date.UTC(myDateA.getYear()+1900,myDateA.getMonth(),myDateA.getDate());
+						UTCmyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
+						UTCmyDateB = Date.UTC(myDateB.getFullYear(),myDateB.getMonth(),myDateB.getDate());
+						UTCmyDateA = Date.UTC(myDateA.getFullYear(),myDateA.getMonth(),myDateA.getDate());
 						myValue = parseInt(dataAux.value[0]);
 						if(mMin<UTCmyDateB){
 							if(mMax>UTCmyDateA){
@@ -262,8 +262,8 @@ function get_data(page)
 						var DateAux = new Date(dataAux.date[0]);									  
 						var myDate = new Date(dataAux.date[pointdata]);
 						//convert to utc date
-						utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-						utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());			 
+						utcMyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
+						utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());			 
 						//generate the values of the serie
 						while(pointdata<dataAux.value.length)
 						{
@@ -275,7 +275,7 @@ function get_data(page)
 								data_grph[writedata][1]= 0;
 								writedata++;
 								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+								utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());
 							}
 							//there is a data in this day
 							else if(utcAux == utcMyDate)
@@ -287,8 +287,8 @@ function get_data(page)
 								pointdata++;
 								DateAux.setDate(DateAux.getDate()+1); // increase 1 day
 								var myDate = new Date(dataAux.date[pointdata]);
-								utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-								utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+								utcMyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
+								utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());
 							}
 						}
 						theminAux = data_grph[0][0];

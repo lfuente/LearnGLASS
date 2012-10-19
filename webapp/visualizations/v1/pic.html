@@ -1,5 +1,6 @@
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' charset='UTF-8' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'
+	charset='UTF-8' />
 
 
 <!-- 1. Add these JavaScript inclusions in the head of your page -->
@@ -35,8 +36,8 @@ function show_widget(data)
             pointdata = 0;
                     
             var myDate = new Date(dataAux.date[pointdata]);
-            utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-            utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+            utcMyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
+            utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());
             while(DateAux.getTime()<=DateMax.getTime() && pointdata<dataAux.value.length)
             {   
                 if(utcAux<utcMyDate)
@@ -46,7 +47,7 @@ function show_widget(data)
                     data_grph[writedata][1]= 0;
                     writedata++;
                     DateAux.setDate(DateAux.getDate()+1); // increase 1 day
-                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+                    utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());
                 }
                 else if(utcAux == utcMyDate)
                 {
@@ -57,23 +58,23 @@ function show_widget(data)
                     pointdata++;
                     DateAux.setDate(DateAux.getDate()+1); // increase 1 day
                     var myDate = new Date(dataAux.date[pointdata]);
-                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
-                    utcAux = Date.UTC(DateAux.getYear()+1900,DateAux.getMonth(),DateAux.getDate());
+                    utcMyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
+                    utcAux = Date.UTC(DateAux.getFullYear(),DateAux.getMonth(),DateAux.getDate());
                 }
                 else
                 {
                     pointdata++;
                     var myDate = new Date(dataAux.date[pointdata]);
-                    utcMyDate = Date.UTC(myDate.getYear()+1900,myDate.getMonth(),myDate.getDate());
+                    utcMyDate = Date.UTC(myDate.getFullYear(),myDate.getMonth(),myDate.getDate());
                 }
             }
             graphs[j-1] = {
                 name: name,
                 data: data_grph
-            };    
+            };
         }
 
-        
+
         var chart= new Highcharts.Chart
         ({
             chart: {
@@ -110,8 +111,7 @@ function show_widget(data)
             },
              series: graphs
         });
-            
-         
+
    }
 };
 
