@@ -1,6 +1,5 @@
 
-<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'
-	charset='UTF-8' />
+<meta http-equiv='Content-Type' content='text/html; charset=UTF-8' charset='UTF-8' />
 
 
 <!-- 1. Add these JavaScript inclusions in the head of your page -->
@@ -53,7 +52,7 @@ function show_widget(data)
                 {
                     data_grph[writedata]=new Array(2);
                     data_grph[writedata][0]= utcAux;
-                    data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
+                    data_grph[writedata][1]= parseFloat(dataAux.value[pointdata]);
                     writedata++;
                     pointdata++;
                     DateAux.setDate(DateAux.getDate()+1); // increase 1 day
@@ -86,8 +85,22 @@ function show_widget(data)
                         $(this).attr('target', '_blank');
                         window.open("index.php");
                     }
-                }
+                },
+                type: 'line'
             },
+            plotOptions: {
+            	line: {
+            		marker: {
+            			enabled: false
+            		}
+            	}
+            },
+//             tooltip: {
+//                 formatter: function() {
+//                         return ''+
+//                         Math.round(this.y*100)/100;
+//                 }
+//             },
             credits: {
                 enabled: false
             },

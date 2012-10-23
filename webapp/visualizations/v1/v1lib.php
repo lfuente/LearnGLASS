@@ -154,11 +154,11 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 		$data_vale_name = $array_data_value[$j];
 		$data_group_name = $array_group_value[$j];
 			
-		//TODO: get the number of users in the current community
-		// it's waiting for the correct usermodel in mongo
-		// here we have a temporal hack with the fixed magic number
+		//TODO: get the right number of users when group or community filter is used.
+		//Right now it doesn't calculate the mean if the filter is for the user collection, it shows an absolute number of events even if the group filter is selected.
+		//When a commuinity is chosen as filter it uses all the users, not only those on the community.
+		//This is why the cache or MapReduce should be visualization dependant, and not application dependant.
 			
-		//if ($data_key_name == 'user_name')
 		if (substr($data_key_name,0,4) == 'user')
 		{
 			$n_users = 1;
@@ -228,7 +228,7 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 			arsort($aux_array);
 			foreach($aux_array as $k1 => $v1){
 				$bardataname[count($bardataname)] = $k1;
-				$bardataresult[count($bardataresult)] = $v1;
+				$bardataresult[count($bardataresult)] = $v1/$n_users;
 			}
 			$jdata[$j+1] = array("dgroup" => $data_group_name,"dkey" => $data_key_name, "dvalue" => $data_vale_name,"bdn" => $bardataname, "bdv" => $bardataresult);
 		}

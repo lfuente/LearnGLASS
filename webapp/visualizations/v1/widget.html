@@ -157,7 +157,7 @@ function show_widget(data)
                     {
                         data_grph[writedata]=new Array(2);
                         data_grph[writedata][0]= utcAux;
-                        data_grph[writedata][1]= parseInt(dataAux.value[pointdata]);
+                        data_grph[writedata][1]= parseFloat(dataAux.value[pointdata]);
                         writedata++;
                         pointdata++;
                         DateAux.setDate(DateAux.getDate()+1); // increase 1 day
@@ -190,6 +190,13 @@ function show_widget(data)
                 },
                 exporting: {
                     enabled: false
+                },
+                plotOptions: {
+                	line: {
+                		marker: {
+                			enabled: false
+                		}
+                	}
                 },
                 title: {
                     text: '<? echo V1_MODULE_TITTLE;?>: <? echo V1_MSJ8;?>'

@@ -55,10 +55,7 @@ if ($can_show_page){
 	if ($my_permission->get_viewUser() == 0)
 	{
 		//the student view: average view with self-view
-		//TODO: $fake_username should be $username
-		//$fake_username = "13569";
 		$conf="{\"group\":[\"role\",\"role\"],\"key\":[\"user_fullname\",\"community\"],\"value\":[\"$username\",\"$cValue\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
-		//$conf="{\"group\":[\"role\"],\"key\":[\"user_fullname\"],\"value\":[\"$username\"],\"mMax\":\"$jsrn\",\"mMin\":\"$jsowa\",\"view\":\"1\"}";
 	}
 	else
 	{
