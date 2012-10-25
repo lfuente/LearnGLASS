@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>LearnGLASS: CosmoCaixa</title>
+		
+		<script src="../../lib/jquery.js"></script>
+		<script src='./lib/highcharts/highcharts.js'></script>
+		<script src='./lib/highcharts/modules/exporting.js'></script>
+		
+	</head>
+	<body>
+		<h1>CosmoCaixa: visualización por grupos</h1>
+		<div id='container1'></div>
+		<script>
+			jQuery(
+				function chart1() {
+					var chart = new Highcharts.Chart({
+						chart: {
+							renderTo: 'container1',
+							type: 'area',
+							marginRight: 100,
+							marginBottom: 25,
+						},
+						title: {
+							text: 'Tiempo del equipo Alpha',
+							align: 'center',
+						},
+						yAxis: {
+							title: {
+								text: 'Actividad'
+							},
+							categories: ['','',''],
+							max: 1.5,
+						},
+						xAxis: {
+							type: 'datetime',
+						},
+						tooltip: {
+							formatter: function() {
+								return '<b>' + this.series.name + '</b>:' + Highcharts.dateFormat('%H:%M:%S', this.x);
+							}
+						},
+						legend: {
+							layout: 'vertical',
+							align: 'right',
+							verticalAlign: 'top',
+							x: -10,
+							y: 100,
+							borderWidth: 0
+						},
+						plotOptions: {
+							series: {
+								dataLabels: {
+									enabled: true,
+									formatter: function() {
+										return Highcharts.dateFormat('%H:%M', this.x);
+									},
+									verticalAlign: 'bottom',
+								},
+							},
+						},
+						series: [
+							{
+								name: 'Inicio',
+								data: <?php echo $cchints['start'] ?>
+							},
+							{
+								name: 'Módulo 1',
+								data: <?php echo $cchints['module1'] ?>
+							},
+							{
+								name: 'Módulo 2',
+								data: <?php echo $cchints['module2'] ?>
+							},
+							{
+								name: 'Módulo 3',
+								data: <?php echo $cchints['module3'] ?>
+							},
+							{
+								name: 'Fin',
+								data: <?php echo $cchints['end'] ?>
+							},
+						]
+					});
+				}
+			);
+		</script>
+		
+	</body>
+</html>
