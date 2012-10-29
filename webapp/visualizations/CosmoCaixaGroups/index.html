@@ -87,5 +87,11 @@
 			);
 		</script>
 		
+		<div id='reports1'>
+			<?php for ( $i = 0; $i<count($reports); $i++){ ?>
+				<h2><?php echo $reports[i]['exhibit']; ?></h2>
+				<p><?php echo $reports[i]['report']; ?></p>
+			<?php } ?>
+		</div>
 	</body>
 </html>

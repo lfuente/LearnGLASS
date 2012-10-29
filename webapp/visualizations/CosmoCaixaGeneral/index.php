@@ -45,10 +45,10 @@ if( isset ($_SESSION['s_username']) ) {
 	$map = new MongoCode("
 		function() {
 			if (this.content.type == 'qr-scanned' && this.content.expected_code == this.content.scanned_code){
-				emit({'hint':this.content.expected_code, 'action':'arrived'}, {time:this.time});
+				emit({'hint':this.content.expected_code, 'action':'arrived', 'team':this.team}, {time:this.time});
 			}
 			else if (this.content.type == 'qr-asked'){
-				emit({'hint':this.content.expected_code, 'action':'search'}, {time:this.time});
+				emit({'hint':this.content.expected_code, 'action':'search', 'team':this.team}, {time:this.time});
 			}
 		}
 	");
@@ -56,7 +56,7 @@ if( isset ($_SESSION['s_username']) ) {
 	/*
 	 * This reduces the time attribute in case there are more than one event for the same hint.
 	 * If the type is 'qr-asked' it stays with the latest one.
-	 * If the type is 'qr-scanned' it stays with the earliest one.s
+	 * If the type is 'qr-scanned' it stays with the earliest one.
 	 */
 	$reduce = new MongoCode("
 		function(key, values) {

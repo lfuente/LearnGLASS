@@ -10,84 +10,126 @@
 		
 	</head>
 	<body>
+	
+	
 		<h1>CosmoCaixa: visualización general</h1>
+		
 		<div id='container1'></div>
 		<script>
-			jQuery(
-				function chart1() {
-					var chart = new Highcharts.Chart({
-						chart: {
-							renderTo: 'container1',
-							type: 'area',
-							marginRight: 100,
-							marginBottom: 25,
-						},
-						title: {
-							text: 'Tiempo del equipo Alpha',
-							align: 'center',
-						},
-						yAxis: {
-							title: {
-								text: 'Actividad'
-							},
-							categories: ['','',''],
-							max: 1.5,
-						},
-						xAxis: {
-							type: 'datetime',
-						},
-						tooltip: {
-							formatter: function() {
-								return '<b>' + this.series.name + '</b>:' + Highcharts.dateFormat('%H:%M:%S', this.x);
-							}
-						},
-						legend: {
-							layout: 'vertical',
+			jQuery(function() {
+				var chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container1',
+						type: 'column',
+						margin: [ 50, 50, 100, 80]
+					},
+					title: {
+						text: 'Tiempo medio en cada módulo'
+					},
+					xAxis: {
+						categories: [
+							'Módulo 1',
+							'Módulo 2',
+							'Módulo 3',
+							'Módulo 4',
+							'Módulo 5',
+						],
+						labels: {
+							rotation: -45,
 							align: 'right',
-							verticalAlign: 'top',
-							x: -10,
-							y: 100,
-							borderWidth: 0
-						},
-						plotOptions: {
-							series: {
-								dataLabels: {
-									enabled: true,
-									formatter: function() {
-										return Highcharts.dateFormat('%H:%M', this.x);
-									},
-									verticalAlign: 'bottom',
-								},
-							},
-						},
-						series: [
-							{
-								name: 'Inicio',
-								data: <?php echo $cchints['start'] ?>
-							},
-							{
-								name: 'Módulo 1',
-								data: <?php echo $cchints['module1'] ?>
-							},
-							{
-								name: 'Módulo 2',
-								data: <?php echo $cchints['module2'] ?>
-							},
-							{
-								name: 'Módulo 3',
-								data: <?php echo $cchints['module3'] ?>
-							},
-							{
-								name: 'Fin',
-								data: <?php echo $cchints['end'] ?>
-							},
-						]
-					});
-				}
-			);
+							style: {
+								fontSize: '13px',
+								fontFamily: 'Verdana, sans-serif'
+							}
+						}
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: 'Tiempo medio (minutos)'
+						}
+					},
+					legend: {
+						enabled: false
+					},
+					series: [{
+						name: 'Tiempo',
+						data: [5, 10, 8, 12, 8],
+						dataLabels: {
+							enabled: true,
+							color: '#FFFFFF',
+							y: 25,
+							style: {
+								fontSize: '15px',
+								fontWeight: 'bold',
+								fontFamily: 'Tahoma, sans-serif'
+							}
+						}
+					}]
+				});
+			});
 		</script>
 		
 		<div id='container2'></div>
+		<script>
+			jQuery(function() {
+				var chart = new Highcharts.Chart({
+					chart: {
+						renderTo: 'container2',
+						type: 'column',
+						margin: [ 50, 50, 100, 80]
+					},
+					title: {
+						text: 'Opiniones para el módulo'
+					},
+					xAxis: {
+						categories: [
+							'Happy',
+							'Sad',
+							'Neutral',
+						],
+						labels: {
+							align: 'center',
+							style: {
+								fontSize: '13px',
+								fontFamily: 'Verdana, sans-serif'
+							},
+							formatter: function() {
+								return '<img src="img/'+ this.value +'.png" alt="'+ this.value +'" height="100" width="100">';
+							},
+							useHTML: true,
+						}
+					},
+					yAxis: {
+						min: 0,
+						title: {
+							text: 'Número de opiniones'
+						}
+					},
+					legend: {
+						enabled: false
+					},
+					series: [{
+						name: 'Opiniones',
+						data: [
+								{y: 10, color: 'darkseagreen'},
+								{y: 3, color: 'indianred'},
+								{y: 5, color: 'burlywood'},
+						],
+						dataLabels: {
+							enabled: true,
+							color: 'black',
+							y: 25,
+							style: {
+								fontSize: '15px',
+								fontWeight: 'bold',
+								fontFamily: 'Tahoma, sans-serif'
+							}
+						}
+					}]
+				});
+			});
+		</script>
 		
 	</body>
 </html>

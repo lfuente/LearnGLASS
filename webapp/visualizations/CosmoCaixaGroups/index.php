@@ -45,10 +45,10 @@ if( isset ($_SESSION['s_username']) ) {
 	$map = new MongoCode("
 		function() {
 			if (this.content.type == 'qr-scanned' && this.content.expected_code == this.content.scanned_code){
-				emit({'hint':this.content.expected_code, 'action':'arrived'}, {time:this.time});
+				emit({'hint':this.content.expected_code, 'action':'arrived', 'team':this.team}, {time:this.time});
 			}
 			else if (this.content.type == 'qr-asked'){
-				emit({'hint':this.content.expected_code, 'action':'search'}, {time:this.time});
+				emit({'hint':this.content.expected_code, 'action':'search', 'team':this.team}, {time:this.time});
 			}
 		}
 	");
@@ -93,29 +93,42 @@ if( isset ($_SESSION['s_username']) ) {
 	$cchints = array();
 	
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint1', '_id.action'=>'search')  );
-	$cchints['start']=json_encode(array(array($tmp['value']['time'],0)));
+	$cchints['start']=json_encode(array(array($tmp['value']['time']*1000,0)));
 	
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint1', '_id.action'=>'arrived')  );
-	$cchints['module1'][0]=array($tmp['value']['time'],1);
+	$cchints['module1'][0]=array($tmp['value']['time']*1000,1);
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint2', '_id.action'=>'search')  );
-	$cchints['module1'][1]=array($tmp['value']['time'],1);
+	$cchints['module1'][1]=array($tmp['value']['time']*1000,1);
 	$cchints['module1']=json_encode($cchints['module1']);
 	
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint2', '_id.action'=>'arrived')  );
-	$cchints['module2'][0]=array($tmp['value']['time'],1);
+	$cchints['module2'][0]=array($tmp['value']['time']*1000,1);
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint3', '_id.action'=>'search')  );
-	$cchints['module2'][1]=array($tmp['value']['time'],1);
+	$cchints['module2'][1]=array($tmp['value']['time']*1000,1);
 	$cchints['module2']=json_encode($cchints['module2']);
 	
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint3', '_id.action'=>'arrived')  );
-	$cchints['module3'][0]=array($tmp['value']['time'],1);
+	$cchints['module3'][0]=array($tmp['value']['time']*1000,1);
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hintf', '_id.action'=>'search')  );
-	$cchints['module3'][1]=array($tmp['value']['time'],1);
+	$cchints['module3'][1]=array($tmp['value']['time']*1000,1);
 	$cchints['module3']=json_encode($cchints['module3']);
 	
 	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hintf', '_id.action'=>'arrived')  );
-	$cchints['end']=json_encode(array(array($tmp['value']['time'],0)));
+	$cchints['end']=json_encode(array(array($tmp['value']['time']*1000,0)));
 	//end of crappy code
+	
+	$reports = array();
+	
+	//Gets the reports written by this team
+	$cursor = $db->events->find(  array('type' => 'log')  );
+	
+	foreach ($cursor as $doc){
+		echo var_dump($doc), $doc['content']['page'], '<br>';
+		$reports[count($reports)] = array('exhibit' => $doc['content']['page'], 'report' => $doc['content']['message']);
+		echo $reports[count($reports)]['exhibit'];
+	}
+	
+	echo var_dump($reports);
 	
 	include('index.html');
 }
