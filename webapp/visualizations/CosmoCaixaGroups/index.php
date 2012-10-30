@@ -37,6 +37,8 @@ if( isset ($_SESSION['s_username']) ) {
 	$dbinfo->database = $data["name"];
 	$db = MongoConnect($dbinfo->username,$dbinfo->password,$dbinfo->database,$dbinfo->host);
 	
+	// ##### CHART ##### //
+	
 	/*
 	 * This fitlers the documents whose content.type is 'qr-scanned' or 'qr-asked'.
 	 * If the type is 'qr-scanned', it also checks if the scanned code is the expected one.
@@ -105,6 +107,8 @@ if( isset ($_SESSION['s_username']) ) {
 		$info[$school][$team]['chart'][$module][$action] = $time;
 	}
 	
+	
+	// ##### REPORTS ##### //
 	
 	/*
 	 * This gets the messages a team left at a module.

@@ -98,6 +98,7 @@
 				<h3>Informes:</h3>
 				
 				<?php foreach($data['reports'] as $module=>$report){ ?>
+					
 					<div id='<?php echo $school,'_',$team,'_reports'?>'>
 						<h4><?php echo $module; ?></h4>
 						<p><?php echo $report; ?></p>
