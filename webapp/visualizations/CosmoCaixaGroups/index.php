@@ -38,37 +38,37 @@ if( isset ($_SESSION['s_username']) ) {
 	$db = MongoConnect($dbinfo->username,$dbinfo->password,$dbinfo->database,$dbinfo->host);
 	
 	/*
-	 * This fitlers the documents that whose content.type is 'qr-scanned' or 'qr-asked'.
+	 * This fitlers the documents whose content.type is 'qr-scanned' or 'qr-asked'.
 	 * If the type is 'qr-scanned', it also checks if the scanned code is the expected one.
 	 * Then, it saves the time of each of those events.
 	 */
 	$map = new MongoCode("
 		function() {
 			if (this.content.type == 'qr-scanned' && this.content.expected_code == this.content.scanned_code){
-				emit({'hint':this.content.expected_code, 'action':'arrived', 'team':this.team}, {time:this.time});
+				emit({'hint':this.content.expected_code, 'action':'start', 'team':this.team, 'school':this.school}, {time:this.time});
 			}
 			else if (this.content.type == 'qr-asked'){
-				emit({'hint':this.content.expected_code, 'action':'search', 'team':this.team}, {time:this.time});
+				emit({'hint':this.content.previous_code, 'action':'end', 'team':this.team, 'school':this.school}, {time:this.time});
 			}
 		}
 	");
 	
 	/*
-	 * This reduces the time attribute in case there are more than one event for the same hint.
-	 * If the type is 'qr-asked' it stays with the latest one.
-	 * If the type is 'qr-scanned' it stays with the earliest one.s
+	 * This reduces the time attribute in case there is more than one event for the same hint.
+	 * If the type is 'qr-asked' it stays with the latest one, as it is the time at which the previous module was finished.
+	 * If the type is 'qr-scanned' it stays with the earliest one, as it is the time at which the current module was started.
 	 */
 	$reduce = new MongoCode("
 		function(key, values) {
 			var result = values[0];
 			for (var i = 1; i<values.length; i++){
-				if(key.action == 'search'){
-					if(values[i].time > result.time){
+				if(key.action == 'start'){
+					if(values[i].time < result.time){
 						result.time = values[i].time;
 					}
 				}
 				else{
-					if(values[i].time < result.time){
+					if(values[i].time > result.time){
 						result.time = values[i].time;
 					}
 				}
@@ -88,49 +88,74 @@ if( isset ($_SESSION['s_username']) ) {
 	//Execute mapreduce
 	$results = $db->command($params);
 	
-	//Crappy code for CosmoCaixa scenario, please, change in the future, once logged events permit unordered paths
-	//Constructs several data series for timeline graph
-	$cchints = array();
+	//Get all the reduced data
+	$cursor = $db->milestones->find();
 	
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint1', '_id.action'=>'search')  );
-	$cchints['start']=json_encode(array(array($tmp['value']['time']*1000,0)));
+	//This will hold all the information needed by the view.
+	$info = array();
 	
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint1', '_id.action'=>'arrived')  );
-	$cchints['module1'][0]=array($tmp['value']['time']*1000,1);
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint2', '_id.action'=>'search')  );
-	$cchints['module1'][1]=array($tmp['value']['time']*1000,1);
-	$cchints['module1']=json_encode($cchints['module1']);
-	
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint2', '_id.action'=>'arrived')  );
-	$cchints['module2'][0]=array($tmp['value']['time']*1000,1);
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint3', '_id.action'=>'search')  );
-	$cchints['module2'][1]=array($tmp['value']['time']*1000,1);
-	$cchints['module2']=json_encode($cchints['module2']);
-	
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hint3', '_id.action'=>'arrived')  );
-	$cchints['module3'][0]=array($tmp['value']['time']*1000,1);
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hintf', '_id.action'=>'search')  );
-	$cchints['module3'][1]=array($tmp['value']['time']*1000,1);
-	$cchints['module3']=json_encode($cchints['module3']);
-	
-	$tmp=$db->milestones->findOne(  array('_id.hint'=>'hintf', '_id.action'=>'arrived')  );
-	$cchints['end']=json_encode(array(array($tmp['value']['time']*1000,0)));
-	//end of crappy code
-	
-	$reports = array();
-	
-	//Gets the reports written by this team
-	$cursor = $db->events->find(  array('type' => 'log')  );
-	
-	foreach ($cursor as $doc){
-		echo var_dump($doc), $doc['content']['page'], '<br>';
-		$reports[count($reports)] = array('exhibit' => $doc['content']['page'], 'report' => $doc['content']['message']);
-		echo $reports[count($reports)]['exhibit'];
+	//Generates a structure of arrays
+	foreach($cursor as $doc){
+		$school	= $doc['_id']['school'];
+		$team	= $doc['_id']['team'];
+		$module	= $doc['_id']['hint'];
+		$action	= $doc['_id']['action'];
+		$time	= $doc['value']['time'];
+		
+		$info[$school][$team]['chart'][$module][$action] = $time;
 	}
 	
-	echo var_dump($reports);
 	
-	include('index.html');
+	/*
+	 * This gets the messages a team left at a module.
+	 */
+	$map = new MongoCode("
+		function() {
+			if (this.type == 'log'){
+				emit({'module':this.content.page, 'team':this.team, 'school':this.school}, {'report':this.content.message});
+			}
+		}
+	");
+	
+	/*
+	 * Concatenates all the reports into a single one.
+	 */
+	$reduce = new MongoCode("
+		function(key, values) {
+			var result = values[0];
+			for (var i = 1; i<values.length; i++){
+				result.report += '<br><br>' + values[i].report;
+			}
+			return result;
+		}
+	");
+	
+	//Parameters  for mapreduce
+	$params = array(
+		"mapreduce"=>"events",
+		"map"=>$map,
+		"reduce"=>$reduce,
+		"out"=>"reports",
+	);
+	
+	//Execute mapreduce
+	$results = $db->command($params);
+	
+	//Get all the reports
+	$cursor = $db->reports->find();
+
+	//Generates a structure of arrays
+	foreach($cursor as $doc){
+		$school	= $doc['_id']['school'];
+		$team	= $doc['_id']['team'];
+		$module	= $doc['_id']['module'];
+		$report	= $doc['value']['report'];
+	
+		$info[$school][$team]['reports'][$module] = $report;
+	}
+	
+	//Load the view
+	include('view.php');
 }
 else {
 	$goto = $_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'];
