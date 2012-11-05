@@ -46,11 +46,11 @@ if( isset ($_SESSION['s_username']) ) {
 	 */
 	$map = new MongoCode("
 		function() {
-			if (this.content.type == 'qr-scanned' && this.content.expected_code == this.content.scanned_code){
-				emit({'hint':this.content.expected_code, 'action':'start', 'team':this.team, 'school':this.school}, {time:this.time});
+			if (this.doc.content.type == 'qr-scanned' && this.doc.content.expected_code == this.doc.content.scanned_code){
+				emit({'hint':this.doc.content.expected_code, 'action':'start', 'team':this.doc.team, 'school':this.doc.school}, {time:this.doc.time});
 			}
-			else if (this.content.type == 'qr-asked'){
-				emit({'hint':this.content.previous_code, 'action':'end', 'team':this.team, 'school':this.school}, {time:this.time});
+			else if (this.doc.content.type == 'qr-asked'){
+				emit({'hint':this.doc.content.previous_code, 'action':'end', 'team':this.doc.team, 'school':this.doc.school}, {time:this.doc.time});
 			}
 		}
 	");
@@ -183,15 +183,15 @@ if( isset ($_SESSION['s_username']) ) {
 	}
 	
 	
-	// ##### REPORTS ##### //
+	// ##### REPORTS and SMILEYS ##### //
 	
 	/*
 	 * This gets the messages a team left at a module.
 	 */
 	$map = new MongoCode("
 		function() {
-			if (this.type == 'log'){
-				emit({'module':this.content.page, 'team':this.team, 'school':this.school}, {'report':this.content.message});
+			if (this.doc.type == 'log'){
+				emit({'module':this.doc.content.page, 'team':this.doc.team, 'school':this.doc.school}, {'report':this.doc.content.message, 'smiley':this.doc.content.smiley});
 			}
 		}
 	");
@@ -232,8 +232,10 @@ if( isset ($_SESSION['s_username']) ) {
 		$team	= $doc['_id']['team'];
 		$module	= $doc['_id']['module'];
 		$report	= $doc['value']['report'];
+		$smiley	= $doc['value']['smiley'];
 	
 		$inforeports[$module][$school][$team] = $report;
+		$infosmileys[$module][$smiley]++;
 	}
 	
 	include('view.php');

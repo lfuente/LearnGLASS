@@ -1,0 +1,2 @@
+name:CosmoCaixa Grupos
+description:Muestra información de los grupos que han visitado el museo.

@@ -26,12 +26,16 @@
 			<script>
 				jQuery(
 					function() {
+						Highcharts.setOptions({
+							global: {
+								useUTC: false
+							}
+						});
 						var chart = new Highcharts.Chart({
 							chart: {
 								renderTo: '<?php echo $school,'_',$team,'_chart' ?>',
 								type: 'area',
-								marginRight: 100,
-								marginBottom: 25,
+								margin: [0, 40, 40, 50],
 							},
 							title: {
 								text: 'Tiempo del equipo <?php echo $team ?>',
@@ -45,6 +49,7 @@
 								},
 								categories: ['','',''],
 								max: 1.5,
+								gridLineWidth: 0,
 							},
 							xAxis: {
 								type: 'datetime',
@@ -56,10 +61,10 @@
 							},
 							legend: {
 								layout: 'vertical',
-								align: 'right',
+								align: 'center',
 								verticalAlign: 'top',
-								x: -10,
-								y: 100,
+								x: 0,
+								y: 50,
 								borderWidth: 0
 							},
 							plotOptions: {
@@ -69,7 +74,9 @@
 										formatter: function() {
 											return Highcharts.dateFormat('%H:%M', this.x);
 										},
-										verticalAlign: 'bottom',
+										rotation: -45,
+										x: 15,
+										y: -15,
 									},
 								},
 							},

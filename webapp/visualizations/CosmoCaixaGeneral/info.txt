@@ -1,0 +1,2 @@
+name:CosmoCaixa General
+description:Muestra información de todos los módulos del museo.
