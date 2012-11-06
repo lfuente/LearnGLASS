@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>LearnGLASS: CosmoCaixa</title>
 		
+		<link rel="stylesheet" type="text/css" href="style.css">
+		
 		<script src="../../lib/jquery.js"></script>
 		<script src='./lib/highcharts/highcharts.js'></script>
 		<script src='./lib/highcharts/modules/exporting.js'></script>
@@ -84,7 +86,7 @@
 			<h2>Informes</h2>
 			
 			<?php foreach($inforeports as $module=>$schools){ ?>
-			
+				<div class='report'>
 				<h3><?php echo $module; ?></h3>
 				<?php
 					foreach($schools as $school=>$teams){
@@ -93,7 +95,7 @@
 					
 					<h4>Colegio: <?php echo $school; ?> - Equipo: <?php echo $team; ?></h4>
 					<p><?php echo $report; ?></p>
-					<div id='smileys_<?php echo $module; ?>' ></div>
+					<div id='smileys_<?php echo $module; ?>' class='smileys'></div>
 					<script>
 						jQuery(function() {
 							var chart = new Highcharts.Chart({
@@ -118,7 +120,7 @@
 											fontFamily: 'Verdana, sans-serif'
 										},
 										formatter: function() {
-											return '<img src="img/'+ this.value +'.png" alt="'+ this.value +'" height="100" width="100">';
+											return '<img src="img/'+ this.value +'.png" alt="'+ this.value +'" height="50" width="50">';
 										},
 										useHTML: true,
 									}
@@ -157,6 +159,7 @@
 						}
 					}
 				?>
+				</div>
 			<?php } ?>
 		</div>
 		

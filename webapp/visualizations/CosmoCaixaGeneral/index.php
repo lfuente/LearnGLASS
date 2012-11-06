@@ -191,7 +191,7 @@ if( isset ($_SESSION['s_username']) ) {
 	$map = new MongoCode("
 		function() {
 			if (this.doc.type == 'log'){
-				emit({'module':this.doc.content.page, 'team':this.doc.team, 'school':this.doc.school}, {'report':this.doc.content.message, 'smiley':this.doc.content.smiley});
+				emit({'module':this.doc.last_code, 'team':this.doc.team, 'school':this.doc.school}, {'report':this.doc.content.message, 'smiley':this.doc.content.smiley});
 			}
 		}
 	");

@@ -4,6 +4,8 @@
 		<meta charset="UTF-8">
 		<title>LearnGLASS: CosmoCaixa</title>
 		
+		<link rel="stylesheet" type="text/css" href="style.css">
+		
 		<script src="../../lib/jquery.js"></script>
 		<script src='./lib/highcharts/highcharts.js'></script>
 		<script src='./lib/highcharts/modules/exporting.js'></script>
@@ -17,12 +19,12 @@
 				foreach($teams as $team=>$data){
 		?>
 		
-		<div id='<?php echo $school,'_',$team ?>'>
+		<div id='<?php echo $school,'_',$team ?>' class='team'>
 			<h2>
 				Colegio: <?php echo $school ?><br>
 				Equipo: <?php echo $team ?>
 			</h2>
-			<div id='<?php echo $school,'_',$team,'_chart' ?>'></div>
+			<div id='<?php echo $school,'_',$team,'_chart' ?>' class='timeline'></div>
 			<script>
 				jQuery(
 					function() {
@@ -35,7 +37,7 @@
 							chart: {
 								renderTo: '<?php echo $school,'_',$team,'_chart' ?>',
 								type: 'area',
-								margin: [0, 40, 40, 50],
+								margin: [100, 40, 40, 50],
 							},
 							title: {
 								text: 'Tiempo del equipo <?php echo $team ?>',

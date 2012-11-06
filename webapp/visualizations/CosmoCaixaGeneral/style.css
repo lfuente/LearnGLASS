@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+body {
+	width:			800px;
+	margin-left:	auto;
+	margin-right:	auto;
+	font-family:	verdana, sans-serif;
+	font-size:		14px;
+}
+
+div.report {
+	border:		1px solid grey;
+	padding:	10px;
+}
+
+div.smileys {
+	height:	300px;
+	width:	400px;
+}

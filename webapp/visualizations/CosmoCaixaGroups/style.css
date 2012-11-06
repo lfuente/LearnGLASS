@@ -1,0 +1,19 @@
+@CHARSET "UTF-8";
+
+body {
+	width:			800px;
+	margin-left:	auto;
+	margin-right:	auto;
+	font-family:	verdana, sans-serif;
+	font-size:		14px;
+}
+
+div.team {
+	border:		1px solid grey;
+	padding:	10px;
+}
+
+div.timeline {
+	height:	250px;
+	width:	auto;
+}
