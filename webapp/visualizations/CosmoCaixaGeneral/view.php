@@ -31,7 +31,7 @@
 					xAxis: {
 						categories: [
 							<?php
-								foreach($infotimes as $module=>$value){
+								foreach($info as $module=>$data){
 									echo '"',$module,'",';
 								}
 							?>
@@ -58,8 +58,8 @@
 						name: 'Tiempo',
 						data: [
 							<?php
-								foreach($infotimes as $module=>$value){
-									echo $value/60,',';
+								foreach($info as $module=>$data){
+									echo $data['time']/60,',';
 								}
 							?>
 						],
@@ -85,16 +85,19 @@
 		<div id='reports'>
 			<h2>Informes</h2>
 			
-			<?php foreach($inforeports as $module=>$schools){ ?>
+			<?php foreach($info as $module=>$data){ ?>
 				<div class='report'>
 				<h3><?php echo $module; ?></h3>
 				<?php
-					foreach($schools as $school=>$teams){
+					foreach($data['reports'] as $school=>$teams){
 						foreach($teams as $team=>$report){
 				?>
 					
 					<h4>Colegio: <?php echo $school; ?> - Equipo: <?php echo $team; ?></h4>
 					<p><?php echo $report; ?></p>
+					<a class='image' href='<?php echo $data['images'][$school][$team]; ?>'>
+						<img class='module' src='<?php echo $data['images'][$school][$team]; ?>' alt='<?php echo $module,'_',$school,'_',$team; ?>' >
+					</a>
 					<div id='smileys_<?php echo $module; ?>' class='smileys'></div>
 					<script>
 						jQuery(function() {
@@ -137,9 +140,9 @@
 								series: [{
 									name: 'Opiniones',
 									data: [
-											{y: <?php echo 0+$infosmileys[$module]['happy']; ?>, color: 'darkseagreen'},
-											{y: <?php echo 0+$infosmileys[$module]['sad']; ?>, color: 'indianred'},
-											{y: <?php echo 0+$infosmileys[$module]['none']; ?>, color: 'burlywood'},
+											{y: <?php echo 0+$info[$module]['smileys']['happy']; ?>, color: 'darkseagreen'},
+											{y: <?php echo 0+$info[$module]['smileys']['sad']; ?>, color: 'indianred'},
+											{y: <?php echo 0+$info[$module]['smileys']['none']; ?>, color: 'burlywood'},
 									],
 									dataLabels: {
 										enabled: true,

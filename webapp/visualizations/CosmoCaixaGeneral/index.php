@@ -37,6 +37,10 @@ if( isset ($_SESSION['s_username']) ) {
 	$dbinfo->database = $data["name"];
 	$db = MongoConnect($dbinfo->username,$dbinfo->password,$dbinfo->database,$dbinfo->host);
 	
+	
+	//This will hold all the information needed by the view
+	$info = array();
+	
 	// ##### TIME CHART ##### //
 	
 	/*
@@ -170,16 +174,13 @@ if( isset ($_SESSION['s_username']) ) {
 	//Get all the mean elapsed times
 	$cursor = $db->mean_elapsed_times->find();
 	
-	//This will hold all the elapsed times information
-	$infotimes = array();
-	
 	//Generates a structure of arrays
 	foreach($cursor as $doc){
 		$module	= $doc['_id']['module'];
 		$time	= $doc['value']['time'];
 		$count	= $doc['value']['count'];
 	
-		$infotimes[$module] = $time/$count;
+		$info[$module]['time'] = $time/$count;
 	}
 	
 	
@@ -223,9 +224,6 @@ if( isset ($_SESSION['s_username']) ) {
 	//Get all the reports
 	$cursor = $db->reports->find();
 	
-	//This will hold all the reports information
-	$inforeports = array();
-	
 	//Generates a structure of arrays
 	foreach($cursor as $doc){
 		$school	= $doc['_id']['school'];
@@ -234,10 +232,28 @@ if( isset ($_SESSION['s_username']) ) {
 		$report	= $doc['value']['report'];
 		$smiley	= $doc['value']['smiley'];
 	
-		$inforeports[$module][$school][$team] = $report;
-		$infosmileys[$module][$smiley]++;
+		$info[$module]['reports'][$school][$team] = $report;
+		$info[$module]['smileys'][$smiley]++;
+		
+		// ##### IMAGES ##### //
+		
+		//This is where the images should be saved: <LearnGLASS_root>/webapp/ignored/<school>/<team>/
+		$path = '../../ignored/'.$school.'/'.$team.'/';
+		
+		//Get all the images taken at a module by each team
+		$cursorimg = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.last_code'=>$module, 'doc.school'=>$school, 'doc.team'=>$team  ));
+		//Sort them so the newest goes first
+		$cursorimg->sort(array(  'doc.time' => -1  ));
+		
+		//Check if there are results
+		if($cursorimg->hasNext()){
+			//Get the first one (newest or last)
+			$docimg = $cursorimg->getNext();
+			$info[$module]['images'][$school][$team] = $path.basename($docimg['doc']['content']['pic']);
+		}
 	}
 	
+	//Load the view
 	include('view.php');
 }
 else {

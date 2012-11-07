@@ -17,3 +17,7 @@ div.smileys {
 	height:	300px;
 	width:	400px;
 }
+
+img.module {
+	max-width: 100px;
+}

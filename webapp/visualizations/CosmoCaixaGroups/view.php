@@ -20,10 +20,20 @@
 		?>
 		
 		<div id='<?php echo $school,'_',$team ?>' class='team'>
-			<h2>
-				Colegio: <?php echo $school ?><br>
-				Equipo: <?php echo $team ?>
-			</h2>
+			<h2>Colegio: <?php echo $school ?></h2>
+			<h2>Equipo: <?php echo $team ?></h2>
+
+			<div>
+				<ul>
+					<li><dl><dt>Líder:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['leader']; ?>' alt='Líder'></dd></dl></li>
+					<li><dl><dt>Reportero:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['reporter']; ?>' alt='Reportero' ></dd></dl></li>
+					<li><dl><dt>Fotógrafo:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['photographer']; ?>' alt='Fotógrafo' ></dd></dl></li>
+					<li><dl><dt>Rastreador:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['rastreator']; ?>' alt='Rastreador' ></dd></dl></li>
+					<li><dl><dt>Manitas:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['handyman']; ?>' alt='Manitas' ></dd></dl></li>
+					<li><dl><dt>Equipo:</dt><dd><img class='team' src='<?php echo $info[$school][$team]['images']['team']; ?>' alt='Equipo' ></dd></dl></li>
+
+				</ul>
+			</div>
 			<div id='<?php echo $school,'_',$team,'_chart' ?>' class='timeline'></div>
 			<script>
 				jQuery(
@@ -37,7 +47,7 @@
 							chart: {
 								renderTo: '<?php echo $school,'_',$team,'_chart' ?>',
 								type: 'area',
-								margin: [100, 40, 40, 50],
+								margin: [150, 40, 40, 50],
 							},
 							title: {
 								text: 'Tiempo del equipo <?php echo $team ?>',
@@ -77,7 +87,7 @@
 											return Highcharts.dateFormat('%H:%M', this.x);
 										},
 										rotation: -45,
-										x: 15,
+										x: 10,
 										y: -15,
 									},
 								},
@@ -108,12 +118,13 @@
 				
 				<?php foreach($data['reports'] as $module=>$report){ ?>
 					
-					<div id='<?php echo $school,'_',$team,'_reports'?>'>
+					<div id='<?php echo $school,'_',$team,'_',$module;?>'>
 						<h4><?php echo $module; ?></h4>
 						<p><?php echo $report; ?></p>
+						<img class='module' src='<?php echo $data['images'][$module]; ?>' alt='<?php echo $module; ?>' >
 					</div>
 				<?php } ?>
-			
+				
 			</div>
 			
 		</div>
@@ -123,11 +134,5 @@
 			}
 		?>
 		
-		<div id='reports1'>
-			<?php for($i = 0; $i < count($reports); $i++){ ?>
-					<h2><?php echo $reports[$i]['exhibit']; ?></h2>
-					<p><?php echo $reports[$i]['report']; ?></p>
-			<?php } ?>
-		</div>
 	</body>
 </html>

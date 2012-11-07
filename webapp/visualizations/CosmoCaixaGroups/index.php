@@ -108,7 +108,7 @@ if( isset ($_SESSION['s_username']) ) {
 	}
 	
 	
-	// ##### REPORTS ##### //
+	// ##### REPORTS and IMAGES ##### //
 	
 	/*
 	 * This gets the messages a team left at a module.
@@ -156,7 +156,63 @@ if( isset ($_SESSION['s_username']) ) {
 		$report	= $doc['value']['report'];
 	
 		$info[$school][$team]['reports'][$module] = $report;
+		
 	}
+	
+	// ##### IMAGES ##### //
+	
+	//List of profile names, so they can be searched in an array
+	$profiles = array('leader', 'rastreator', 'handyman', 'reporter', 'photographer');
+	
+	//For each team of each school
+	foreach ($info as $school=>$teams){
+		foreach ($teams as $team=>$data){
+			
+			//This is where the images should be saved: <LearnGLASS_root>/webapp/ignored/<school>/<team>/
+			$path = '../../ignored/'.$school.'/'.$team.'/';
+			
+			//For each of the profiles
+			foreach ($profiles as $profile){
+				//Get all the profile pictures taken
+				$cursor = $db->events->find(array(  'doc.content.type'=>'user-camera-pic-taken', 'doc.content.profile'=>$profile ));
+				//Sort them so the newest is first
+				$cursor->sort(array(  'doc.time' => -1  ));
+			
+				//If there are results
+				if($cursor->hasNext()){
+					//Get the first one (newest or last)
+					$doc = $cursor->getNext();
+					$info[$school][$team]['images'][$profile] = $path.basename($doc['doc']['content']['pic']);
+				}
+			}
+			
+			//Get all the team pictures
+			$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.content.page'=>'team-camera' ));
+			//Sort them so the newest goes first
+			$cursor->sort(array(  'doc.time' => -1  ));
+			
+			//If there are results
+			if($cursor->hasNext()){
+				//Get the first one (newest or last)
+				$doc = $cursor->getNext();
+				$info[$school][$team]['images']['team'] = $path.basename($doc['doc']['content']['pic']);
+			}
+			
+			//Do the same for each of the modules visited
+			foreach ($data['reports'] as $module=>$x){
+				$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.last_code'=>$module ));
+				$cursor->sort(array(  'doc.time' => -1  ));
+				
+				if($cursor->hasNext()){
+					$doc = $cursor->getNext();
+					$info[$school][$team]['images'][$module] = $path.basename($doc['doc']['content']['pic']);
+				}
+			}
+			
+		}
+	}
+	
+	
 	
 	//Load the view
 	include('view.php');

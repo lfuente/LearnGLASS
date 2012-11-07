@@ -10,3 +10,5 @@ tokenkey.php
 config.php
 installinstance.php
 
+## Ignored Folders ##
+ignored/

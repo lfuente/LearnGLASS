@@ -17,3 +17,15 @@ div.timeline {
 	height:	250px;
 	width:	auto;
 }
+
+img.profile {
+	max-width: 100px;
+}
+
+img.team {
+	max-width: 100%;
+}
+
+img.module {
+	max-width: 100%;
+}
