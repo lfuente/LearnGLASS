@@ -32,16 +32,20 @@ img.module {
 
 ul {
 	list-style-type:	none;
-	margin:				auto;
-	padding:			auto;
+	margin:				0;
+	padding:			0;
 	text-align:			center;
 }
 
 li {
-	display:		inline-block;
-	margin:			auto;
-	margin-right:	30px;
-	padding:		auto;
+	margin:			0;
+	padding:		0;
+}
+
+li.profile {
+	margin-right:	10px;
+	margin-left:	10px;
+	display:	inline-block;
 }
 
 dt {
