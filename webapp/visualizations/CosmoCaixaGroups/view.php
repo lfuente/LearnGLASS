@@ -25,12 +25,12 @@
 
 			<div>
 				<ul>
-					<li><dl><dt>Líder:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['leader']; ?>' alt='Líder'></dd></dl></li>
-					<li><dl><dt>Reportero:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['reporter']; ?>' alt='Reportero' ></dd></dl></li>
-					<li><dl><dt>Fotógrafo:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['photographer']; ?>' alt='Fotógrafo' ></dd></dl></li>
-					<li><dl><dt>Rastreador:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['rastreator']; ?>' alt='Rastreador' ></dd></dl></li>
-					<li><dl><dt>Manitas:</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['handyman']; ?>' alt='Manitas' ></dd></dl></li>
-					<li><dl><dt>Equipo:</dt><dd><img class='team' src='<?php echo $info[$school][$team]['images']['team']; ?>' alt='Equipo' ></dd></dl></li>
+					<li class='profile' ><dl><dt>Líder</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['leader']; ?>' alt='Líder'></dd></dl></li>
+					<li class='profile' ><dl><dt>Reportero</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['reporter']; ?>' alt='Reportero' ></dd></dl></li>
+					<li class='profile' ><dl><dt>Fotógrafo</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['photographer']; ?>' alt='Fotógrafo' ></dd></dl></li>
+					<li class='profile' ><dl><dt>Rastreador</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['rastreator']; ?>' alt='Rastreador' ></dd></dl></li>
+					<li class='profile' ><dl><dt>Manitas</dt><dd><img class='profile' src='<?php echo $info[$school][$team]['images']['handyman']; ?>' alt='Manitas' ></dd></dl></li>
+					<li class='team' ><dl><dt>Equipo</dt><dd><img class='team' src='<?php echo $info[$school][$team]['images']['team']; ?>' alt='Equipo' ></dd></dl></li>
 
 				</ul>
 			</div>

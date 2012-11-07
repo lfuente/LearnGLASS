@@ -29,3 +29,28 @@ img.team {
 img.module {
 	max-width: 75%;
 }
+
+ul {
+	list-style-type:	none;
+	margin:				auto;
+	padding:			auto;
+	text-align:			center;
+}
+
+li {
+	display:		inline-block;
+	margin:			auto;
+	margin-right:	30px;
+	padding:		auto;
+}
+
+dt {
+	margin:			auto;
+	padding:		10px;
+	font-weight:	bold;
+}
+
+dd {
+	margin:		auto;
+	padding:	auto;
+}

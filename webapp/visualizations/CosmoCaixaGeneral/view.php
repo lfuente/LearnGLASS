@@ -87,17 +87,6 @@
 			
 			<?php foreach($info as $module=>$data){ ?>
 				<div class='report'>
-				<h3><?php echo $module; ?></h3>
-				<?php
-					foreach($data['reports'] as $school=>$teams){
-						foreach($teams as $team=>$report){
-				?>
-					
-					<h4>Colegio: <?php echo $school; ?> - Equipo: <?php echo $team; ?></h4>
-					<p><?php echo $report; ?></p>
-					<a class='image' href='<?php echo $data['images'][$school][$team]; ?>'>
-						<img class='module' src='<?php echo $data['images'][$school][$team]; ?>' alt='<?php echo $module,'_',$school,'_',$team; ?>' >
-					</a>
 					<div id='smileys_<?php echo $module; ?>' class='smileys'></div>
 					<script>
 						jQuery(function() {
@@ -105,10 +94,10 @@
 								chart: {
 									renderTo: 'smileys_<?php echo $module; ?>',
 									type: 'column',
-									margin: [ 50, 50, 100, 80]
+									margin: [ 50, 50, 70, 50]
 								},
 								title: {
-									text: 'Opiniones para el módulo'
+									text: 'Opiniones del módulo'
 								},
 								xAxis: {
 									categories: [
@@ -158,10 +147,23 @@
 							});
 						});
 					</script>
-				<?php
+					
+					<h3><?php echo $module; ?></h3>
+					<?php
+						foreach($data['reports'] as $school=>$teams){
+							foreach($teams as $team=>$report){
+					?>
+						<h4>Colegio: <?php echo $school; ?> - Equipo: <?php echo $team; ?></h4>
+						<p><?php echo $report; ?></p>
+						<a class='image' href='<?php echo $data['images'][$school][$team]; ?>'>
+							<img class='module' src='<?php echo $data['images'][$school][$team]; ?>' alt='<?php echo $module,'_',$school,'_',$team; ?>' >
+						</a>
+						
+						
+					<?php
+							}
 						}
-					}
-				?>
+					?>
 				</div>
 			<?php } ?>
 		</div>
