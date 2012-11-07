@@ -174,7 +174,7 @@ if( isset ($_SESSION['s_username']) ) {
 			//For each of the profiles
 			foreach ($profiles as $profile){
 				//Get all the profile pictures taken
-				$cursor = $db->events->find(array(  'doc.content.type'=>'user-camera-pic-taken', 'doc.content.profile'=>$profile ));
+				$cursor = $db->events->find(array(  'doc.content.type'=>'user-camera-pic-taken', 'doc.content.profile'=>$profile, 'doc.school'=>$school, 'doc.team'=>$team  ));
 				//Sort them so the newest is first
 				$cursor->sort(array(  'doc.time' => -1  ));
 			
@@ -187,7 +187,7 @@ if( isset ($_SESSION['s_username']) ) {
 			}
 			
 			//Get all the team pictures
-			$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.content.page'=>'team-camera' ));
+			$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.content.page'=>'team-camera', 'doc.school'=>$school, 'doc.team'=>$team ));
 			//Sort them so the newest goes first
 			$cursor->sort(array(  'doc.time' => -1  ));
 			
@@ -200,7 +200,7 @@ if( isset ($_SESSION['s_username']) ) {
 			
 			//Do the same for each of the modules visited
 			foreach ($data['reports'] as $module=>$x){
-				$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.last_code'=>$module ));
+				$cursor = $db->events->find(array(  'doc.content.type'=>'camera-pic-taken', 'doc.last_code'=>$module, 'doc.school'=>$school, 'doc.team'=>$team ));
 				$cursor->sort(array(  'doc.time' => -1  ));
 				
 				if($cursor->hasNext()){
