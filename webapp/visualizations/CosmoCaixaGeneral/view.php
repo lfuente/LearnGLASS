@@ -66,9 +66,11 @@
 						dataLabels: {
 							enabled: true,
 							color: '#FFFFFF',
-							y: 25,
+							rotation: -90,
+							x: 3,
+							y: 20,
 							style: {
-								fontSize: '15px',
+								fontSize: '10pt',
 								fontWeight: 'bold',
 								fontFamily: 'Tahoma, sans-serif'
 							},

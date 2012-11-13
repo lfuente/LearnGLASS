@@ -11,16 +11,15 @@ body {
 div.report {
 	border:		1px solid grey;
 	padding:	10px;
-	margin: auto;
+	margin:		auto;
 }
 
 div.smileys {
 	height:	200px;
 	width:	300px;
-	float: right;
+	float:	right;
 }
 
 img.module {
-	max-width: 75%;
-	
+	max-width:	50%;
 }
