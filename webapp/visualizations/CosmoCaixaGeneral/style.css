@@ -12,6 +12,7 @@ div.report {
 	border:		1px solid grey;
 	padding:	10px;
 	margin:		auto;
+	overflow:	auto;
 }
 
 div.smileys {
