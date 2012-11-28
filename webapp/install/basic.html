@@ -5,13 +5,12 @@ function update_basic_settings()
 {
 	ajax=objetoAjax();
 	ajax.open("POST", "install/update.php", true );
-    	ajax.onreadystatechange=function() {
-		if (ajax.readyState==4) 
-        {
-            document.getElementById('errorb').innerHTML = ajax.responseText;
-        }
+	ajax.onreadystatechange=function() {
+		if (ajax.readyState==4) {
+			document.getElementById('errorb').innerHTML = ajax.responseText;
+		}
 	}
-    ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+	ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
 	ajax.send("col="+document.all.col.value);
 }
 

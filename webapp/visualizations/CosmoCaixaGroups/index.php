@@ -169,6 +169,7 @@ if( isset ($_SESSION['s_username']) ) {
 		foreach ($teams as $team=>$data){
 			
 			//This is where the images should be saved: <LearnGLASS_root>/webapp/ignored/<school>/<team>/
+			//The name of the folders must match exactly the name of the school and team in the logs
 			$path = '../../ignored/'.$school.'/'.$team.'/';
 			
 			//For each of the profiles

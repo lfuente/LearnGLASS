@@ -60,16 +60,12 @@ if(isset ($_SESSION['s_username']))
 		$query = "SELECT * FROM ".$CFG->prefix."ddbb";
 		$result = mysql_query($query) or die(mysql_error());
 		$data = mysql_fetch_array($result);
-		if(mysql_num_rows($result)==0){
+		
+		//If there are other databases, change to the first one
+		if(mysql_num_rows($result)>0){
 			$new_id = $data["id"];
 			$query = "UPDATE ".$CFG->prefix."settings
 			SET ddbbId='".$new_id."' WHERE ddbbId='".$id."'" ;
-		}
-		else{
-			//Delete the CAM database
-			$query = "DELETE FROM ".$CFG->prefix."settings WHERE ddbbId='".$id."'";
-			$result = mysql_query($query)
-			or die("error: ".mysql_error());
 		}
 		mysql_close($conexion);
 	}
