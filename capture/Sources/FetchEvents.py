@@ -91,9 +91,9 @@ def main():
 			getlog_url = value
 		elif optstr == "-f":
 			if value == 'today':
-				from_date = datetime.date.toda()
+				from_date = datetime.date.today()
 			elif value == 'yesterday':
-				from_date = datetime.date.toda() - datetime.timedelta(days - 1)
+				from_date = datetime.date.today() - datetime.timedelta(days = 1)
 			else:
 				from_date = datetime.datetime.strptime(value, '%Y-%m-%d')
 				from_date = from_date.date()
