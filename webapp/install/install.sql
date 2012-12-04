@@ -3,7 +3,7 @@ use ##dbname##;
 
 CREATE TABLE `##prefix##user` (
   `userId` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) NOT NULL,
+  `name` varchar(100) NOT NULL,
   `userType` varchar(30) NOT NULL,
   PRIMARY KEY (`userID`)
 );
