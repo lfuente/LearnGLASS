@@ -31,7 +31,10 @@ if(isset ($_SESSION['s_username']))
 		$result = mysql_query($query)or die("error: ".mysql_error());
 		$data = mysql_fetch_array($result);
 		$dbid = $data['id'];
-		$query = "UPDATE ".$CFG->prefix."settings SET ddbbId='".$dbid."' WHERE userId='".$userId."'" ;
+		//Changes the DB for the current user only.
+// 		$query = "UPDATE ".$CFG->prefix."settings SET ddbbId='".$dbid."' WHERE userId='".$userId."'" ;
+		//Changes de DB for all users, not just the admin.
+		$query = "UPDATE ".$CFG->prefix."settings SET ddbbId='".$dbid."'";
 		$result = mysql_query($query) or die("error: ".mysql_error());
 		mysql_close($conexion);
 	}
