@@ -39,6 +39,7 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 	$jd1 = array();
 
 	//Adds a filter with the user fullname in case he is a student
+	//TODO: specific information (community) should be retrieved from the DB or a config file. Maybe the filter field, too (user_fullname)
 	if($key[0]==null && $value[0]==null && $userViewLevel==1){
 		$key[0]="user_fullname";
 		$value[0]=$username;
