@@ -1,0 +1,27 @@
+python FetchEvents.py \
+	-d \
+	-u <username> \
+	-p "<password>" \
+	-f "yesterday" \
+	-s html \
+	-h '<base url>' \
+	-l '/login/index.php' \
+	-g '/course/report/log/index.php' \
+	data/ctip.<course id>
+
+# for new_name in ctip*.csv; do
+for new_name in data/ctip*.html; do
+  sed -i -e "s/de enero de/january/" $new_name
+  sed -i -e "s/de febrero de/february/" $new_name
+  sed -i -e "s/de marzo de/march/" $new_name
+  sed -i -e "s/de abril de/april/" $new_name
+  sed -i -e "s/de mayo de/may/" $new_name
+  sed -i -e "s/de junio de/june/" $new_name
+  sed -i -e "s/de julio de/july/" $new_name
+  sed -i -e "s/de agosto de/august/" $new_name
+  sed -i -e "s/de septiembre de/september/" $new_name
+  sed -i -e "s/de octubre de/october/" $new_name
+  sed -i -e "s/de noviembre de/november/" $new_name
+  sed -i -e "s/de diciembre de/december/" $new_name
+  sed -i -e "s/nTICPrimaria/nTICPrimaria/" $new_name
+done

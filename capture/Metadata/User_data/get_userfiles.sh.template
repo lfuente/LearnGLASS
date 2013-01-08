@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Script to obtain data from a Moodle course and create a CSV file
+#
+# Author: Abelardo Pardo <abelardo.pardo@uc3m.es>
+#
+pla_dir="../../../PLA/process"
+export PYTHONPATH=.:$pla_dir
+
+time python obtain_moodle_course_listing.py -d \
+       -u '<username>' \
+       -p '<password>' \
+       -h '<base url>' \
+       -g '/user/index.php' \
+       -l '/login/index.php' \
+       ctip_listing.<course id>
+
+time python insert_userinfo_in_mongodb.py \
+       -c \
+       -h 127.0.0.1 \
+       -d <Mongo db name> ctip_listing.csv
