@@ -1,0 +1,27 @@
+[DEFAULT]
+debug = 1
+file_modification_cache = file_modification.txt
+# from_date = 2011/09/05 00:00:00
+# until_date = 2011/12/23 23:59:59
+
+# [ldap_lookup]
+# uri = 
+# base = 
+# fields = 
+
+# [anonymize]
+# file = <file>
+# passwd = <db name>
+ 
+[event_output]
+# format = CSV
+format = mongo
+db_host = <host>
+# db_user = <user>
+db_name = <mongo db name>
+# Make sure events from ourselves are filtered out
+exclude_users = 
+	<Moodle User Name>, <Moodle User ID>,
+#	.
+#	.
+#	.
