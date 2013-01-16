@@ -27,14 +27,14 @@ Pushing changes
 ---------------
 The only time when you need to be careful is if you modify PLA. In this case, pushing the main repo first will point to the previous version of PLA, so if you clone the repo later the changes on PLA will not show. You have to push PLA first and then the main repo for it to retain the changes.
 
-Omitted files
-=============
-Some files are not tracked online because they contain private information. They are usually scripts that run other things with credentials, config files or temporal tweaks. Ask the developers if you need them.
+Template files
+==============
+Some files are not tracked online because they contain private information. Instead, templates to generate your own are available. The list of templates is as follows:
 
-/capture/Sources/get_logfiles.sh
-/capture/Metadata/User_data/get_userfiles.sh
-/capture/Process/basic.cfg
-/tokenkey.php
+/capture/Cron/crondoit.sh.template
+/capture/metadata/User_data/get_userfiles.sh.template
+/capture/mgauge/mongoAddUser.php.template
+/webapp/tokenkey.php.template
 
 Files that should not be changed
 ================================
