@@ -7,13 +7,15 @@
 	}
 	
 	$database	= $argv[1];
+	$user		= '<user>';
+	$pass		= '<pass>';
 
 	try{
 		$con = new Mongo("mongodb://localhost"); // Connect to Mongo Server
 		$db = $con->selectDB($database);
 	
 		$collection = $db->selectCollection("system.users");
-		$collection->insert(array('user' => 'u', 'pwd' => md5('u' . ":mongo:" . 'u'), 'readOnly' => false));
+		$collection->insert(array('user' => $user, 'pwd' => md5($user . ":mongo:" . $pass), 'readOnly' => false));
 	}
 	catch(Exception $e){
 		echo "error: Impossible to connect!", PHP_EOL;
