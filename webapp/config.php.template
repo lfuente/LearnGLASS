@@ -1,0 +1,48 @@
+<?php
+
+unset($CFG);	// Ignore this line (Why?)
+global $CFG;
+$CFG = new stdClass();
+
+
+//=========================================================================
+// 1. DATABASE SETUP
+//=========================================================================
+//e.g. 'localhost' or 'it.uc3m.es'
+$CFG->dbhost = '';
+//database name, ej GLASS
+$CFG->dbname = '';
+//your database username
+$CFG->dbuser = '';
+//your database password
+$CFG->dbpass = '';
+//prefix to use for all table names
+$CFG->prefix = '';
+
+
+//=========================================================================
+// 2. CONFIGURATION SETUP
+//=========================================================================
+$CFG->adminName = '';
+//URL where glass is published
+$CFG->url = '';
+//path where glass is locally stored
+$CFG->dir = '';
+
+//=========================================================================
+// 3. LDAP SETUP
+//=========================================================================
+//host or server name
+$CFG->LDAPhost = '';
+//LDAP server port
+$CFG->LDAPport = '';
+//LDAP dn
+$CFG->LDAPdn = '';
+
+//=========================================================================
+// 4. COMMUNITY SETUP
+//=========================================================================
+//Name of the community used for the mean on v1's student's view (Must be manually set)
+$CFG->community = '';
+
+?>

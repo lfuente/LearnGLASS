@@ -38,18 +38,21 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 
 	$jd1 = array();
 
+	
 	//Adds a filter with the user fullname in case he is a student
-	//TODO: specific information (community) should be retrieved from the DB or a config file. Maybe the filter field, too (user_fullname)
+	//TODO: community value best taken from the database somehow, or maybe from a visualization specific config file.
+	//TODO: user field best taken from a config file (maybe user_fullname is not available).
 	if($key[0]==null && $value[0]==null && $userViewLevel==1){
 		$key[0]="user_fullname";
 		$value[0]=$username;
 		$group[0]="role";
 		$key[1]="community";
-		$value[1]="TutoresMoodle";
+		$value[1]=$CFG->community;
 		$group[1]="role";
 	}
-
-	if($key[0]==null && $value[0]==null ){//all events
+	
+	//all events
+	if($key[0]==null && $value[0]==null ){
 		$users = $objDB->roleuser->find()->timeout($time*1000);
 		try {
 			foreach ($users as $user) {
@@ -78,7 +81,6 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 			
 			//role events
 			//TODO I think this part of the code can be improved, making less mongo queries
-			//echo $k, ' ###<br />';
 			if(substr($k,0,4) == "user"){
 				//Obtain the ID of the user so other queries can be made
 				$userAtt = substr($k,5);
@@ -91,7 +93,7 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 				catch(MongoCursorTimeoutException $e) {
 					echo "<br>Exception catched: ".$e;
 				}
-					
+				
 				//Obtains all the events for all users TODO(needs improvement)
 				$cursor = $objDB->roleuser->find()->timeout($time*1000);
 				try {
@@ -145,9 +147,7 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 	if($app==null) $app = "all";
 	$jdata[0]= array("mMax" => $mMax, "mMin" => $mMin, "id" => $dbid, "view" => $view, "app" => $app);
 	//secondly the diferet point of the view
-	for($j=0;$j<count($myArray);$j++)
-	{
-		 
+	for($j=0;$j<count($myArray);$j++) {
 		//TODO dodgy line, sorts the array sometimes
 		uksort($myArray[$j],"usort_handle");
 		$obj_data = json_decode($jd1[$j]);
@@ -160,22 +160,18 @@ function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue
 		//When a commuinity is chosen as filter it uses all the users, not only those on the community.
 		//This is why the cache or MapReduce should be visualization dependant, and not application dependant.
 			
-		if (substr($data_key_name,0,4) == 'user')
-		{
+		if (substr($data_key_name,0,4) == 'user') {
 			$n_users = 1;
 			// else if ($data_key_name == 'community')
 			//			$n_users = db.users.find({community:$value}).count();
 		}
-		else
-		{
+		else {
 			$n_users = $objDB->users->count();
-			//$n_users = 186; //fake conf
 		}
 			
 			
 		//event-time visualization
-		if($view==1)
-		{
+		if($view==1) {
 			$data_value = array();
 			$data_date = array();
 			//with all event type

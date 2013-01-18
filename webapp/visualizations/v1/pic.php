@@ -50,8 +50,9 @@ if ($can_show_page){
 	$jsrn = $right_now*1000;
 	$jsowa = $one_week_ago*1000;
 
-	//TODO: value (now is TICPrimaria) should be taken from mongo user data
-	$cValue = "TutoresMoodle";
+	//TODO: community value best taken from the database somehow, or maybe from a visualization specific config file.
+	//TODO: user field best taken from a config file (maybe user_fullname is not available).
+	$cValue = $CFG->community;
 	if ($my_permission->get_viewUser() == 0)
 	{
 		//the student view: average view with self-view

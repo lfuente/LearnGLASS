@@ -105,7 +105,7 @@ if(isset ($_SESSION['s_username']))
 		$option = $option."view=1";
 		$confiId = $fconfId = 0;
 	}
-
+	
 	include ("index.html");
 
 	//Get the dafault parameters
