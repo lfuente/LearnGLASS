@@ -1,8 +1,7 @@
 <?php
-function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId,$userViewLevel)
-{
+function get_visualization1_Json_data($CFG,$username,$view,$Agroup,$Akey,$Avalue,$mMax,$mMin,$dbid,$datasetId,$userViewLevel) {
 	$time = 60*1000;//60seconds
-	//Extract the name of the application is this exists
+	//Extract the name of the application if this exists
 	$key   = array();
 	$value = array();
 	$group = array();
