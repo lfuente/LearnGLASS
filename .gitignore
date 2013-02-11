@@ -7,8 +7,8 @@
 *csv
 
 ## Ignored Files ##
-tokenkey.php
 config.php
+tokenkey.php
 installinstance.php
 
 ## Ignored Folders ##
