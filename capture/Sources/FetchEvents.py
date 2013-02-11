@@ -97,6 +97,14 @@ def main():
 			else:
 				from_date = datetime.datetime.strptime(value, '%Y-%m-%d')
 				from_date = from_date.date()
+		elif optstr == "-t":
+			if value == 'today':
+				until_date = datetime.date.today()
+			elif value == 'yesterday':
+				until_date = datetime.date.today() - datetime.timedelta(days = 1)
+			else:
+				until_date = datetime.datetime.strptime(value, '%Y-%m-%d')
+				until_date = until_date.date()
 		elif optstr == "-s":
 			if value.lower().strip() == 'csv':
 				save_format = 'downloadascsv'
@@ -106,9 +114,6 @@ def main():
 				print >> sys.stderr, 'Incorrect value for option -s'
 				print >> sys.stderr, 'Only "csv" or "html" are allowed'
 				sys.exit(2)
-		elif optstr == "-t":
-			until_date = datetime.datetime.strptime(value, '%Y-%m-%d')
-			until_date = until_date.date()
 		elif optstr == "-u":
 			username = value
 		elif optstr == "-p":
