@@ -21,7 +21,5 @@ db_host = <host>
 db_name = <mongo db name>
 # Make sure events from ourselves are filtered out
 exclude_users = 
-	<Moodle User Name>, <Moodle User ID>,
-#	.
-#	.
-#	.
+#	<Moodle User Name>, <Moodle User ID>,
+	

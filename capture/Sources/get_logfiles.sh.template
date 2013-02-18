@@ -3,6 +3,7 @@ python FetchEvents.py \
 	-u <username> \
 	-p "<password>" \
 	-f "yesterday" \
+	-t "yesterday" \
 	-s html \
 	-h '<base url>' \
 	-l '/login/index.php' \

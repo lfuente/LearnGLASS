@@ -30,7 +30,7 @@
 				$mapString = '
 					function() {
 						var date = new Date(this.datetime);
-						var dateString = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+						var dateString = date.getUTCFullYear()+"-"+(date.getUTCMonth()+1)+"-"+date.getUTCDate();
 						for (var user in this.user) {
 							emit({name:this.user[user]._id,date:dateString,type:this.name},{count:1});
 						}
@@ -41,7 +41,7 @@
 				$mapString = '
 					function() {
 						var date = new Date(this.datetime);
-						var dateString = date.getFullYear()+"-"+(date.getMonth()+1)+"-"+date.getDate();
+						var dateString = date.getUTCFullYear()+"-"+(date.getUTCMonth()+1)+"-"+date.getUTCDate();
 						if(this.'.$colname.'){
 							emit({name:this.'.$colname.',date:dateString,type:this.name},{count:1});
 						}
