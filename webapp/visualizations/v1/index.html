@@ -605,7 +605,7 @@ function create_chart(data,mMin,mMax,app){
 					var mMin = e.min;
 					var camId = <?php echo $CAMid; ?>;
 					//build the diferent chanis
-					options = get_string_generate(camId,mMax,mMin,2);		   
+					options = get_string_generate(camId,mMax,mMin,2);
 					get_data2("getdata.php?"+options);
 				}
 			}
@@ -613,8 +613,9 @@ function create_chart(data,mMin,mMax,app){
 		yAxis: {
 			title: {
 				text: '#<? echo V1_MSJ7;?>'
-			}
-		}, 
+			},
+			min: 0,
+		},
 		rangeSelector: {
 			buttons: 
 			[
