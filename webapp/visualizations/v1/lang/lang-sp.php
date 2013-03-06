@@ -21,4 +21,12 @@ define('V1_MSJ18','Descripción');
 define('V1_MSJ19','Aceptar');
 define('V1_MSJ20','Fecha');
 define('V1_MSJ21','a');
+
+//picerror
+define('V1_PICERROR1'
+		,'Ha ocurrido un error al conectarse a LearnGLASS. <br>
+		Por favor, refresca la página, puede resolver el problema.<br>
+		Contacto:<br>');
+define('V1_PICERROR2'
+		,'Si dispones de credenciales de acceso: <br>');
 ?>

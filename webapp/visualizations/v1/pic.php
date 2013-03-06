@@ -12,7 +12,7 @@ $external_username = $_GET["user"];
 if ($_GET["XDEBUG_SESSION_START"] == "ECLIPSE_DBGP") {
 	$timestamp = time();
 	$external_username = luis;
-	$token = md5($timestamp.$external_username."glasscrif");
+	$token = md5($timestamp.$external_username."learnglass");
 }
 
 // 1. do we have a session?
@@ -100,7 +100,7 @@ if ($can_show_page){
 }
 else
 {
-	$goto = $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
-	header("Location: ".$CFG->url."index.html?goto=".$goto);
+	header('Location: picerror.php');
+	exit('Header ignored.');
 }
 ?>

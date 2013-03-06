@@ -22,4 +22,12 @@ define('V1_MSJ19','Acept');
 define('V1_MSJ20','Datetime');
 define('V1_MSJ21','to');
 
+//picerror
+define('V1_PICERROR1'
+		,'There has been an error accessing LearnGLASS. <br>
+		Please, Refresh the page, it may solve the problem.<br>
+		Contact:<br>');
+define('V1_PICERROR2'
+		,'If you hace access credentials: <br>');
+
 ?>
