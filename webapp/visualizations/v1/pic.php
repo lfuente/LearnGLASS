@@ -17,10 +17,10 @@ if ($_GET["XDEBUG_SESSION_START"] == "ECLIPSE_DBGP") {
 
 // 1. do we have a session?
 // 2. do we have a correct token?
-if(isset ($_SESSION['s_username']))
+/*if(isset ($_SESSION['s_username']))
 {
 	$can_show_page = true;
-} else if (($token != null) && ($timestamp != null) && ($external_username != null))
+} else*/ if (($token != null) && ($timestamp != null) && ($external_username != null))
 {
 	///////////////////////////////////////
 	//let's check if the token was created with the valid key

@@ -8,27 +8,28 @@
 <title>LearnGLASS</title>
 </head>
 <body>
-	<center>
-		<form name="login" method="POST" onsubmit='return false;'>
-			<p>Please complete the form below to login.</p>
-			<fieldset class="login">
-				<legend>GLASS Login</legend>
-				<div>
-					<label for="user">User Name</label> <input type="text"
-						id="username" name="user" />
-				</div>
-				<div>
-					<label for="pass">Password</label> <input type="password"
-						id="password" name="pass" />
-				</div>
-			</fieldset>
+	<form name="login" method="POST" onsubmit='return false;'>
+		<p>Please complete the form below to login.</p>
+		<fieldset class="login">
+			<legend>GLASS Login</legend>
 			<div>
-				<button type="submit" name="submit-go" id="buttons"
-					onclick='autentication();'>Login</button>
+				<label for="user">User Name</label> <input type="text"
+					id="username" name="user" />
 			</div>
-			<div id="error"></div>
-		</form>
-	</center>
+			<div>
+				<label for="pass">Password</label> <input type="password"
+					id="password" name="pass" />
+			</div>
+		</fieldset>
+		<div>
+			<button type="submit" name="submit-go" id="buttons"
+				onclick='autentication();'>Login</button>
+		</div>
+		<div id="error"></div>
+		<div id="contact">
+			Contact: <a href="mailto:learnglass@inv.it.uc3m.es">learnglass@inv.it.uc3m.es</a>
+		</div>
+	</form>
 </body>
 </html>
 
